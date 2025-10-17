@@ -42,6 +42,7 @@
             "group": "1. Inputs",
             "pages": [
               "data-sources/csv-imports",
+              "data-sources/bank-connectors",
               "coming-soon/email-processing"
             ]
           },

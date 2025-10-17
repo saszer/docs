@@ -1,74 +1,73 @@
 ---
-title: "CSV Imports"
-description: "Import bank statements and financial data from CSV files"
+title: "CSV/PDF Imports"
+description: "Import financial data from CSV files and PDF bank statements"
 ---
 
-## CSV Import System
+## CSV/PDF Import System
 
-AI2Fin's CSV Import feature allows you to easily import bank statements and financial data from spreadsheets and export files. The system supports multiple bank formats and automatically processes transactions for AI categorization.
+AI2Fin supports importing financial data from various sources including CSV files and PDF bank statements. This flexible import system works with any bank or financial institution's export formats worldwide.
 
-<Card title="Import Your Data" icon="file-csv" href="https://app.ai2fin.com/all-transactions" horizontal>
-Access the CSV import feature from the All Transactions page or Dashboard.
+<Card title="Start Importing" icon="upload" href="https://app.ai2fin.com/all-transactions" horizontal>
+Access the All Transactions page to upload your CSV or PDF files.
 </Card>
 
-## Supported Bank Formats
+## Supported File Formats
 
-### Australian Banks
+### File Types Supported
 
 <Columns cols={2}>
-  <Card title="Major Banks" icon="university">
-    **Supported Banks:**
-    - Commonwealth Bank (NetBank)
-    - ANZ Internet Banking
-    - Westpac Online Banking
-    - NAB Internet Banking
-    - Bendigo Bank Online
-    - ING Direct
-    - Suncorp Bank
+  <Card title="CSV Files" icon="file-csv">
+    **CSV Support:**
+    - Bank statement exports
+    - Credit card statements
+    - Accounting software exports
+    - Custom CSV formats
+    - Multi-currency data
   </Card>
   
-  <Card title="Regional Banks" icon="building">
-    **Additional Support:**
-    - Bank of Queensland
-    - ME Bank
-    - Macquarie Bank
-    - HSBC Australia
-    - Citibank Australia
-    - AMP Bank
+  <Card title="PDF Files" icon="file-pdf">
+    **PDF Support:**
+    - Bank statement PDFs
+    - Credit card PDFs
+    - Receipt PDFs
+    - Invoice PDFs
+    - Multi-page documents
   </Card>
 </Columns>
 
-### Required CSV Format
+### Global Bank Support
 
 <Info>
-Most Australian banks export CSV files in a compatible format. AI2Fin automatically detects and processes common formats.
+AI2Fin works with any bank worldwide that provides CSV or PDF exports. The system automatically detects and processes common formats from banks globally.
 </Info>
 
 <AccordionGroup>
-  <Accordion title="Required Columns">
+  <Accordion title="Universal Format Support">
+    **Supported Formats:**
+    - Any CSV export from banks worldwide
+    - PDF bank statements from any institution
+    - Credit card statement exports
+    - Accounting software exports (QuickBooks, Xero, etc.)
+    - Custom business CSV formats
+    
+    **Flexible Processing:**
+    - Automatic field detection
+    - Multiple date formats
+    - Various currency formats
+    - Different decimal separators
+  </Accordion>
+  
+  <Accordion title="Required Data Fields">
     **Essential Fields:**
-    - **Date**: Transaction date (DD/MM/YYYY or MM/DD/YYYY)
+    - **Date**: Transaction date (any standard format)
     - **Description**: Transaction description or merchant name
-    - **Amount**: Transaction amount (positive for credits, negative for debits)
+    - **Amount**: Transaction amount (positive/negative or debit/credit)
     
     **Optional Fields:**
     - **Balance**: Account balance after transaction
     - **Reference**: Transaction reference number
-    - **Type**: Transaction type (Debit/Credit)
+    - **Type**: Transaction type
     - **Category**: Existing category (if available)
-  </Accordion>
-  
-  <Accordion title="Date Formats Supported">
-    **Supported Formats:**
-    - DD/MM/YYYY (Australian standard)
-    - MM/DD/YYYY (US format)
-    - YYYY-MM-DD (ISO format)
-    - DD-MMM-YYYY (e.g., 15-Jan-2024)
-    
-    **Time Formats:**
-    - HH:MM:SS (24-hour)
-    - HH:MM (24-hour)
-    - hh:mm AM/PM (12-hour)
   </Accordion>
 </AccordionGroup>
 
@@ -77,22 +76,22 @@ Most Australian banks export CSV files in a compatible format. AI2Fin automatica
 ### Step-by-Step Import
 
 <Steps>
-  <Step title="Prepare Your CSV File">
-    1. Export transactions from your bank
-    2. Ensure file is in CSV format
-    3. Check required columns are present
+  <Step title="Prepare Your File">
+    1. Export transactions from your bank or financial institution
+    2. Ensure file is in CSV or PDF format
+    3. Check required data fields are present
     4. Remove any password protection
   </Step>
   
   <Step title="Upload to AI2Fin">
     1. Go to All Transactions page
-    2. Click "Upload CSV" button
-    3. Select your CSV file
+    2. Click "Upload CSV" or "Upload PDF" button
+    3. Select your file
     4. Confirm file details
   </Step>
   
-  <Step title="Map Columns">
-    1. Review column mapping
+  <Step title="Map Data Fields">
+    1. Review automatic field detection
     2. Confirm date format
     3. Check amount format
     4. Verify description field
@@ -106,39 +105,39 @@ Most Australian banks export CSV files in a compatible format. AI2Fin automatica
   </Step>
 </Steps>
 
-### Column Mapping
+### Automatic Field Detection
 
-<Card title="Automatic Mapping" icon="magic">
-AI2Fin automatically detects and maps common column names from Australian banks.
+<Card title="Smart Detection" icon="magic">
+AI2Fin automatically detects and maps common field names from banks worldwide, regardless of language or format.
 </Card>
 
 <AccordionGroup>
-  <Accordion title="Common Column Names">
-    **Date Columns:**
+  <Accordion title="Common Field Names">
+    **Date Fields:**
     - Date, Transaction Date, Posted Date
     - Effective Date, Processed Date
     - Value Date, Settlement Date
     
-    **Description Columns:**
+    **Description Fields:**
     - Description, Transaction Description
     - Details, Particulars, Narration
     - Payee, Merchant, Reference
     
-    **Amount Columns:**
+    **Amount Fields:**
     - Amount, Transaction Amount
     - Debit, Credit, Net Amount
     - Withdrawal, Deposit
   </Accordion>
   
-  <Accordion title="Manual Mapping">
+  <Accordion title="Manual Field Mapping">
     **When Manual Mapping is Needed:**
-    - Non-standard column names
+    - Non-standard field names
     - Custom CSV exports
     - Third-party software exports
     - International bank formats
     
     **Mapping Process:**
-    1. Select source column
+    1. Select source field
     2. Choose target field
     3. Preview mapping result
     4. Confirm and proceed
@@ -225,7 +224,7 @@ View detailed import results including successful imports, errors, and warnings.
   <Accordion title="Error Handling">
     **Common Import Errors:**
     - Invalid date formats
-    - Missing required columns
+    - Missing required fields
     - Corrupted data
     - File format issues
     
@@ -264,7 +263,7 @@ View detailed import results including successful imports, errors, and warnings.
 <Columns cols={2}>
   <Card title="Multiple File Import" icon="files">
     **Batch Processing:**
-    - Import multiple CSV files
+    - Import multiple CSV/PDF files
     - Process files sequentially
     - Combine data from multiple accounts
     - Merge import results
@@ -317,7 +316,7 @@ View detailed import results including successful imports, errors, and warnings.
 
 <CardGroup cols={2}>
   <Card title="File Quality" icon="file-check">
-    Ensure CSV files are clean and properly formatted before import.
+    Ensure files are clean and properly formatted before import.
   </Card>
   <Card title="Date Consistency" icon="calendar">
     Use consistent date formats across all imports for better processing.
@@ -336,15 +335,15 @@ View detailed import results including successful imports, errors, and warnings.
   <Accordion title="Efficient Importing">
     **Optimization Tips:**
     - Import in smaller batches for large files
-    - Use consistent column naming
+    - Use consistent field naming
     - Clean data before import
     - Review import settings
     
     **Performance:**
     - Optimal file sizes (under 10MB)
-    - Standard CSV format
+    - Standard CSV/PDF format
     - Minimal formatting
-    - Clear column headers
+    - Clear field headers
   </Accordion>
   
   <Accordion title="Data Quality">
@@ -368,13 +367,13 @@ View detailed import results including successful imports, errors, and warnings.
   <Accordion title="Import Failures">
     **Common Issues:**
     - File format not supported
-    - Missing required columns
+    - Missing required fields
     - Invalid date formats
     - Corrupted file data
     
     **Solutions:**
     - Check file format and encoding
-    - Verify column headers
+    - Verify field headers
     - Standardize date formats
     - Clean file data
   </Accordion>
@@ -420,4 +419,4 @@ View detailed import results including successful imports, errors, and warnings.
 
 **Ready to import your data?** Visit the [All Transactions](/guides/transaction-management) page to start importing your bank statements, or explore [Smart Categorization](/features/smart-categorisation) to learn how AI processes your imported data.
 
-*AI2Fin CSV Import - Seamlessly integrate your financial data with intelligent processing.*
+*AI2Fin CSV/PDF Import - Seamlessly integrate your financial data with intelligent processing.*
