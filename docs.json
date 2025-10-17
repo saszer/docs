@@ -78,13 +78,6 @@
             "pages": [
               "guides/dashboard-navigation"
             ]
-          },
-          {
-            "group": "Coming Soon",
-            "pages": [
-              "coming-soon/bank-feeds",
-              "coming-soon/advanced-analytics"
-            ]
           }
         ]
       },
