@@ -43,6 +43,7 @@
             "pages": [
               "data-sources/csv-imports",
               "data-sources/bank-connectors",
+              "data-sources/ipaas-middlewares",
               "coming-soon/email-processing"
             ]
           },
@@ -51,6 +52,7 @@
             "pages": [
               "features/categories",
               "features/custom-rules",
+              "features/auto-type-detection",
               "coming-soon/allocations"
             ]
           },
@@ -88,20 +90,12 @@
       },
       {
         "tab": "API Reference",
+        "openapi": "/api-reference/openapi.json",
         "groups": [
           {
             "group": "Getting Started",
             "pages": [
-              "api-reference/introduction",
-              "api-reference/authentication"
-            ]
-          },
-          {
-            "group": "Endpoints",
-            "pages": [
-              "api-reference/transactions",
-              "api-reference/categories",
-              "api-reference/ai-classification"
+              "api-reference/introduction"
             ]
           }
         ]
@@ -139,7 +133,7 @@
   },
   "seo": {
     "title": "AI2Fin Documentation - Global AI-Powered Financial Management Platform",
-    "description": "Complete guide to AI2Fin's intelligent financial management platform. Learn about AI-powered expense tracking, global tax optimization, and automated categorization for businesses worldwide.",
+    "description": "Complete guide to AI2Fin's intelligent financial management platform. Learn about AI-powered expense tracking, global tax optimization, automated categorization, pattern analysis, and smart financial insights for businesses worldwide.",
     "keywords": [
       "AI financial management",
       "global expense tracking software",
@@ -150,11 +144,21 @@
       "AI accounting software",
       "smart financial analytics",
       "global business finance",
-      "international accounting"
+      "international accounting",
+      "pattern analysis",
+      "smart categorization",
+      "travel expense tracking",
+      "tax compliance",
+      "financial automation",
+      "AI-powered insights",
+      "expense management",
+      "financial reporting",
+      "business intelligence",
+      "workflow automation"
     ],
     "og": {
       "title": "AI2Fin Documentation - Global AI-Powered Financial Management",
-      "description": "Master AI2Fin's intelligent financial management platform with comprehensive guides and tutorials for global businesses.",
+      "description": "Master AI2Fin's intelligent financial management platform with comprehensive guides and tutorials for global businesses. Features AI categorization, pattern analysis, tax optimization, and automated workflows.",
       "image": "/og-image.png"
     }
   }

@@ -16,38 +16,70 @@ Transform your financial management with AI-powered automation, intelligent cate
   Get up and running with AI2Fin in minutes. Set up your account and start managing finances with AI.
 </Card>
 
-## Core Features
+## Complete Flow Diagram Features
 
-AI2Fin's intelligent platform automates your financial management with cutting-edge AI technology.
+AI2Fin's intelligent platform follows a comprehensive flow architecture with 14 interactive components covering the entire financial management lifecycle.
+
+### 🔵 Input Sources (3 Lines - Left Side)
+
+<Columns cols={3}>
+  <Card title="CSV Imports" icon="file-csv" href="/data-sources/csv-imports">
+    Direct file upload and processing of financial data from spreadsheets and PDFs.
+  </Card>
+  <Card title="Bank Connectors" icon="bank" href="/data-sources/bank-connectors">
+    Real-time integration with banking APIs for automatic transaction synchronization (Coming Soon).
+  </Card>
+  <Card title="iPaaS / Middlewares" icon="workflow" href="/data-sources/ipaas-middlewares">
+    Intelligent automation through middleware integrations and AI-powered workflow orchestration (Coming Soon).
+  </Card>
+</Columns>
+
+### 🟦 Processing Boxes (5 Rectangles - Center)
 
 <Columns cols={2}>
-  <Card
-    title="Smart Categorization"
-    icon="brain"
-    href="/features/smart-categorisation"
-  >
-    AI automatically categorizes transactions using machine learning algorithms that improve over time.
+  <Card title="Auto Type Detection" icon="target" href="/features/auto-type-detection">
+    AI automatically identifies transaction types and patterns from multiple data sources (Coming Soon).
   </Card>
-  <Card
-    title="Pattern Analysis"
-    icon="chart-line"
-    href="/features/pattern-analysis"
-  >
-    Detect recurring bills, spending patterns, and financial trends automatically.
+  <Card title="Custom Rules" icon="gear" href="/features/custom-rules">
+    Create personalized categorization rules tailored to your business needs.
   </Card>
-  <Card
-    title="Tax Optimization"
-    icon="calculator"
-    href="/features/tax-analysis"
-  >
-    Maximize legitimate deductions and ensure global tax compliance with intelligent tax analysis.
+  <Card title="Pattern Analysis" icon="chart-line" href="/features/pattern-analysis">
+    Advanced AI pattern recognition to identify spending habits and recurring transactions.
   </Card>
-  <Card
-    title="Custom Rules"
-    icon="gear"
-    href="/features/custom-rules"
-  >
-    Create personalized rules for transaction processing tailored to your business needs.
+  <Card title="Smart Categorisation" icon="brain" href="/features/smart-categorisation">
+    Intelligent expense categorization using machine learning algorithms.
+  </Card>
+</Columns>
+
+<Card title="Intelligent Tax Analysis" icon="calculator" href="/features/tax-export" horizontal>
+Automated tax deduction identification and optimization for maximum savings.
+</Card>
+
+### 🟡 Output Flows (3 Colored Lines - Right Side)
+
+<Columns cols={3}>
+  <Card title="Recurring Patterns" icon="repeat" href="/features/pattern-analysis">
+    Identifies and tracks recurring financial patterns for automated processing and optimization.
+  </Card>
+  <Card title="One-Time Expenses" icon="circle" href="/guides/transaction-management">
+    Processing and categorization of one-time financial transactions and expenses.
+  </Card>
+  <Card title="Travel Expenses" icon="car" href="/guides/travel-expenses">
+    Automated travel distance logging with km/miles tracking and digital logbook.
+  </Card>
+</Columns>
+
+### 💎 Action Points (3 Diamonds - Right Side)
+
+<Columns cols={3}>
+  <Card title="Allocations" icon="chart-pie" href="/coming-soon/allocations">
+    Smart allocation and distribution of financial resources across different categories and projects (Coming Soon).
+  </Card>
+  <Card title="AI Assist" icon="robot" href="/coming-soon/ai-assistant">
+    AI-powered assistance for financial decision making and automated recommendations (Coming Soon).
+  </Card>
+  <Card title="Exports" icon="file-export" href="/features/tax-export">
+    Tax-ready and compliance-compliant exports for seamless reporting and compliance.
   </Card>
 </Columns>
 

@@ -1,58 +1,249 @@
 {
   "openapi": "3.1.0",
   "info": {
-    "title": "OpenAPI Plant Store",
-    "description": "A sample API that uses a plant store as an example to demonstrate features in the OpenAPI specification",
-    "license": {
-      "name": "MIT"
+    "title": "AI2Fin Financial Management API",
+    "description": "Enterprise-grade financial management platform with AI-powered categorization, tax optimization, and bill management. Built for scalability with 100K+ concurrent users.",
+    "version": "1.0.0",
+    "contact": {
+      "name": "AI2Fin Support",
+      "url": "https://embracingearth.space"
     },
-    "version": "1.0.0"
+    "license": {
+      "name": "Proprietary"
+    }
   },
   "servers": [
     {
-      "url": "http://sandbox.mintlify.com"
+      "url": "https://api.ai2fin.com",
+      "description": "Production"
+    },
+    {
+      "url": "http://localhost:3001",
+      "description": "Local Development"
     }
   ],
   "security": [
     {
       "bearerAuth": []
+    },
+    {
+      "cookieAuth": []
     }
   ],
   "paths": {
-    "/plants": {
-      "get": {
-        "description": "Returns all plants from the system that the user has access to",
-        "parameters": [
-          {
-            "name": "limit",
-            "in": "query",
-            "description": "The maximum number of results to return",
-            "schema": {
-              "type": "integer",
-              "format": "int32"
+    "/api/auth/register": {
+      "post": {
+        "tags": ["Authentication"],
+        "summary": "Register new user",
+        "description": "Create a new user account with email and password",
+        "security": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["email", "password", "firstName", "lastName"],
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "format": "email",
+                    "example": "user@example.com"
+                  },
+                  "password": {
+                    "type": "string",
+                    "format": "password",
+                    "minLength": 8,
+                    "example": "SecurePass123!"
+                  },
+                  "firstName": {
+                    "type": "string",
+                    "example": "John"
+                  },
+                  "lastName": {
+                    "type": "string",
+                    "example": "Smith"
+                  },
+                  "businessType": {
+                    "type": "string",
+                    "enum": ["business", "individual", "company", "trust"],
+                    "default": "business"
+                  },
+                  "countryCode": {
+                    "type": "string",
+                    "example": "AU",
+                    "default": "AU"
+                  }
+                }
+              }
             }
           }
-        ],
+        },
         "responses": {
-          "200": {
-            "description": "Plant response",
+          "201": {
+            "description": "User registered successfully",
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/Plant"
-                  }
+                  "$ref": "#/components/schemas/AuthResponse"
                 }
               }
             }
           },
           "400": {
-            "description": "Unexpected error",
+            "description": "Invalid input or user already exists"
+          }
+        }
+      }
+    },
+    "/api/auth/login": {
+      "post": {
+        "tags": ["Authentication"],
+        "summary": "Login user",
+        "description": "Authenticate user and receive JWT token",
+        "security": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["email", "password"],
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "format": "email"
+                  },
+                  "password": {
+                    "type": "string",
+                    "format": "password"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Login successful",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Error"
+                  "$ref": "#/components/schemas/AuthResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Invalid credentials"
+          }
+        }
+      }
+    },
+    "/api/auth/me": {
+      "get": {
+        "tags": ["Authentication"],
+        "summary": "Get current user profile",
+        "description": "Retrieve authenticated user information",
+        "responses": {
+          "200": {
+            "description": "User profile retrieved",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean"
+                    },
+                    "user": {
+                      "$ref": "#/components/schemas/User"
+                    },
+                    "authenticated": {
+                      "type": "boolean"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/bank/transactions": {
+      "get": {
+        "tags": ["Bank Transactions"],
+        "summary": "List bank transactions",
+        "description": "Retrieve paginated list of bank transactions with filtering options",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "default": 1
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "default": 50,
+              "maximum": 200
+            }
+          },
+          {
+            "name": "category",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter by category ID"
+          },
+          {
+            "name": "fromDate",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date"
+            }
+          },
+          {
+            "name": "toDate",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date"
+            }
+          },
+          {
+            "name": "type",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "enum": ["debit", "credit"]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Transactions retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "transactions": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/BankTransaction"
+                      }
+                    },
+                    "pagination": {
+                      "$ref": "#/components/schemas/Pagination"
+                    }
+                  }
                 }
               }
             }
@@ -60,35 +251,31 @@
         }
       },
       "post": {
-        "description": "Creates a new plant in the store",
+        "tags": ["Bank Transactions"],
+        "summary": "Create bank transaction",
+        "description": "Manually add a new bank transaction",
         "requestBody": {
-          "description": "Plant to add to the store",
+          "required": true,
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/NewPlant"
+                "$ref": "#/components/schemas/BankTransactionInput"
               }
             }
-          },
-          "required": true
+          }
         },
         "responses": {
-          "200": {
-            "description": "plant response",
+          "201": {
+            "description": "Transaction created successfully",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Plant"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "unexpected error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
+                  "type": "object",
+                  "properties": {
+                    "transaction": {
+                      "$ref": "#/components/schemas/BankTransaction"
+                    }
+                  }
                 }
               }
             }
@@ -96,57 +283,704 @@
         }
       }
     },
-    "/plants/{id}": {
-      "delete": {
-        "description": "Deletes a single plant based on the ID supplied",
+    "/api/bank/transactions/{id}": {
+      "get": {
+        "tags": ["Bank Transactions"],
+        "summary": "Get transaction by ID",
         "parameters": [
           {
             "name": "id",
             "in": "path",
-            "description": "ID of plant to delete",
             "required": true,
             "schema": {
-              "type": "integer",
-              "format": "int64"
+              "type": "string"
             }
           }
         ],
         "responses": {
-          "204": {
-            "description": "Plant deleted",
-            "content": {}
-          },
-          "400": {
-            "description": "unexpected error",
+          "200": {
+            "description": "Transaction retrieved",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Error"
+                  "$ref": "#/components/schemas/BankTransaction"
                 }
               }
             }
+          },
+          "404": {
+            "description": "Transaction not found"
           }
         }
-      }
-    }
-  },
-  "webhooks": {
-    "/plant/webhook": {
-      "post": {
-        "description": "Information about a new plant added to the store",
+      },
+      "put": {
+        "tags": ["Bank Transactions"],
+        "summary": "Update transaction",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
         "requestBody": {
-          "description": "Plant added to the store",
+          "required": true,
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/NewPlant"
+                "$ref": "#/components/schemas/BankTransactionInput"
               }
             }
           }
         },
         "responses": {
           "200": {
-            "description": "Return a 200 status to indicate that the data was received successfully"
+            "description": "Transaction updated successfully"
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Bank Transactions"],
+        "summary": "Delete transaction",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Transaction deleted successfully"
+          }
+        }
+      }
+    },
+    "/api/bank/upload": {
+      "post": {
+        "tags": ["Bank Transactions"],
+        "summary": "Upload bank statement CSV",
+        "description": "Upload and parse bank statement CSV file with intelligent categorization",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "required": ["file"],
+                "properties": {
+                  "file": {
+                    "type": "string",
+                    "format": "binary"
+                  },
+                  "categoryMappings": {
+                    "type": "string",
+                    "description": "JSON string of category mappings"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "CSV processed successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "transactionsImported": {
+                      "type": "integer"
+                    },
+                    "duplicatesSkipped": {
+                      "type": "integer"
+                    },
+                    "errors": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/bills": {
+      "get": {
+        "tags": ["Bills & Recurring Payments"],
+        "summary": "List bills",
+        "description": "Retrieve all bills with filtering and pagination",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "default": 1
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "default": 50
+            }
+          },
+          {
+            "name": "paid",
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "fromDate",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date"
+            }
+          },
+          {
+            "name": "toDate",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Bills retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "bills": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Bill"
+                      }
+                    },
+                    "pagination": {
+                      "$ref": "#/components/schemas/Pagination"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": ["Bills & Recurring Payments"],
+        "summary": "Create bill",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BillInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Bill created successfully"
+          }
+        }
+      }
+    },
+    "/api/bills/patterns": {
+      "get": {
+        "tags": ["Bills & Recurring Payments"],
+        "summary": "List bill patterns",
+        "description": "Get all recurring bill patterns with automatic occurrence generation",
+        "parameters": [
+          {
+            "name": "includeInactive",
+            "in": "query",
+            "schema": {
+              "type": "boolean",
+              "default": false
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Bill patterns retrieved",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/BillPattern"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": ["Bills & Recurring Payments"],
+        "summary": "Create bill pattern",
+        "description": "Create recurring bill pattern with automatic occurrence generation",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BillPatternInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Pattern created with occurrences"
+          }
+        }
+      }
+    },
+    "/api/expenses": {
+      "get": {
+        "tags": ["Expenses"],
+        "summary": "List expenses",
+        "description": "Retrieve expenses with tax deduction information",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "isTaxDeductible",
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Expenses retrieved",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "expenses": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Expense"
+                      }
+                    },
+                    "pagination": {
+                      "$ref": "#/components/schemas/Pagination"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/ai/classify-transaction": {
+      "get": {
+        "tags": ["AI Services"],
+        "summary": "Classify transaction",
+        "description": "AI-powered transaction categorization with tax deduction analysis",
+        "parameters": [
+          {
+            "name": "description",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "amount",
+            "in": "query",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Transaction classified",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "category": {
+                      "type": "string"
+                    },
+                    "confidence": {
+                      "type": "number",
+                      "minimum": 0,
+                      "maximum": 1
+                    },
+                    "isTaxDeductible": {
+                      "type": "boolean"
+                    },
+                    "taxCategory": {
+                      "type": "string"
+                    },
+                    "reasoning": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/custom-rules": {
+      "get": {
+        "tags": ["Automation"],
+        "summary": "List custom rules",
+        "description": "Get all user-defined automation rules for transactions, bills, and expenses",
+        "responses": {
+          "200": {
+            "description": "Rules retrieved",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/CustomRule"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": ["Automation"],
+        "summary": "Create custom rule",
+        "description": "Create automation rule with conditions and actions",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CustomRuleInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Rule created successfully"
+          }
+        }
+      }
+    },
+    "/api/custom-rules/{id}/execute": {
+      "post": {
+        "tags": ["Automation"],
+        "summary": "Execute custom rule",
+        "description": "Manually execute a custom rule on matching transactions",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Rule executed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "processed": {
+                      "type": "integer"
+                    },
+                    "updated": {
+                      "type": "integer"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/categories": {
+      "get": {
+        "tags": ["Categories"],
+        "summary": "List categories",
+        "description": "Get all transaction/expense categories with tax settings",
+        "responses": {
+          "200": {
+            "description": "Categories retrieved",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Category"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": ["Categories"],
+        "summary": "Create category",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CategoryInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Category created"
+          }
+        }
+      }
+    },
+    "/api/analytics/summary": {
+      "get": {
+        "tags": ["Analytics & Reports"],
+        "summary": "Get financial summary",
+        "description": "Retrieve comprehensive financial analytics and insights",
+        "parameters": [
+          {
+            "name": "startDate",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date"
+            }
+          },
+          {
+            "name": "endDate",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date"
+            }
+          },
+          {
+            "name": "groupBy",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "enum": ["day", "week", "month", "year"]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Analytics retrieved",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AnalyticsSummary"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/export/ato": {
+      "post": {
+        "tags": ["Analytics & Reports"],
+        "summary": "Export ATO tax report",
+        "description": "Generate ATO-compliant tax deduction report",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "financialYear": {
+                    "type": "string",
+                    "example": "2024"
+                  },
+                  "format": {
+                    "type": "string",
+                    "enum": ["csv", "pdf", "xlsx"]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Export generated",
+            "content": {
+              "application/octet-stream": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/subscription/status": {
+      "get": {
+        "tags": ["Subscription"],
+        "summary": "Get subscription status",
+        "description": "Retrieve user subscription tier and usage quotas",
+        "responses": {
+          "200": {
+            "description": "Subscription status retrieved",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SubscriptionStatus"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/vehicles": {
+      "get": {
+        "tags": ["Travel & Vehicles"],
+        "summary": "List vehicles",
+        "description": "Get registered vehicles for travel expense tracking",
+        "responses": {
+          "200": {
+            "description": "Vehicles retrieved"
+          }
+        }
+      },
+      "post": {
+        "tags": ["Travel & Vehicles"],
+        "summary": "Register vehicle",
+        "description": "Add vehicle for ATO logbook and travel deductions",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VehicleInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Vehicle registered"
+          }
+        }
+      }
+    },
+    "/api/trips": {
+      "get": {
+        "tags": ["Travel & Vehicles"],
+        "summary": "List trips",
+        "description": "Get recorded business trips for tax deductions",
+        "responses": {
+          "200": {
+            "description": "Trips retrieved"
+          }
+        }
+      },
+      "post": {
+        "tags": ["Travel & Vehicles"],
+        "summary": "Record trip",
+        "description": "Log business trip for ATO travel expense claims",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TripInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Trip recorded"
+          }
+        }
+      }
+    },
+    "/api/search": {
+      "get": {
+        "tags": ["Search"],
+        "summary": "Unified search",
+        "description": "AI-powered search across transactions, bills, and expenses",
+        "parameters": [
+          {
+            "name": "q",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Search query"
+          },
+          {
+            "name": "type",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "enum": ["all", "transactions", "bills", "expenses"]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Search results"
           }
         }
       }
@@ -154,54 +988,576 @@
   },
   "components": {
     "schemas": {
-      "Plant": {
-        "required": [
-          "name"
-        ],
+      "User": {
         "type": "object",
         "properties": {
-          "name": {
-            "description": "The name of the plant",
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "email": {
+            "type": "string",
+            "format": "email"
+          },
+          "firstName": {
             "type": "string"
           },
-          "tag": {
-            "description": "Tag to specify the type",
+          "lastName": {
+            "type": "string"
+          },
+          "businessType": {
+            "type": "string",
+            "enum": ["business", "individual", "company", "trust"]
+          },
+          "countryCode": {
+            "type": "string",
+            "example": "AU"
+          },
+          "emailVerified": {
+            "type": "boolean"
+          }
+        }
+      },
+      "AuthResponse": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean"
+          },
+          "token": {
+            "type": "string"
+          },
+          "user": {
+            "$ref": "#/components/schemas/User"
+          }
+        }
+      },
+      "BankTransaction": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "date": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "description": {
+            "type": "string"
+          },
+          "amount": {
+            "type": "number",
+            "format": "decimal"
+          },
+          "type": {
+            "type": "string",
+            "enum": ["debit", "credit"]
+          },
+          "categoryId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "category": {
+            "$ref": "#/components/schemas/Category"
+          },
+          "merchant": {
+            "type": "string"
+          },
+          "isTaxDeductible": {
+            "type": "boolean"
+          },
+          "businessUsePercentage": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 100
+          },
+          "gstAmount": {
+            "type": "number"
+          },
+          "gstRate": {
+            "type": "number"
+          },
+          "gstIncluded": {
+            "type": "boolean"
+          }
+        }
+      },
+      "BankTransactionInput": {
+        "type": "object",
+        "required": ["date", "description", "amount", "type"],
+        "properties": {
+          "date": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "description": {
+            "type": "string"
+          },
+          "amount": {
+            "type": "number"
+          },
+          "type": {
+            "type": "string",
+            "enum": ["debit", "credit"]
+          },
+          "categoryId": {
+            "type": "string"
+          },
+          "merchant": {
+            "type": "string"
+          },
+          "gstAmount": {
+            "type": "number"
+          },
+          "gstRate": {
+            "type": "number"
+          },
+          "gstIncluded": {
+            "type": "boolean"
+          }
+        }
+      },
+      "Bill": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "amount": {
+            "type": "number"
+          },
+          "dueDate": {
+            "type": "string",
+            "format": "date"
+          },
+          "paid": {
+            "type": "boolean"
+          },
+          "categoryId": {
+            "type": "string"
+          },
+          "category": {
+            "$ref": "#/components/schemas/Category"
+          },
+          "recurring": {
+            "type": "boolean"
+          }
+        }
+      },
+      "BillInput": {
+        "type": "object",
+        "required": ["name", "amount", "dueDate"],
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "amount": {
+            "type": "number"
+          },
+          "dueDate": {
+            "type": "string",
+            "format": "date"
+          },
+          "categoryId": {
+            "type": "string"
+          },
+          "notes": {
             "type": "string"
           }
         }
       },
-      "NewPlant": {
-        "allOf": [
-          {
-            "$ref": "#/components/schemas/Plant"
-          },
-          {
-            "required": [
-              "id"
-            ],
-            "type": "object",
-            "properties": {
-              "id": {
-                "description": "Identification number of the plant",
-                "type": "integer",
-                "format": "int64"
-              }
-            }
-          }
-        ]
-      },
-      "Error": {
-        "required": [
-          "error",
-          "message"
-        ],
+      "BillPattern": {
         "type": "object",
         "properties": {
-          "error": {
-            "type": "integer",
-            "format": "int32"
+          "id": {
+            "type": "string"
           },
-          "message": {
+          "name": {
+            "type": "string"
+          },
+          "baseAmount": {
+            "type": "number"
+          },
+          "frequency": {
+            "type": "string",
+            "enum": ["daily", "weekly", "fortnightly", "monthly", "quarterly", "yearly"]
+          },
+          "startDate": {
+            "type": "string",
+            "format": "date"
+          },
+          "endDate": {
+            "type": "string",
+            "format": "date"
+          },
+          "isActive": {
+            "type": "boolean"
+          },
+          "categoryId": {
+            "type": "string"
+          },
+          "occurrences": {
+            "type": "array",
+            "items": {
+              "type": "object"
+            }
+          }
+        }
+      },
+      "BillPatternInput": {
+        "type": "object",
+        "required": ["name", "baseAmount", "frequency", "startDate"],
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "baseAmount": {
+            "type": "number"
+          },
+          "frequency": {
+            "type": "string",
+            "enum": ["daily", "weekly", "fortnightly", "monthly", "quarterly", "yearly"]
+          },
+          "startDate": {
+            "type": "string",
+            "format": "date"
+          },
+          "endDate": {
+            "type": "string",
+            "format": "date"
+          },
+          "categoryId": {
+            "type": "string"
+          },
+          "dayOfMonth": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 31
+          }
+        }
+      },
+      "Expense": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "date": {
+            "type": "string",
+            "format": "date"
+          },
+          "description": {
+            "type": "string"
+          },
+          "amount": {
+            "type": "number"
+          },
+          "categoryId": {
+            "type": "string"
+          },
+          "isTaxDeductible": {
+            "type": "boolean"
+          },
+          "taxDeductions": {
+            "type": "array",
+            "items": {
+              "type": "object"
+            }
+          }
+        }
+      },
+      "Category": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "icon": {
+            "type": "string"
+          },
+          "color": {
+            "type": "string"
+          },
+          "isTaxDeductible": {
+            "type": "boolean"
+          },
+          "taxCategory": {
+            "type": "string"
+          },
+          "defaultGstRate": {
+            "type": "number"
+          }
+        }
+      },
+      "CategoryInput": {
+        "type": "object",
+        "required": ["name"],
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "icon": {
+            "type": "string"
+          },
+          "color": {
+            "type": "string"
+          },
+          "isTaxDeductible": {
+            "type": "boolean"
+          },
+          "taxCategory": {
+            "type": "string"
+          },
+          "defaultGstRate": {
+            "type": "number"
+          }
+        }
+      },
+      "CustomRule": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "entityType": {
+            "type": "string",
+            "enum": ["transaction", "bill", "expense", "billPattern", "billOccurrence"]
+          },
+          "conditions": {
+            "type": "array",
+            "items": {
+              "type": "object"
+            }
+          },
+          "actions": {
+            "type": "array",
+            "items": {
+              "type": "object"
+            }
+          },
+          "isActive": {
+            "type": "boolean"
+          },
+          "priority": {
+            "type": "integer"
+          }
+        }
+      },
+      "CustomRuleInput": {
+        "type": "object",
+        "required": ["name", "entityType", "conditions", "actions"],
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "entityType": {
+            "type": "string",
+            "enum": ["transaction", "bill", "expense", "billPattern", "billOccurrence"]
+          },
+          "conditions": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "field": {
+                  "type": "string"
+                },
+                "operator": {
+                  "type": "string",
+                  "enum": ["equals", "contains", "starts_with", "ends_with", "greater_than", "less_than", "regex"]
+                },
+                "value": {
+                  "type": "string"
+                },
+                "caseSensitive": {
+                  "type": "boolean"
+                }
+              }
+            }
+          },
+          "actions": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "enum": ["set_category", "set_tax_deductible", "set_business_percentage", "set_merchant"]
+                },
+                "value": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "priority": {
+            "type": "integer",
+            "default": 0
+          },
+          "autoExecute": {
+            "type": "boolean",
+            "default": false
+          }
+        }
+      },
+      "AnalyticsSummary": {
+        "type": "object",
+        "properties": {
+          "totalIncome": {
+            "type": "number"
+          },
+          "totalExpenses": {
+            "type": "number"
+          },
+          "netProfit": {
+            "type": "number"
+          },
+          "taxDeductible": {
+            "type": "number"
+          },
+          "categoryBreakdown": {
+            "type": "array",
+            "items": {
+              "type": "object"
+            }
+          },
+          "monthlyTrends": {
+            "type": "array",
+            "items": {
+              "type": "object"
+            }
+          }
+        }
+      },
+      "SubscriptionStatus": {
+        "type": "object",
+        "properties": {
+          "tier": {
+            "type": "string",
+            "enum": ["free", "starter", "professional", "enterprise"]
+          },
+          "status": {
+            "type": "string",
+            "enum": ["active", "trial", "expired", "cancelled"]
+          },
+          "quotas": {
+            "type": "object",
+            "properties": {
+              "transactionsLimit": {
+                "type": "integer"
+              },
+              "transactionsUsed": {
+                "type": "integer"
+              },
+              "aiCallsLimit": {
+                "type": "integer"
+              },
+              "aiCallsUsed": {
+                "type": "integer"
+              }
+            }
+          },
+          "expiryDate": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "VehicleInput": {
+        "type": "object",
+        "required": ["make", "model", "year", "registrationNumber"],
+        "properties": {
+          "make": {
+            "type": "string"
+          },
+          "model": {
+            "type": "string"
+          },
+          "year": {
+            "type": "integer"
+          },
+          "registrationNumber": {
+            "type": "string"
+          },
+          "businessUsePercentage": {
+            "type": "number"
+          }
+        }
+      },
+      "TripInput": {
+        "type": "object",
+        "required": ["vehicleId", "startDate", "endDate", "distance", "purpose"],
+        "properties": {
+          "vehicleId": {
+            "type": "string"
+          },
+          "startDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "endDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "distance": {
+            "type": "number"
+          },
+          "purpose": {
+            "type": "string"
+          },
+          "startLocation": {
+            "type": "string"
+          },
+          "endLocation": {
+            "type": "string"
+          }
+        }
+      },
+      "Pagination": {
+        "type": "object",
+        "properties": {
+          "page": {
+            "type": "integer"
+          },
+          "limit": {
+            "type": "integer"
+          },
+          "total": {
+            "type": "integer"
+          },
+          "pages": {
+            "type": "integer"
+          }
+        }
+      },
+      "Error": {
+        "type": "object",
+        "required": ["success", "error"],
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "default": false
+          },
+          "error": {
+            "type": "string"
+          },
+          "code": {
             "type": "string"
           }
         }
@@ -210,8 +1566,62 @@
     "securitySchemes": {
       "bearerAuth": {
         "type": "http",
-        "scheme": "bearer"
+        "scheme": "bearer",
+        "bearerFormat": "JWT",
+        "description": "JWT token obtained from /api/auth/login endpoint"
+      },
+      "cookieAuth": {
+        "type": "apiKey",
+        "in": "cookie",
+        "name": "ai2_sess",
+        "description": "Session cookie for web applications"
       }
     }
-  }
+  },
+  "tags": [
+    {
+      "name": "Authentication",
+      "description": "User authentication and authorization"
+    },
+    {
+      "name": "Bank Transactions",
+      "description": "Bank transaction management and CSV import"
+    },
+    {
+      "name": "Bills & Recurring Payments",
+      "description": "Bill management with pattern recognition and auto-linking"
+    },
+    {
+      "name": "Expenses",
+      "description": "Expense tracking with tax deduction support"
+    },
+    {
+      "name": "AI Services",
+      "description": "AI-powered categorization and tax analysis"
+    },
+    {
+      "name": "Automation",
+      "description": "Custom rules engine for automated workflows"
+    },
+    {
+      "name": "Categories",
+      "description": "Transaction and expense category management"
+    },
+    {
+      "name": "Analytics & Reports",
+      "description": "Financial analytics and tax report generation"
+    },
+    {
+      "name": "Travel & Vehicles",
+      "description": "Vehicle registration and business trip tracking"
+    },
+    {
+      "name": "Search",
+      "description": "AI-powered unified search across all entities"
+    },
+    {
+      "name": "Subscription",
+      "description": "Subscription and quota management"
+    }
+  ]
 }
