@@ -1,0 +1,612 @@
+---
+title: "Smart Categorization"
+description: "Navigate AI-powered transaction categorization with machine learning algorithms"
+---
+
+## Navigating Smart Categorization
+
+AI2Fin's Smart Categorization feature uses advanced machine learning algorithms to automatically categorize your financial transactions. Learn how to navigate and use this powerful feature effectively.
+
+<Card title="Access Smart Categorization" icon="brain" href="https://app.ai2fin.com/all-transactions" horizontal>
+Navigate to All Transactions to access AI categorization features.
+</Card>
+
+## How to Access Smart Categorization
+
+### Primary Navigation Path
+
+<Steps>
+  <Step title="Open Sidebar Navigation">
+    Click the hamburger menu (☰) on mobile or use the sidebar on desktop to access the main navigation.
+  </Step>
+  
+  <Step title="Navigate to Analysis & Management">
+    In the sidebar, find the "3. Analysis & Management" section with the output icon.
+  </Step>
+  
+  <Step title="Click All TXns">
+    Click on "All TXns" (All Transactions) to access the main transaction management page where AI categorization happens.
+  </Step>
+</Steps>
+
+### Alternative Access Methods
+
+<Columns cols={2}>
+  <Card title="Dashboard Quick Access" icon="dashboard">
+    **From Dashboard:**
+    1. Go to Dashboard (top of sidebar)
+    2. Look for "Recent Transactions" widget
+    3. Click "View All" or transaction count
+    4. Access categorization features
+  </Card>
+  
+  <Card title="Direct URL Access" icon="link">
+    **Direct Navigation:**
+    - URL: `https://app.ai2fin.com/all-transactions`
+    - Bookmark for quick access
+    - Use browser back/forward buttons
+  </Card>
+</Columns>
+
+## Understanding the All Transactions Interface
+
+### Main Page Layout
+
+<AccordionGroup>
+  <Accordion title="Page Header & Controls">
+    **Top Section:**
+    - **Page Title**: "All Transactions" with transaction count
+    - **Search Bar**: Search transactions by description, amount, or merchant
+    - **Filter Controls**: Date range, category, amount filters
+    - **View Toggle**: Switch between list view and categorized view
+    - **Column Customization**: Show/hide transaction columns
+  </Accordion>
+  
+  <Accordion title="Transaction List Area">
+    **Main Content:**
+    - **Transaction Table**: All transactions in chronological order
+    - **AI Status Indicators**: Shows which transactions need AI categorization
+    - **Action Buttons**: Edit, categorize, delete for each transaction
+    - **Bulk Actions**: Select multiple transactions for batch operations
+    - **Pagination**: Navigate through large transaction lists
+  </Accordion>
+</AccordionGroup>
+
+### Navigation Elements
+
+<Columns cols={2}>
+  <Card title="Sidebar Navigation" icon="menu">
+    **Main Sections:**
+    - Dashboard (top)
+    - 1. Inputs (Bank Transactions, Email)
+    - 2. Personalize (Categories, Custom Rules, Allocations)
+    - 3. Analysis & Management (All TXns + sub-items)
+    - 4. Reports and Trends (Insight+, Tax Export, AI Assistant)
+  </Card>
+  
+  <Card title="Sub-Navigation" icon="list">
+    **Under All TXns:**
+    - Expenses (One-time) - Blue dot icon
+    - Patterns (Recurring) - Orange repeat icon  
+    - Travel Expenses - Car icon
+    - All accessible from main All TXns page
+  </Card>
+</Columns>
+
+## Using AI Categorization Features
+
+### Finding Uncategorized Transactions
+
+<Steps>
+  <Step title="Access All Transactions">
+    Navigate to "3. Analysis & Management" → "All TXns" in the sidebar.
+  </Step>
+  
+  <Step title="Identify Uncategorized Items">
+    Look for transactions with:
+    - Empty category field
+    - "Uncategorized" label
+    - AI suggestion indicators
+    - Different colored status indicators
+  </Step>
+  
+  <Step title="Use AI Categorization">
+    Click the AI categorize button (brain icon) on individual transactions or use bulk operations.
+  </Step>
+</Steps>
+
+### AI Categorization Interface Elements
+
+<AccordionGroup>
+  <Accordion title="Individual Transaction Actions">
+    **Per Transaction:**
+    - **AI Categorize Button**: Brain icon next to each transaction
+    - **Category Dropdown**: Shows AI suggestions with confidence levels
+    - **Edit Button**: Modify transaction details manually
+    - **Delete Button**: Remove transaction (soft delete)
+    - **Status Indicators**: Visual cues for categorization status
+  </Accordion>
+  
+  <Accordion title="Bulk Operations">
+    **Multiple Transactions:**
+    - **Select Checkboxes**: Choose multiple transactions
+    - **Bulk AI Categorize**: Process multiple transactions at once
+    - **Bulk Edit**: Modify multiple transactions simultaneously
+    - **Bulk Delete**: Remove multiple transactions
+    - **Select All**: Select all visible transactions
+  </Accordion>
+</AccordionGroup>
+
+## Navigation Tips & Shortcuts
+
+### Efficient Navigation
+
+<CardGroup cols={2}>
+  <Card title="Keyboard Shortcuts" icon="keyboard">
+    - **Ctrl + T**: Go to All Transactions
+    - **Ctrl + D**: Go to Dashboard
+    - **Ctrl + F**: Focus search bar
+    - **Esc**: Close dialogs/modals
+  </Card>
+  <Card title="Quick Actions" icon="bolt">
+    - Use dashboard widgets for quick access
+    - Bookmark frequently used pages
+    - Use browser back/forward buttons
+    - Mobile: Swipe gestures for navigation
+  </Card>
+</CardGroup>
+
+### Mobile Navigation
+
+<AccordionGroup>
+  <Accordion title="Mobile Interface">
+    **Mobile Features:**
+    - **Hamburger Menu**: Tap to open/close sidebar
+    - **Touch-Friendly**: Large buttons and touch targets
+    - **Swipe Navigation**: Swipe between transaction views
+    - **Responsive Design**: Optimized for mobile screens
+    - **Offline Support**: Basic functionality without internet
+  </Accordion>
+  
+  <Accordion title="Mobile-Specific Navigation">
+    **Mobile Optimizations:**
+    - **Collapsed Sidebar**: Icons-only mode for space efficiency
+    - **Bottom Navigation**: Quick access to main features
+    - **Pull-to-Refresh**: Refresh transaction data
+    - **Infinite Scroll**: Load more transactions automatically
+  </Accordion>
+</AccordionGroup>
+
+## How It Works
+
+### AI Processing Pipeline
+
+<Steps>
+  <Step title="Transaction Analysis">
+    AI analyzes each transaction including:
+    - Merchant name and description
+    - Transaction amount and timing
+    - Payment method and location
+    - Historical patterns
+  </Step>
+  
+  <Step title="Pattern Recognition">
+    Machine learning identifies:
+    - Similar transaction types
+    - Recurring merchant patterns
+    - Spending behavior trends
+    - Category associations
+  </Step>
+  
+  <Step title="Confidence Scoring">
+    AI provides confidence levels:
+    - High confidence (90%+): Auto-categorized
+    - Medium confidence (70-90%): Suggested category
+    - Low confidence (<70%): Requires review
+  </Step>
+  
+  <Step title="Learning & Improvement">
+    System learns from:
+    - User feedback and corrections
+    - Accepted suggestions
+    - Manual categorization choices
+    - Business-specific patterns
+  </Step>
+</Steps>
+
+### Categorization Methods
+
+<AccordionGroup>
+  <Accordion title="Merchant-Based Categorization">
+    **AI Recognition:**
+    - Identifies merchant names from transaction descriptions
+    - Maps merchants to appropriate categories
+    - Handles variations in merchant naming
+    
+    **Examples:**
+    - "WOOLWORTHS" → Groceries
+    - "OFFICEWORKS" → Office Supplies
+    - "UBER TRIP" → Travel & Transport
+    - "ADOBE SYSTEMS" → Software & Subscriptions
+  </Accordion>
+  
+  <Accordion title="Description Analysis">
+    **Natural Language Processing:**
+    - Parses transaction descriptions
+    - Extracts key terms and context
+    - Identifies transaction purpose
+    
+    **Pattern Matching:**
+    - Recognizes common business terms
+    - Identifies expense types
+    - Distinguishes business vs personal
+  </Accordion>
+  
+  <Accordion title="Amount-Based Logic">
+    **Transaction Analysis:**
+    - Amount ranges for different expense types
+    - Round number patterns (subscriptions)
+    - Frequency analysis (recurring bills)
+    
+    **Smart Suggestions:**
+    - High-value transactions → Equipment/Assets
+    - Regular amounts → Subscriptions/Bills
+    - Variable amounts → Variable expenses
+  </Accordion>
+</AccordionGroup>
+
+## Using Smart Categorization
+
+### Automatic Categorization
+
+<Info>
+High-confidence transactions are automatically categorized without requiring user intervention.
+</Info>
+
+<Columns cols={2}>
+  <Card title="Auto-Categorized Transactions" icon="check-circle">
+    **Criteria:**
+    - 90%+ confidence level
+    - Clear merchant identification
+    - Established patterns
+    - Previous user acceptance
+  </Card>
+  
+  <Card title="Review Required" icon="exclamation-triangle">
+    **When AI Needs Help:**
+    - New merchants or patterns
+    - Ambiguous descriptions
+    - Mixed business/personal
+    - Low confidence scores
+  </Card>
+</Columns>
+
+### Manual Review Process
+
+<Steps>
+  <Step title="Access Uncategorized Transactions">
+    1. Go to All Transactions
+    2. Filter by "Uncategorized"
+    3. Review AI suggestions
+  </Step>
+  
+  <Step title="Review AI Suggestions">
+    1. Check suggested category
+    2. Review confidence level
+    3. Examine reasoning
+    4. Accept or modify
+  </Step>
+  
+  <Step title="Provide Feedback">
+    1. Accept correct suggestions
+    2. Correct wrong categorizations
+    3. Add business context
+    4. AI learns from feedback
+  </Step>
+</Steps>
+
+### Bulk Categorization
+
+<Card title="Bulk Operations" icon="layers">
+Process multiple transactions at once for faster categorization of similar transactions.
+</Card>
+
+<AccordionGroup>
+  <Accordion title="Bulk AI Categorization">
+    **Process:**
+    1. Select multiple transactions
+    2. Click "Bulk AI Categorize"
+    3. Review AI suggestions
+    4. Apply to selected transactions
+    
+    **Benefits:**
+    - Faster processing
+    - Consistent categorization
+    - Reduced manual effort
+    - Pattern recognition
+  </Accordion>
+  
+  <Accordion title="Bulk Manual Assignment">
+    **When to Use:**
+    - Similar transaction types
+    - Same merchant/category
+    - Batch corrections
+    - New category setup
+    
+    **Process:**
+    1. Select transactions
+    2. Choose category
+    3. Apply to all selected
+    4. AI learns from bulk actions
+  </Accordion>
+</AccordionGroup>
+
+## Category Management
+
+### Default Categories
+
+AI2Fin comes with comprehensive default categories optimized for Australian businesses:
+
+<Columns cols={2}>
+  <Card title="Office & Admin" icon="building">
+    **Categories:**
+    - Office Rent & Utilities
+    - Office Supplies
+    - Equipment & Furniture
+    - Professional Services
+    - Insurance
+  </Card>
+  
+  <Card title="Technology" icon="laptop">
+    **Categories:**
+    - Software & Subscriptions
+    - Hardware & Equipment
+    - Internet & Phone
+    - IT Services
+    - Cloud Services
+  </Card>
+  
+  <Card title="Marketing & Sales" icon="megaphone">
+    **Categories:**
+    - Advertising & Promotion
+    - Marketing Materials
+    - Events & Networking
+    - Website & Design
+    - Sales Tools
+  </Card>
+  
+  <Card title="Travel & Transport" icon="car">
+    **Categories:**
+    - Vehicle Expenses
+    - Fuel & Maintenance
+    - Public Transport
+    - Accommodation
+    - Meals & Entertainment
+  </Card>
+</Columns>
+
+### Custom Categories
+
+<Steps>
+  <Step title="Create Custom Category">
+    1. Go to Categories page
+    2. Click "Add Category"
+    3. Enter category name and description
+    4. Set tax deductibility status
+  </Step>
+  
+  <Step title="Configure Category Rules">
+    1. Add keywords for auto-categorization
+    2. Set business use percentage
+    3. Configure GST settings
+    4. Add notes or instructions
+  </Step>
+  
+  <Step title="Train AI on New Category">
+    1. Manually categorize examples
+    2. Provide feedback on AI suggestions
+    3. AI learns category patterns
+    4. Improves accuracy over time
+  </Step>
+</Steps>
+
+## Advanced Features
+
+### Business Use Percentage
+
+<Card title="Automatic Business Use Calculation" icon="percent">
+AI automatically calculates business use percentages for mixed business/personal expenses.
+</Card>
+
+<AccordionGroup>
+  <Accordion title="Vehicle Expenses">
+    **Calculation Methods:**
+    - Logbook method (12-week periods)
+    - Cents per km method
+    - Business trip tracking
+    - Automatic percentage calculation
+    
+    **ATO Compliance:**
+    - Maintains detailed records
+    - Calculates legitimate deductions
+    - Generates compliant reports
+    - Supports audit requirements
+  </Accordion>
+  
+  <Accordion title="Home Office Expenses">
+    **Eligible Expenses:**
+    - Rent and utilities (proportionate)
+    - Internet and phone bills
+    - Office equipment and furniture
+    - Cleaning and maintenance
+    
+    **Calculation:**
+    - Floor area percentage
+    - Time-based allocation
+    - Usage tracking
+    - Automatic apportionment
+  </Accordion>
+</AccordionGroup>
+
+### Tax Deductibility Analysis
+
+<Columns cols={2}>
+  <Card title="Automatic Deduction Detection" icon="receipt">
+    **AI Identifies:**
+    - Tax-deductible expenses
+    - Business-related purchases
+    - ATO-compliant deductions
+    - Potential audit flags
+  </Card>
+  
+  <Card title="Compliance Checking" icon="shield-check">
+    **Validation:**
+    - ATO requirement compliance
+    - Receipt verification
+    - Business purpose validation
+    - Documentation completeness
+  </Card>
+</Columns>
+
+## Performance & Accuracy
+
+### AI Learning Metrics
+
+<AccordionGroup>
+  <Accordion title="Accuracy Improvements">
+    **Initial Performance:**
+    - 70-80% accuracy on first use
+    - Improves to 95%+ with feedback
+    - Continuous learning from corrections
+    - Business-specific optimization
+    
+    **Learning Factors:**
+    - User feedback frequency
+    - Transaction volume
+    - Category diversity
+    - Correction patterns
+  </Accordion>
+  
+  <Accordion title="Processing Speed">
+    **Performance Metrics:**
+    - Real-time categorization
+    - Batch processing capability
+    - < 200ms per transaction
+    - Scales to millions of transactions
+    
+    **Optimization:**
+    - Machine learning model updates
+    - Pattern recognition improvements
+    - Merchant database expansion
+    - Context understanding enhancement
+  </Accordion>
+</AccordionGroup>
+
+### Quality Assurance
+
+<Steps>
+  <Step title="Confidence Scoring">
+    AI provides confidence levels for each categorization suggestion.
+  </Step>
+  
+  <Step title="Human Review">
+    Low-confidence transactions are flagged for manual review.
+  </Step>
+  
+  <Step title="Feedback Loop">
+    User corrections improve AI accuracy over time.
+  </Step>
+  
+  <Step title="Continuous Improvement">
+    AI model updates based on user feedback and patterns.
+  </Step>
+</Steps>
+
+## Best Practices
+
+### Optimizing AI Performance
+
+<CardGroup cols={2}>
+  <Card title="Provide Feedback" icon="thumbs-up">
+    Regularly review and correct AI suggestions to improve accuracy.
+  </Card>
+  <Card title="Use Consistent Categories" icon="list">
+    Maintain consistent category naming and usage patterns.
+  </Card>
+  <Card title="Add Business Context" icon="info-circle">
+    Include business purpose notes for ambiguous transactions.
+  </Card>
+  <Card title="Regular Reviews" icon="calendar">
+    Schedule regular categorization reviews for accuracy.
+  </Card>
+</CardGroup>
+
+### Category Optimization
+
+<AccordionGroup>
+  <Accordion title="Category Structure">
+    **Best Practices:**
+    - Use specific, descriptive names
+    - Avoid overly broad categories
+    - Group related expenses logically
+    - Maintain consistent naming
+    
+    **Structure Tips:**
+    - 20-30 categories maximum
+    - Clear hierarchy levels
+    - Business-relevant groupings
+    - ATO-compliant naming
+  </Accordion>
+  
+  <Accordion title="Training the AI">
+    **Effective Training:**
+    - Categorize examples manually
+    - Provide clear feedback
+    - Use consistent patterns
+    - Review AI suggestions regularly
+    
+    **Training Tips:**
+    - Start with clear examples
+    - Correct errors immediately
+    - Explain business context
+    - Monitor accuracy metrics
+  </Accordion>
+</AccordionGroup>
+
+## Troubleshooting
+
+<AccordionGroup>
+  <Accordion title="AI Not Categorizing">
+    **Possible Causes:**
+    - Insufficient training data
+    - New merchant patterns
+    - Ambiguous descriptions
+    - Service connectivity issues
+    
+    **Solutions:**
+    - Provide more examples
+    - Add merchant keywords
+    - Improve descriptions
+    - Check service status
+  </Accordion>
+  
+  <Accordion title="Incorrect Categorizations">
+    **Common Issues:**
+    - Wrong category suggestions
+    - Mixed business/personal
+    - Unclear transaction purpose
+    - New expense types
+    
+    **Solutions:**
+    - Correct and provide feedback
+    - Add business context
+    - Create custom categories
+    - Train AI with examples
+  </Accordion>
+</AccordionGroup>
+
+---
+
+**Ready to experience smart categorization?** Visit the [All Transactions](/guides/transaction-management) page or explore [Pattern Analysis](/features/pattern-analysis) for related features.
+
+*AI2Fin's Smart Categorization - Where artificial intelligence meets financial organization.*

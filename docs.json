@@ -1,88 +1,17 @@
 {
   "$schema": "https://mintlify.com/docs.json",
   "theme": "mint",
-  "name": "Mint Starter Kit",
+  "name": "AI2Fin Documentation",
   "colors": {
-    "primary": "#16A34A",
-    "light": "#07C983",
-    "dark": "#15803D"
-  },
-  "favicon": "/favicon.svg",
-  "navigation": {
-    "tabs": [
-      {
-        "tab": "Guides",
-        "groups": [
-          {
-            "group": "Getting started",
-            "pages": [
-              "index",
-              "quickstart",
-              "development"
-            ]
-          },
-          {
-            "group": "Customization",
-            "pages": [
-              "essentials/settings",
-              "essentials/navigation"
-            ]
-          },
-          {
-            "group": "Writing content",
-            "pages": [
-              "essentials/markdown",
-              "essentials/code",
-              "essentials/images",
-              "essentials/reusable-snippets"
-            ]
-          },
-          {
-            "group": "AI tools",
-            "pages": [
-              "ai-tools/cursor",
-              "ai-tools/claude-code",
-              "ai-tools/windsurf"
-            ]
-          }
-        ]
-      },
-      {
-        "tab": "API reference",
-        "groups": [
-          {
-            "group": "API documentation",
-            "pages": [
-              "api-reference/introduction"
-            ]
-          },
-          {
-            "group": "Endpoint examples",
-            "pages": [
-              "api-reference/endpoint/get",
-              "api-reference/endpoint/create",
-              "api-reference/endpoint/delete",
-              "api-reference/endpoint/webhook"
-            ]
-          }
-        ]
-      }
-    ],
-    "global": {
-      "anchors": [
-        {
-          "anchor": "Documentation",
-          "href": "https://mintlify.com/docs",
-          "icon": "book-open-cover"
-        },
-        {
-          "anchor": "Blog",
-          "href": "https://mintlify.com/blog",
-          "icon": "newspaper"
-        }
-      ]
+    "primary": "#0D9488",
+    "light": "#14B8A6",
+    "dark": "#0F766E",
+    "anchors": {
+      "from": "#0D9488",
+      "to": "#14B8A6"
     }
   },
+  "favicon": "/favicon.svg",
   "logo": {
     "light": "/logo/light.svg",
     "dark": "/logo/dark.svg"
@@ -91,32 +20,137 @@
     "links": [
       {
         "label": "Support",
-        "href": "mailto:hi@mintlify.com"
+        "href": "mailto:support@ai2fin.com"
       }
     ],
     "primary": {
       "type": "button",
-      "label": "Dashboard",
-      "href": "https://dashboard.mintlify.com"
+      "label": "Get Started",
+      "href": "https://app.ai2fin.com"
+    }
+  },
+  "navigation": {
+    "tabs": [
+      {
+        "tab": "Documentation",
+        "groups": [
+          {
+            "group": "Getting Started",
+            "pages": [
+              "index",
+              "quickstart",
+              "platform-overview"
+            ]
+          },
+          {
+            "group": "Core Features",
+            "pages": [
+              "features/smart-categorisation",
+              "features/pattern-analysis",
+              "features/tax-analysis",
+              "features/custom-rules"
+            ]
+          },
+          {
+            "group": "Data Sources",
+            "pages": [
+              "data-sources/csv-imports",
+              "data-sources/bank-feeds"
+            ]
+          },
+          {
+            "group": "User Guides",
+            "pages": [
+              "guides/dashboard-navigation",
+              "guides/transaction-management",
+              "guides/travel-expenses"
+            ]
+          },
+          {
+            "group": "Advanced Features",
+            "pages": [
+              "advanced/exports",
+              "advanced/allocations",
+              "advanced/ai-assist"
+            ]
+          },
+          {
+            "group": "Coming Soon",
+            "pages": [
+              "coming-soon/bank-feeds",
+              "coming-soon/advanced-analytics"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "API Reference",
+        "groups": [
+          {
+            "group": "Getting Started",
+            "pages": [
+              "api-reference/introduction",
+              "api-reference/authentication"
+            ]
+          },
+          {
+            "group": "Endpoints",
+            "pages": [
+              "api-reference/transactions",
+              "api-reference/categories",
+              "api-reference/ai-classification"
+            ]
+          }
+        ]
+      }
+    ],
+    "global": {
+      "anchors": [
+        {
+          "anchor": "Platform",
+          "href": "https://app.ai2fin.com",
+          "icon": "rocket"
+        },
+        {
+          "anchor": "Community",
+          "href": "https://ai2fin.com/community",
+          "icon": "slack"
+        }
+      ]
     }
   },
   "contextual": {
     "options": [
-     "copy",
-     "view",
-     "chatgpt",
-     "claude",
-     "perplexity",
-     "mcp",
-     "cursor",
-     "vscode"
-   ]
+      "copy",
+      "view",
+      "chatgpt",
+      "claude"
+    ]
   },
   "footer": {
     "socials": {
-      "x": "https://x.com/mintlify",
-      "github": "https://github.com/mintlify",
-      "linkedin": "https://linkedin.com/company/mintlify"
+      "x": "https://twitter.com/ai2fin",
+      "github": "https://github.com/ai2fin",
+      "linkedin": "https://linkedin.com/company/ai2fin"
+    }
+  },
+  "seo": {
+    "title": "AI2Fin Documentation - AI-Powered Financial Management Platform",
+    "description": "Complete guide to AI2Fin's intelligent financial management platform. Learn about AI-powered expense tracking, tax optimization, and automated categorization.",
+    "keywords": [
+      "AI financial management",
+      "expense tracking software",
+      "tax deduction optimization",
+      "automated categorization",
+      "financial AI platform",
+      "business expense management",
+      "AI accounting software",
+      "smart financial analytics"
+    ],
+    "og": {
+      "title": "AI2Fin Documentation - AI-Powered Financial Management",
+      "description": "Master AI2Fin's intelligent financial management platform with comprehensive guides and tutorials.",
+      "image": "/og-image.png"
     }
   }
 }

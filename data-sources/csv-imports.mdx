@@ -1,0 +1,423 @@
+---
+title: "CSV Imports"
+description: "Import bank statements and financial data from CSV files"
+---
+
+## CSV Import System
+
+AI2Fin's CSV Import feature allows you to easily import bank statements and financial data from spreadsheets and export files. The system supports multiple bank formats and automatically processes transactions for AI categorization.
+
+<Card title="Import Your Data" icon="file-csv" href="https://app.ai2fin.com/all-transactions" horizontal>
+Access the CSV import feature from the All Transactions page or Dashboard.
+</Card>
+
+## Supported Bank Formats
+
+### Australian Banks
+
+<Columns cols={2}>
+  <Card title="Major Banks" icon="university">
+    **Supported Banks:**
+    - Commonwealth Bank (NetBank)
+    - ANZ Internet Banking
+    - Westpac Online Banking
+    - NAB Internet Banking
+    - Bendigo Bank Online
+    - ING Direct
+    - Suncorp Bank
+  </Card>
+  
+  <Card title="Regional Banks" icon="building">
+    **Additional Support:**
+    - Bank of Queensland
+    - ME Bank
+    - Macquarie Bank
+    - HSBC Australia
+    - Citibank Australia
+    - AMP Bank
+  </Card>
+</Columns>
+
+### Required CSV Format
+
+<Info>
+Most Australian banks export CSV files in a compatible format. AI2Fin automatically detects and processes common formats.
+</Info>
+
+<AccordionGroup>
+  <Accordion title="Required Columns">
+    **Essential Fields:**
+    - **Date**: Transaction date (DD/MM/YYYY or MM/DD/YYYY)
+    - **Description**: Transaction description or merchant name
+    - **Amount**: Transaction amount (positive for credits, negative for debits)
+    
+    **Optional Fields:**
+    - **Balance**: Account balance after transaction
+    - **Reference**: Transaction reference number
+    - **Type**: Transaction type (Debit/Credit)
+    - **Category**: Existing category (if available)
+  </Accordion>
+  
+  <Accordion title="Date Formats Supported">
+    **Supported Formats:**
+    - DD/MM/YYYY (Australian standard)
+    - MM/DD/YYYY (US format)
+    - YYYY-MM-DD (ISO format)
+    - DD-MMM-YYYY (e.g., 15-Jan-2024)
+    
+    **Time Formats:**
+    - HH:MM:SS (24-hour)
+    - HH:MM (24-hour)
+    - hh:mm AM/PM (12-hour)
+  </Accordion>
+</AccordionGroup>
+
+## Import Process
+
+### Step-by-Step Import
+
+<Steps>
+  <Step title="Prepare Your CSV File">
+    1. Export transactions from your bank
+    2. Ensure file is in CSV format
+    3. Check required columns are present
+    4. Remove any password protection
+  </Step>
+  
+  <Step title="Upload to AI2Fin">
+    1. Go to All Transactions page
+    2. Click "Upload CSV" button
+    3. Select your CSV file
+    4. Confirm file details
+  </Step>
+  
+  <Step title="Map Columns">
+    1. Review column mapping
+    2. Confirm date format
+    3. Check amount format
+    4. Verify description field
+  </Step>
+  
+  <Step title="Process Transactions">
+    1. Review import summary
+    2. Start processing
+    3. Monitor progress
+    4. Review results
+  </Step>
+</Steps>
+
+### Column Mapping
+
+<Card title="Automatic Mapping" icon="magic">
+AI2Fin automatically detects and maps common column names from Australian banks.
+</Card>
+
+<AccordionGroup>
+  <Accordion title="Common Column Names">
+    **Date Columns:**
+    - Date, Transaction Date, Posted Date
+    - Effective Date, Processed Date
+    - Value Date, Settlement Date
+    
+    **Description Columns:**
+    - Description, Transaction Description
+    - Details, Particulars, Narration
+    - Payee, Merchant, Reference
+    
+    **Amount Columns:**
+    - Amount, Transaction Amount
+    - Debit, Credit, Net Amount
+    - Withdrawal, Deposit
+  </Accordion>
+  
+  <Accordion title="Manual Mapping">
+    **When Manual Mapping is Needed:**
+    - Non-standard column names
+    - Custom CSV exports
+    - Third-party software exports
+    - International bank formats
+    
+    **Mapping Process:**
+    1. Select source column
+    2. Choose target field
+    3. Preview mapping result
+    4. Confirm and proceed
+  </Accordion>
+</AccordionGroup>
+
+## Data Processing
+
+### Automatic Processing
+
+<Columns cols={2}>
+  <Card title="AI Categorization" icon="brain">
+    **Automatic Features:**
+    - Smart transaction categorization
+    - Merchant identification
+    - Business/personal classification
+    - Tax deductibility assessment
+  </Card>
+  
+  <Card title="Data Validation" icon="check-circle">
+    **Validation Checks:**
+    - Date format validation
+    - Amount format checking
+    - Duplicate detection
+    - Data completeness verification
+  </Card>
+</Columns>
+
+### Processing Options
+
+<AccordionGroup>
+  <Accordion title="Import Settings">
+    **Processing Options:**
+    - **Skip Duplicates**: Automatically skip existing transactions
+    - **Update Existing**: Update existing transactions with new data
+    - **Create New Only**: Only import new transactions
+    - **Full Replace**: Replace all existing data
+    
+    **Date Range:**
+    - Import all transactions
+    - Import from specific date
+    - Import within date range
+    - Skip future-dated transactions
+  </Accordion>
+  
+  <Accordion title="Data Cleaning">
+    **Automatic Cleaning:**
+    - Remove extra spaces and characters
+    - Standardize date formats
+    - Normalize amount formats
+    - Clean description text
+    
+    **Manual Review:**
+    - Review flagged transactions
+    - Correct data issues
+    - Handle special characters
+    - Validate business transactions
+  </Accordion>
+</AccordionGroup>
+
+## Import Results
+
+### Processing Summary
+
+<Card title="Import Summary" icon="chart-bar">
+View detailed import results including successful imports, errors, and warnings.
+</Card>
+
+<AccordionGroup>
+  <Accordion title="Success Metrics">
+    **Import Statistics:**
+    - Total transactions processed
+    - Successfully imported count
+    - Failed imports count
+    - Duplicates skipped
+    
+    **Processing Details:**
+    - Import duration
+    - Processing speed
+    - Data quality score
+    - AI categorization accuracy
+  </Accordion>
+  
+  <Accordion title="Error Handling">
+    **Common Import Errors:**
+    - Invalid date formats
+    - Missing required columns
+    - Corrupted data
+    - File format issues
+    
+    **Error Resolution:**
+    - Detailed error messages
+    - Suggested fixes
+    - Data correction tools
+    - Re-import options
+  </Accordion>
+</AccordionGroup>
+
+### Post-Import Actions
+
+<Steps>
+  <Step title="Review Imported Data">
+    Check imported transactions for accuracy and completeness.
+  </Step>
+  
+  <Step title="Verify AI Categorization">
+    Review AI categorization suggestions and make corrections as needed.
+  </Step>
+  
+  <Step title="Handle Errors">
+    Address any import errors or data quality issues.
+  </Step>
+  
+  <Step title="Update Categories">
+    Refine categories and rules based on imported data.
+  </Step>
+</Steps>
+
+## Advanced Features
+
+### Bulk Import Management
+
+<Columns cols={2}>
+  <Card title="Multiple File Import" icon="files">
+    **Batch Processing:**
+    - Import multiple CSV files
+    - Process files sequentially
+    - Combine data from multiple accounts
+    - Merge import results
+  </Card>
+  
+  <Card title="Scheduled Imports" icon="clock">
+    **Automation:**
+    - Set up recurring imports
+    - Automatic file processing
+    - Email notifications
+    - Import status monitoring
+  </Card>
+</Columns>
+
+### Data Integration
+
+<AccordionGroup>
+  <Accordion title="Account Mapping">
+    **Multi-Account Support:**
+    - Import from multiple bank accounts
+    - Map accounts to categories
+    - Track account-specific transactions
+    - Generate account-based reports
+    
+    **Account Configuration:**
+    - Set account names and types
+    - Configure account-specific rules
+    - Set default categories
+    - Manage account visibility
+  </Accordion>
+  
+  <Accordion title="Historical Data">
+    **Historical Import:**
+    - Import historical transactions
+    - Maintain transaction history
+    - Year-over-year comparisons
+    - Long-term trend analysis
+    
+    **Data Archival:**
+    - Secure data storage
+    - Historical data access
+    - Backup and recovery
+    - Data retention policies
+  </Accordion>
+</AccordionGroup>
+
+## Best Practices
+
+### File Preparation
+
+<CardGroup cols={2}>
+  <Card title="File Quality" icon="file-check">
+    Ensure CSV files are clean and properly formatted before import.
+  </Card>
+  <Card title="Date Consistency" icon="calendar">
+    Use consistent date formats across all imports for better processing.
+  </Card>
+  <Card title="Regular Imports" icon="refresh">
+    Import data regularly to maintain up-to-date financial records.
+  </Card>
+  <Card title="Data Validation" icon="shield-check">
+    Review imported data for accuracy and completeness.
+  </Card>
+</CardGroup>
+
+### Import Optimization
+
+<AccordionGroup>
+  <Accordion title="Efficient Importing">
+    **Optimization Tips:**
+    - Import in smaller batches for large files
+    - Use consistent column naming
+    - Clean data before import
+    - Review import settings
+    
+    **Performance:**
+    - Optimal file sizes (under 10MB)
+    - Standard CSV format
+    - Minimal formatting
+    - Clear column headers
+  </Accordion>
+  
+  <Accordion title="Data Quality">
+    **Quality Assurance:**
+    - Verify bank export accuracy
+    - Check for missing transactions
+    - Validate amount calculations
+    - Review description clarity
+    
+    **Maintenance:**
+    - Regular data audits
+    - Update import rules
+    - Monitor categorization accuracy
+    - Refine business rules
+  </Accordion>
+</AccordionGroup>
+
+## Troubleshooting
+
+<AccordionGroup>
+  <Accordion title="Import Failures">
+    **Common Issues:**
+    - File format not supported
+    - Missing required columns
+    - Invalid date formats
+    - Corrupted file data
+    
+    **Solutions:**
+    - Check file format and encoding
+    - Verify column headers
+    - Standardize date formats
+    - Clean file data
+  </Accordion>
+  
+  <Accordion title="Data Quality Issues">
+    **Quality Problems:**
+    - Incomplete transaction data
+    - Incorrect categorizations
+    - Duplicate transactions
+    - Missing business context
+    
+    **Resolution:**
+    - Review and correct data
+    - Provide AI feedback
+    - Remove duplicates
+    - Add business context
+  </Accordion>
+</AccordionGroup>
+
+## Security & Privacy
+
+### Data Protection
+
+<Columns cols={2}>
+  <Card title="Secure Upload" icon="shield">
+    **Security Features:**
+    - Encrypted file upload
+    - Secure data transmission
+    - Protected data storage
+    - Access control
+  </Card>
+  
+  <Card title="Privacy Compliance" icon="user-shield">
+    **Privacy Features:**
+    - GDPR compliance
+    - Data minimization
+    - User consent management
+    - Right to deletion
+  </Card>
+</Columns>
+
+---
+
+**Ready to import your data?** Visit the [All Transactions](/guides/transaction-management) page to start importing your bank statements, or explore [Smart Categorization](/features/smart-categorisation) to learn how AI processes your imported data.
+
+*AI2Fin CSV Import - Seamlessly integrate your financial data with intelligent processing.*

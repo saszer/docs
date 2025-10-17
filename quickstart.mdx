@@ -1,80 +1,291 @@
 ---
-title: "Quickstart"
-description: "Start building awesome documentation in minutes"
+title: "Quick Start Guide"
+description: "Get started with AI2Fin in minutes - complete setup guide"
 ---
 
-## Get started in three steps
+## Welcome to AI2Fin
 
-Get your documentation site running locally and make your first customization.
+Get up and running with AI2Fin's AI-powered financial management platform in just a few minutes. This guide will walk you through the essential steps to start managing your finances intelligently.
 
-### Step 1: Set up your local environment
+<Info>
+**Prerequisites:** You'll need bank statements or transaction data in CSV format, and basic business information for tax settings.
+</Info>
+
+## Step 1: Create Your Account
+
+### Sign Up Process
+
+1. **Visit the Platform**
+   - Go to [app.ai2fin.com](https://app.ai2fin.com)
+   - Click "Get Started" or "Sign Up"
+
+2. **Account Setup**
+   - Enter your email address
+   - Create a secure password
+   - Verify your email address
+
+3. **Business Information**
+   - Company name and type
+   - ABN (Australian Business Number)
+   - Primary business address
+   - Tax year settings
+
+<Card title="Pro Tip" icon="lightbulb">
+Set up your account with accurate business information for better AI categorization and tax optimization.
+</Card>
+
+## Step 2: Import Your Financial Data
+
+### CSV Import Process
+
+<Steps>
+  <Step title="Prepare Your Data">
+    Export your bank statements from your banking platform in CSV format. Most banks support this export feature.
+  </Step>
+  
+  <Step title="Upload to AI2Fin">
+    1. Go to the Dashboard
+    2. Click "Upload CSV" or "Import Data"
+    3. Select your CSV file
+    4. Confirm the upload
+  </Step>
+  
+  <Step title="Data Processing">
+    AI2Fin will automatically process and categorize your transactions using AI algorithms.
+  </Step>
+</Steps>
+
+### Supported CSV Formats
 
 <AccordionGroup>
-  <Accordion icon="copy" title="Clone your docs locally">
-    During the onboarding process, you created a GitHub repository with your docs content if you didn't already have one. You can find a link to this repository in your [dashboard](https://dashboard.mintlify.com).
-    
-    To clone the repository locally so that you can make and preview changes to your docs, follow the [Cloning a repository](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository) guide in the GitHub docs.
+  <Accordion title="Common Australian Banks">
+    - **Commonwealth Bank**: Export from NetBank
+    - **ANZ**: Export from ANZ Internet Banking
+    - **Westpac**: Export from Online Banking
+    - **NAB**: Export from NAB Internet Banking
+    - **Bendigo Bank**: Export from Bendigo Bank Online
   </Accordion>
-  <Accordion icon="rectangle-terminal" title="Start the preview server">
-    1. Install the Mintlify CLI: `npm i -g mint`
-    2. Navigate to your docs directory and run: `mint dev`
-    3. Open `http://localhost:3000` to see your docs live!
-    
-    <Tip>Your preview updates automatically as you edit files.</Tip>
+  
+  <Accordion title="Required CSV Columns">
+    - **Date**: Transaction date (DD/MM/YYYY format)
+    - **Description**: Transaction description
+    - **Amount**: Transaction amount (positive for income, negative for expenses)
+    - **Balance**: Account balance (optional)
+    - **Reference**: Transaction reference number (optional)
   </Accordion>
 </AccordionGroup>
 
-### Step 2: Deploy your changes
+## Step 3: Configure Your Categories
+
+### Default Categories
+
+AI2Fin comes with pre-configured business categories:
+
+<Columns cols={2}>
+  <Card title="Office Expenses" icon="building">
+    Rent, utilities, office supplies, equipment
+  </Card>
+  <Card title="Professional Services" icon="briefcase">
+    Legal fees, accounting, consulting
+  </Card>
+  <Card title="Travel & Transport" icon="car">
+    Vehicle expenses, fuel, public transport
+  </Card>
+  <Card title="Marketing & Advertising" icon="megaphone">
+    Online ads, print materials, events
+  </Card>
+</Columns>
+
+### Custom Category Setup
+
+<Steps>
+  <Step title="Access Categories">
+    1. Go to Dashboard → Categories
+    2. View existing categories
+  </Step>
+  
+  <Step title="Create New Categories">
+    1. Click "Add Category"
+    2. Enter category name and description
+    3. Set tax deductibility status
+    4. Save the category
+  </Step>
+  
+  <Step title="Configure Rules">
+    Set up automatic categorization rules for consistent processing.
+  </Step>
+</Steps>
+
+## Step 4: Set Up Tax Preferences
+
+### GST Configuration
+
+<Card title="GST Settings" icon="receipt">
+Configure your GST preferences for accurate tax calculations and reporting.
+</Card>
+
+<Steps>
+  <Step title="Enable GST">
+    1. Go to Settings → Tax Preferences
+    2. Toggle "Enable GST"
+    3. Set your GST registration status
+  </Step>
+  
+  <Step title="Configure Rates">
+    - Default GST rate: 10%
+    - Custom rates for specific categories
+    - Zero-rated items configuration
+  </Step>
+  
+  <Step title="Business Use Percentage">
+    Set default business use percentages for different expense types.
+  </Step>
+</Steps>
+
+### Tax Deduction Settings
 
 <AccordionGroup>
-  <Accordion icon="github" title="Install our GitHub app">
-    Install the Mintlify GitHub app from your [dashboard](https://dashboard.mintlify.com/settings/organization/github-app).
-    
-    Our GitHub app automatically deploys your changes to your docs site, so you don't need to manage deployments yourself.
-</Accordion>
-<Accordion icon="palette" title="Update your site name and colors">
-    For a first change, let's update the name and colors of your docs site.
-
-    1. Open `docs.json` in your editor.
-    2. Change the `"name"` field to your project name.
-    3. Update the `"colors"` to match your brand.
-    4. Save and see your changes instantly at `http://localhost:3000`.
-
-    <Tip>Try changing the primary color to see an immediate difference!</Tip>
+  <Accordion title="Common Deductible Expenses">
+    - **Home Office**: Rent, utilities, internet (proportionate)
+    - **Vehicle**: Fuel, maintenance, registration (business use %)
+    - **Professional Development**: Training, courses, subscriptions
+    - **Equipment**: Computers, software, office furniture
+  </Accordion>
+  
+  <Accordion title="ATO Requirements">
+    - **Record Keeping**: Maintain detailed transaction records
+    - **Receipt Storage**: Keep receipts for all deductible expenses
+    - **Business Purpose**: Document business use for mixed expenses
+    - **Audit Trail**: Ensure complete audit trail for all transactions
   </Accordion>
 </AccordionGroup>
 
-### Step 3: Go live
+## Step 5: Explore the Dashboard
 
-<Accordion icon="rocket" title="Publish your docs">
-  1. Commit and push your changes.
-  2. Your docs will update and be live in moments!
-</Accordion>
+### Main Dashboard Elements
 
-## Next steps
+<Columns cols={2}>
+  <Card title="Financial Overview" icon="chart-pie">
+    Real-time statistics and key metrics
+  </Card>
+  <Card title="Recent Transactions" icon="clock">
+    Latest transactions and AI categorization
+  </Card>
+  <Card title="Quick Actions" icon="bolt">
+    Fast access to common tasks
+  </Card>
+  <Card title="System Status" icon="server">
+    AI services and connectivity status
+  </Card>
+</Columns>
 
-Now that you have your docs running, explore these key features:
+### Navigation Overview
 
-<CardGroup cols={2}>
+<Steps>
+  <Step title="Sidebar Navigation">
+    Access all features through the organized sidebar menu:
+    - **Inputs**: Bank Transactions, Email Processing
+    - **Personalize**: Categories, Custom Rules, Allocations
+    - **Analysis**: All Transactions, Expenses, Patterns, Travel
+    - **Reports**: Insight+, Tax Export, AI Assistant
+  </Step>
+  
+  <Step title="Quick Actions">
+    Use the dashboard quick action buttons for:
+    - Creating new expenses
+    - Setting up recurring bills
+    - Logging travel expenses
+    - Uploading CSV files
+  </Step>
+</Steps>
 
-<Card title="Write Content" icon="pen-to-square" href="/essentials/markdown">
-  Learn MDX syntax and start writing your documentation.
+## Step 6: Start Using AI Features
+
+### Smart Categorization
+
+<Card title="AI Categorization" icon="brain">
+Let AI automatically categorize your transactions based on patterns and machine learning.
 </Card>
 
-<Card title="Customize style" icon="palette" href="/essentials/settings">
-  Make your docs match your brand perfectly.
+<Steps>
+  <Step title="Review AI Suggestions">
+    1. Go to All Transactions
+    2. Look for uncategorized transactions
+    3. Review AI suggestions
+  </Step>
+  
+  <Step title="Accept or Modify">
+    1. Accept AI suggestions that are correct
+    2. Modify incorrect categorizations
+    3. AI learns from your feedback
+  </Step>
+  
+  <Step title="Bulk Processing">
+    Use bulk categorization for multiple similar transactions.
+  </Step>
+</Steps>
+
+### Pattern Analysis
+
+<Info>
+AI2Fin automatically detects recurring patterns in your transactions, such as monthly bills and regular expenses.
+</Info>
+
+## Next Steps
+
+### Explore Advanced Features
+
+<Columns cols={2}>
+  <Card title="Travel Expenses" icon="car" href="/guides/travel-expenses">
+    Set up vehicle tracking and mileage logging
+  </Card>
+  <Card title="Custom Rules" icon="gear" href="/features/custom-rules">
+    Create automated processing rules
+  </Card>
+  <Card title="Tax Exports" icon="file-export" href="/advanced/exports">
+    Generate ATO-compliant reports
+  </Card>
+  <Card title="API Integration" icon="code" href="/api-reference/introduction">
+    Connect with other business tools
+  </Card>
+</Columns>
+
+### Get Help
+
+<Card title="Need Assistance?" icon="question-circle" href="mailto:support@ai2fin.com">
+Contact our support team for personalized help with setup and configuration.
 </Card>
 
-<Card title="Add code examples" icon="square-code" href="/essentials/code">
-  Include syntax-highlighted code blocks.
-</Card>
+## Troubleshooting
 
-<Card title="API documentation" icon="code" href="/api-reference/introduction">
-  Auto-generate API docs from OpenAPI specs.
-</Card>
+<AccordionGroup>
+  <Accordion title="CSV Import Issues">
+    **Common Problems:**
+    - Incorrect date format
+    - Missing required columns
+    - Special characters in descriptions
+    
+    **Solutions:**
+    - Use DD/MM/YYYY date format
+    - Ensure Amount column exists
+    - Clean up transaction descriptions
+  </Accordion>
+  
+  <Accordion title="Categorization Issues">
+    **Common Problems:**
+    - AI not categorizing transactions
+    - Incorrect category suggestions
+    - Missing categories
+    
+    **Solutions:**
+    - Check AI service status
+    - Provide feedback to improve accuracy
+    - Create missing categories manually
+  </Accordion>
+</AccordionGroup>
 
-</CardGroup>
+---
 
-<Note>
-  **Need help?** See our [full documentation](https://mintlify.com/docs) or join our [community](https://mintlify.com/community).
-</Note>
+**Congratulations!** You're now ready to start using AI2Fin for intelligent financial management. The AI will continue learning from your usage patterns to provide better insights and automation over time.
+
+**Ready for more?** Explore our [Dashboard Navigation Guide](/guides/dashboard-navigation) or learn about [Smart Categorization](/features/smart-categorisation).
