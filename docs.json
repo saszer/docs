@@ -50,6 +50,7 @@
           {
             "group": "2. Personalize",
             "pages": [
+              "features/user-preferences",
               "features/categories",
               "features/custom-rules",
               "features/auto-type-detection",

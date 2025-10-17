@@ -1,0 +1,992 @@
+---
+title: "User Preferences & Settings"
+description: "Configure your country, currency, business type, and AI personalization settings"
+---
+
+## User Preferences Overview
+
+User Preferences allow you to personalize AI2Fin to match your business type, location, industry, and profession. These settings enhance AI categorization accuracy and ensure proper tax calculations for your region.
+
+<Card title="Access Preferences" icon="user-cog" href="https://app.ai2fin.com" horizontal>
+Click your avatar/profile icon in the top-right corner, then select "Preferences" from the dropdown menu.
+</Card>
+
+## Accessing User Preferences
+
+### Navigation Path
+
+<Steps>
+  <Step title="Locate Profile Avatar">
+    Find your profile avatar icon in the top-right corner of the app header (next to notifications).
+  </Step>
+  
+  <Step title="Open User Menu">
+    Click the avatar to open the user dropdown menu.
+  </Step>
+  
+  <Step title="Select Preferences">
+    Click "Preferences" from the menu options to open the User Preferences modal.
+  </Step>
+  
+  <Step title="Configure Settings">
+    Use the tabs to navigate between different preference categories and update your settings.
+  </Step>
+</Steps>
+
+### Quick Access
+
+<Columns cols={2}>
+  <Card title="Avatar Menu Access" icon="user">
+    **Menu Location:**
+    - Top-right corner of app
+    - Next to notification bell icon
+    - Shows your profile initial or photo
+    - Click to open dropdown menu
+  </Card>
+  
+  <Card title="Available Options" icon="menu">
+    **Dropdown Menu:**
+    - **Preferences**: Configure user settings
+    - **Privacy Settings**: Manage data privacy
+    - **Logout**: Sign out of account
+  </Card>
+</Columns>
+
+## Preference Categories
+
+The User Preferences modal is organized into 4 tabs for different setting types.
+
+### 1. Country & Tax Settings
+
+Configure your location, currency, and tax preferences for accurate financial calculations.
+
+<AccordionGroup>
+  <Accordion title="Country Selection">
+    **Available Countries:**
+    - Major Economies: Australia, United Kingdom, United States, Canada
+    - Asia Pacific: Singapore, Japan, India, China, Hong Kong, New Zealand
+    - Europe: Germany, France, Italy, Spain, Netherlands, Ireland, Sweden
+    - Middle East: UAE, Saudi Arabia
+    - Others: 50+ countries supported globally
+    
+    **What Country Controls:**
+    - Default currency display
+    - Tax type (GST/VAT/Sales Tax)
+    - Tax rate defaults
+    - Date and number formatting
+    - Regulatory compliance rules
+    
+    **How to Change:**
+    1. Select country from dropdown
+    2. Currency and tax settings update automatically
+    3. Review tax rate (auto-populated)
+    4. Save preferences
+  </Accordion>
+  
+  <Accordion title="Currency Settings">
+    **Automatic Currency:**
+    - Currency is automatically set based on selected country
+    - Displays appropriate currency symbol ($ £ € ¥ etc.)
+    - Formats amounts according to regional standards
+    
+    **Supported Currencies:**
+    - AUD (Australian Dollar)
+    - USD (US Dollar)
+    - GBP (British Pound)
+    - EUR (Euro)
+    - CAD (Canadian Dollar)
+    - JPY (Japanese Yen)
+    - SGD (Singapore Dollar)
+    - NZD (New Zealand Dollar)
+    - And many more global currencies
+    
+    **Currency Display:**
+    - Used throughout the platform
+    - Transaction amounts
+    - Reports and exports
+    - Dashboard statistics
+  </Accordion>
+  
+  <Accordion title="Tax Rate Configuration">
+    **Tax Type by Country:**
+    - **Australia**: GST 10%
+    - **United Kingdom**: VAT 20%
+    - **United States**: Sales Tax 0% (varies by state)
+    - **Canada**: GST 5% (+ provincial taxes)
+    - **Singapore**: GST 9%
+    - **Germany**: MwSt 19%
+    - **France**: TVA 20%
+    - **Hong Kong**: No Tax 0%
+    
+    **Customizable Tax Rate:**
+    - Select from common rates: 0%, 5%, 10%, 15%, 20%, 25%
+    - Auto-populated based on country
+    - Override if your region has different rate
+    - Applied to all GST/VAT calculations
+    
+    **Tax Rate Usage:**
+    - GST/VAT amount calculations on transactions
+    - Tax-inclusive vs tax-exclusive amounts
+    - Export calculations for tax filing
+    - Business expense reporting
+  </Accordion>
+</AccordionGroup>
+
+### 2. Business Information
+
+Configure your business type for tailored AI categorization and tax rules.
+
+<AccordionGroup>
+  <Accordion title="Business Type Selection">
+    **Required Field** ⭐
+    
+    **Available Business Types (vary by country):**
+    
+    **Australia:**
+    - Sole Trader
+    - Partnership
+    - Company (Pty Ltd)
+    - Trust
+    - Self-Employed
+    - Individual/Personal
+    
+    **United States:**
+    - Sole Proprietorship
+    - LLC (Limited Liability Company)
+    - Corporation (C-Corp, S-Corp)
+    - Partnership
+    - Self-Employed
+    - Individual/Personal
+    
+    **United Kingdom:**
+    - Sole Trader
+    - Limited Company
+    - Partnership
+    - Self-Employed
+    - Individual/Personal
+    
+    **Other Countries:**
+    - Country-specific business structures
+    - Individual/Personal (available everywhere)
+    - Self-Employed (available everywhere)
+    
+    **Why It Matters:**
+    - AI categorization tailored to your business structure
+    - Tax rules specific to entity type
+    - Deduction eligibility based on structure
+    - Compliance requirements by business type
+  </Accordion>
+  
+  <Accordion title="Business Type Impact">
+    **How Business Type Affects Platform:**
+    
+    **Sole Trader/Sole Proprietorship:**
+    - Focus on individual business expenses
+    - Home office deductions enabled
+    - Vehicle expense tracking (business use %)
+    - Professional services categorization
+    
+    **Company/Corporation:**
+    - Corporate expense categories
+    - Employee-related expenses
+    - Capital expenditure tracking
+    - Depreciation considerations
+    
+    **Individual/Personal:**
+    - Personal finance focus
+    - Investment tracking
+    - Personal tax deductions
+    - General expense categories
+    
+    **Self-Employed/Freelancer:**
+    - Project-based expense tracking
+    - Client-related expenses
+    - Equipment and software deductions
+    - Professional development costs
+  </Accordion>
+</AccordionGroup>
+
+### 3. Profession & Industry
+
+Help AI understand your work context for smarter categorization.
+
+<AccordionGroup>
+  <Accordion title="Profession Selection">
+    **Required Field** ⭐
+    
+    **Common Professions:**
+    - Software Developer
+    - Accountant
+    - Teacher
+    - Doctor/Nurse
+    - Lawyer
+    - Engineer
+    - Consultant
+    - Manager
+    - Salesperson
+    - Designer
+    - Contractor
+    - Freelancer
+    - Analyst
+    - Other (custom input)
+    
+    **How Profession Enhances AI:**
+    - **Industry-Specific Expenses**: Recognizes profession-related costs
+    - **Tool Recognition**: Identifies professional tools and software
+    - **Typical Deductions**: Knows common deductions for your profession
+    - **Vendor Patterns**: Understands professional service providers
+    
+    **Examples:**
+    - **Software Developer**: Recognizes cloud hosting, developer tools, SaaS
+    - **Consultant**: Identifies client meetings, travel, professional fees
+    - **Accountant**: Understands accounting software, licenses, memberships
+    - **Teacher**: Recognizes educational materials, classroom supplies
+  </Accordion>
+  
+  <Accordion title="Industry Classification">
+    **Required Field** ⭐
+    
+    **Supported Industries:**
+    - Technology
+    - Finance
+    - Healthcare
+    - Education
+    - Manufacturing
+    - Retail
+    - Construction
+    - Agriculture
+    - Transportation
+    - Entertainment
+    - Real Estate
+    - Consulting
+    - Legal
+    - Marketing
+    - Other (custom)
+    
+    **Industry-Specific Benefits:**
+    - **Technology**: SaaS subscriptions, hosting, developer tools
+    - **Finance**: Professional services, compliance software, data feeds
+    - **Healthcare**: Medical supplies, equipment, insurance
+    - **Retail**: Inventory, point-of-sale, merchant fees
+    - **Construction**: Materials, equipment rental, subcontractors
+    - **Consulting**: Travel, client entertainment, professional development
+    
+    **AI Learning:**
+    - AI learns typical expenses for your industry
+    - Recognizes industry-specific vendors
+    - Suggests relevant categories
+    - Identifies unusual transactions
+  </Accordion>
+</AccordionGroup>
+
+### 4. AI Customization (Customize Tab)
+
+Personalize AI behavior with custom context for enhanced categorization.
+
+<AccordionGroup>
+  <Accordion title="AI Context Input">
+    **Custom AI Profile:**
+    - Optional field for additional context
+    - Free-text description of your business
+    - Special categorization needs
+    - Unique expense patterns
+    
+    **What to Include:**
+    - **Business Focus**: "E-commerce business selling handmade jewelry"
+    - **Special Expenses**: "Frequent travel for client meetings"
+    - **Unique Categories**: "Trade show expenses, influencer partnerships"
+    - **Preferences**: "Separate home office expenses by room"
+    
+    **Examples:**
+    
+    **Freelance Photographer:**
+    ```
+    Freelance wedding photographer. Common expenses include:
+    - Camera equipment and lenses
+    - Studio rental for editing
+    - Travel to wedding venues
+    - Photo editing software subscriptions
+    - Marketing and advertising costs
+    ```
+    
+    **E-Commerce Seller:**
+    ```
+    Online retail business selling eco-friendly products.
+    Main expenses: inventory, packaging materials, 
+    shipping costs, marketplace fees (Etsy, Amazon), 
+    Facebook ads, product photography.
+    ```
+    
+    **Consultant:**
+    ```
+    Business consultant specializing in SME growth.
+    Frequent client travel, conference attendance,
+    professional development courses, industry software,
+    client entertainment within guidelines.
+    ```
+    
+    **How AI Uses Context:**
+    - Improves categorization accuracy
+    - Recognizes business-specific vendors
+    - Suggests relevant expense categories
+    - Adapts to your unique patterns
+  </Accordion>
+  
+  <Accordion title="Display Preferences">
+    **View Mode Defaults:**
+    - **Table View**: Default transaction display mode
+    - **Categorized View**: Group by categories
+    - **Monthly View**: Organize by months
+    
+    **Conversion Mode:**
+    - **Auto**: Automatically convert currencies
+    - **Manual**: Require manual confirmation
+    - **Disabled**: No currency conversion
+    
+    **These settings are optional and enhance your workflow.**
+  </Accordion>
+</AccordionGroup>
+
+## Saving Preferences
+
+### Save Process
+
+<Steps>
+  <Step title="Complete Required Fields">
+    Ensure all required fields are filled:
+    - Business Type ⭐
+    - Profession ⭐
+    - Industry ⭐
+  </Step>
+  
+  <Step title="Review All Tabs">
+    Verify settings across all 4 tabs are correct.
+  </Step>
+  
+  <Step title="Click Save">
+    Click the "Save Preferences" button at the bottom of the modal.
+  </Step>
+  
+  <Step title="Confirmation">
+    Success message appears. Preferences are saved and applied immediately.
+  </Step>
+</Steps>
+
+### What Happens After Saving
+
+<Card title="Automatic Updates" icon="refresh">
+**Settings Apply Immediately:**
+- Transaction data refreshes with new preferences
+- AI categorization uses updated profile
+- Currency display updates throughout app
+- Tax calculations use new rates
+- No page reload required
+</Card>
+
+<Columns cols={2}>
+  <Card title="AI Recategorization" icon="brain">
+    **Enhanced AI:**
+    - Existing transactions may be re-analyzed
+    - New categorization suggestions
+    - Improved accuracy with profile data
+    - Better deduction identification
+  </Card>
+  
+  <Card title="Tax Recalculation" icon="calculator">
+    **Updated Calculations:**
+    - GST/VAT amounts recalculated
+    - Tax rates updated for all transactions
+    - Export data uses new settings
+    - Compliance checks with new rules
+  </Card>
+</Columns>
+
+## Common Use Cases
+
+### Initial Setup
+
+<AccordionGroup>
+  <Accordion title="First-Time User Setup">
+    **Complete Profile Workflow:**
+    
+    **Step 1: Country & Tax (Tab 1)**
+    1. Select your country
+    2. Verify currency is correct
+    3. Confirm tax rate (auto-populated)
+    
+    **Step 2: Business Info (Tab 2)**
+    1. Select your business type
+    2. Review description
+    3. Understand tax implications
+    
+    **Step 3: Profession & Industry (Tab 3)**
+    1. Select your profession
+    2. Choose your industry
+    3. Provide additional context if needed
+    
+    **Step 4: AI Customization (Tab 4)**
+    1. (Optional) Add AI context input
+    2. Describe unique business aspects
+    3. Specify special expense patterns
+    
+    **Step 5: Save**
+    1. Review all tabs
+    2. Click Save Preferences
+    3. Start using the platform
+  </Accordion>
+  
+  <Accordion title="Business Relocation">
+    **Changing Countries:**
+    
+    **Scenario:** Moving business from Australia to UK
+    
+    1. Open User Preferences
+    2. Go to Country & Tax tab
+    3. Change country: AU → GB
+    4. Verify currency: AUD → GBP
+    5. Review tax rate: GST 10% → VAT 20%
+    6. Update business type if structure changed
+    7. Save preferences
+    
+    **Impact:**
+    - All existing transactions keep original currency
+    - New transactions use GBP
+    - Tax calculations update to VAT
+    - Categories remain unchanged
+    - Export formats adjust to UK requirements
+  </Accordion>
+  
+  <Accordion title="Career Change">
+    **Updating Profession:**
+    
+    **Scenario:** Changed from Employee to Freelance Consultant
+    
+    1. Open User Preferences
+    2. Go to Profession & Industry tab
+    3. Update profession: "Employee" → "Consultant"
+    4. Update business type: "Individual" → "Sole Trader"
+    5. Add AI context about consulting focus
+    6. Save preferences
+    
+    **AI Adaptation:**
+    - Recognizes consultant-specific expenses
+    - Identifies client-related costs
+    - Suggests travel and entertainment categories
+    - Improves professional service categorization
+  </Accordion>
+  
+  <Accordion title="Tax Rate Adjustment">
+    **Custom Tax Rates:**
+    
+    **Scenario:** Different state/provincial tax rate
+    
+    1. Go to Country & Tax tab
+    2. Keep country selection
+    3. Modify tax rate to match your region
+    4. Save preferences
+    
+    **Use Cases:**
+    - US state-specific sales tax
+    - Canadian provincial GST/PST
+    - Special economic zones
+    - Reduced tax rates
+  </Accordion>
+</AccordionGroup>
+
+## Preference Details
+
+### Country & Tax Tab
+
+<Card title="Tab 1: Country & Tax" icon="globe">
+Configure location-based settings for currency and tax compliance.
+</Card>
+
+<AccordionGroup>
+  <Accordion title="Country Field">
+    **Country Dropdown:**
+    - Searchable list of 50+ countries
+    - Shows country name and currency code
+    - Automatically updates currency and tax defaults
+    - Affects all financial calculations
+    
+    **Country Information Displayed:**
+    - Country name and flag (if available)
+    - Currency code (e.g., AUD, USD, GBP)
+    - Default tax type (GST/VAT/Sales Tax)
+    - Standard tax rate for country
+  </Accordion>
+  
+  <Accordion title="Tax Rate Field">
+    **Tax Rate Options:**
+    - 0% (No tax or tax-exempt)
+    - 5% (Canada GST, UAE VAT, etc.)
+    - 10% (Australia GST, Japan Consumption Tax)
+    - 15% (New Zealand GST, Saudi Arabia VAT)
+    - 20% (UK VAT, EU standard)
+    - 25% (Sweden, Norway VAT)
+    
+    **Tax Type Indicator:**
+    - Shows tax type label: GST, VAT, Sales Tax, etc.
+    - Country-specific tax terminology
+    - Updates based on country selection
+    
+    **Custom Rates:**
+    - Select closest rate from dropdown
+    - Platform supports any rate between 0-25%
+    - Used for all tax calculations
+  </Accordion>
+  
+  <Accordion title="Tax Settings Impact">
+    **Where Tax Settings Apply:**
+    - GST/VAT calculations on transactions
+    - Tax Export reports and summaries
+    - Intelligent Tax Analysis results
+    - Deduction calculations
+    - Compliance checking
+    
+    **Global Compliance:**
+    - Adapts to regional tax rules
+    - Uses correct terminology (GST vs VAT)
+    - Formats exports for local authorities
+    - Maintains tax compliance standards
+  </Accordion>
+</AccordionGroup>
+
+### Business Info Tab
+
+<Card title="Tab 2: Business Info" icon="briefcase">
+Select your business structure for accurate tax treatment and AI categorization.
+</Card>
+
+<AccordionGroup>
+  <Accordion title="Business Type Options">
+    **Common Business Structures:**
+    
+    **Individual/Personal:**
+    - Personal finance management
+    - Non-business users
+    - Personal tax returns
+    - General expense tracking
+    
+    **Sole Trader/Sole Proprietorship:**
+    - Single owner business
+    - Personal liability
+    - Pass-through taxation
+    - Home office deductions
+    
+    **Company/Corporation:**
+    - Separate legal entity
+    - Corporate tax structure
+    - Employee expenses
+    - Formal reporting requirements
+    
+    **Partnership:**
+    - Multi-owner business
+    - Shared profits/losses
+    - Partnership tax returns
+    - Allocation tracking
+    
+    **Self-Employed/Freelancer:**
+    - Independent contractor
+    - Project-based work
+    - Client expense tracking
+    - Professional deductions
+    
+    **Trust:**
+    - Trust entity management
+    - Beneficiary allocations
+    - Trust tax reporting
+    - Asset management
+  </Accordion>
+  
+  <Accordion title="Business Type Selection Guide">
+    **How to Choose:**
+    
+    **Questions to Consider:**
+    - Are you operating a business or managing personal finances?
+    - Is your business a separate legal entity?
+    - Do you have employees or work solo?
+    - What tax structure do you use?
+    
+    **Selection Impact:**
+    - **AI Categorization**: Adapts to business structure
+    - **Expense Categories**: Shows relevant categories
+    - **Tax Rules**: Applies structure-specific rules
+    - **Deductions**: Identifies eligible deductions
+    - **Reporting**: Generates appropriate reports
+    
+    **If Unsure:**
+    - Select "Individual/Personal" for personal use
+    - Select "Self-Employed" for freelance work
+    - Select "Sole Trader" for small business
+    - Consult tax advisor for complex structures
+  </Accordion>
+</AccordionGroup>
+
+### Profession & Industry Tab
+
+<Card title="Tab 3: Profession & Industry" icon="work">
+Help AI understand your work for intelligent expense recognition.
+</Card>
+
+<AccordionGroup>
+  <Accordion title="Profession Field">
+    **Required Field** ⭐
+    
+    **Why Profession Matters:**
+    - AI recognizes profession-specific expenses
+    - Identifies typical business tools and services
+    - Suggests relevant expense categories
+    - Improves deduction identification
+    
+    **Profession Examples & Typical Expenses:**
+    
+    **Software Developer:**
+    - Cloud hosting (AWS, Azure, Google Cloud)
+    - Developer tools (GitHub, JetBrains)
+    - Learning platforms (Udemy, Pluralsight)
+    - Co-working spaces
+    
+    **Accountant:**
+    - Accounting software (Xero, QuickBooks)
+    - Professional licenses and memberships
+    - CPE courses and training
+    - Tax research tools
+    
+    **Consultant:**
+    - Client travel and accommodation
+    - Meeting expenses and entertainment
+    - Professional development
+    - Business networking events
+    
+    **Designer:**
+    - Design software (Adobe Creative Cloud)
+    - Stock photos and assets
+    - Client presentations
+    - Portfolio website hosting
+  </Accordion>
+  
+  <Accordion title="Industry Field">
+    **Required Field** ⭐
+    
+    **Industry-Specific Recognition:**
+    
+    **Technology:**
+    - SaaS subscriptions and API costs
+    - Cloud infrastructure and hosting
+    - Developer tools and licenses
+    - Tech conference attendance
+    
+    **Healthcare:**
+    - Medical supplies and equipment
+    - Professional liability insurance
+    - Continuing medical education
+    - Patient management software
+    
+    **Retail:**
+    - Inventory purchases
+    - Point-of-sale systems
+    - Merchant processing fees
+    - Store fixtures and displays
+    
+    **Construction:**
+    - Materials and supplies
+    - Equipment rental
+    - Subcontractor payments
+    - Safety gear and compliance
+    
+    **How AI Uses Industry:**
+    - Recognizes industry-standard vendors
+    - Identifies common business expenses
+    - Suggests appropriate categories
+    - Flags unusual transactions
+  </Accordion>
+</AccordionGroup>
+
+### Customize Tab
+
+<Card title="Tab 4: Customize" icon="palette">
+Advanced AI personalization for unique business needs.
+</Card>
+
+<AccordionGroup>
+  <Accordion title="AI Context Input">
+    **Optional Field - Maximum AI Accuracy**
+    
+    **What to Write:**
+    - Brief description of your business (2-5 sentences)
+    - Unique expense patterns or categories
+    - Special business activities
+    - Regular vendors or services
+    - Any context that helps AI understand your finances
+    
+    **Character Limit:**
+    - Recommended: 200-500 characters
+    - Maximum: 2000 characters
+    - Quality over quantity
+    
+    **Best Practices:**
+    - Be specific about your business activities
+    - Mention frequent expense types
+    - Include industry jargon or terms
+    - Note any special categories you use
+    - Describe regular vendors or services
+    
+    **Example Inputs:**
+    
+    **Online Course Creator:**
+    ```
+    I create and sell online courses about digital marketing.
+    Regular expenses include: video editing software (Adobe),
+    hosting platforms (Teachable, Kajabi), email marketing 
+    (ConvertKit), stock footage, microphone equipment, and 
+    freelance video editors. Also attend marketing conferences.
+    ```
+    
+    **Mobile App Developer:**
+    ```
+    Indie mobile app developer creating iOS and Android apps.
+    Expenses: Apple Developer Program, Google Play Console,
+    cloud backend (Firebase), analytics tools, design assets,
+    beta testing services, app store optimization tools.
+    ```
+    
+    **Coffee Shop Owner:**
+    ```
+    Small cafe specializing in specialty coffee. Regular costs:
+    coffee beans wholesale, milk and ingredients, bakery supplies,
+    equipment maintenance, POS system, staff wages, utilities,
+    rent, marketing materials, and seasonal decorations.
+    ```
+  </Accordion>
+  
+  <Accordion title="Display & Behavior Preferences">
+    **Optional Settings:**
+    
+    **Default View Mode:**
+    - Table View (list format)
+    - Categorized View (grouped)
+    - Monthly View (by month)
+    
+    **Default Conversion Mode:**
+    - Auto (automatic categorization)
+    - Manual (require confirmation)
+    - Disabled (no auto-conversion)
+    
+    **These are workflow preferences that don't affect AI accuracy.**
+  </Accordion>
+</AccordionGroup>
+
+## Best Practices
+
+### Setting Up Preferences
+
+<Columns cols={2}>
+  <Card title="Complete All Required Fields" icon="check-circle">
+    **Must Complete:**
+    - Country selection
+    - Business type
+    - Profession
+    - Industry
+    
+    **Why Required:**
+    - Ensures AI has minimum context
+    - Enables accurate categorization
+    - Proper tax calculations
+    - Compliance with regional rules
+  </Card>
+  
+  <Card title="Add AI Context" icon="brain">
+    **Recommended:**
+    - Add 2-5 sentence description
+    - Mention unique expense types
+    - List common vendors
+    - Describe business focus
+    
+    **Benefits:**
+    - 20-30% better categorization accuracy
+    - Fewer manual corrections needed
+    - Faster processing of imports
+    - Better pattern recognition
+  </Card>
+  
+  <Card title="Keep Preferences Updated" icon="sync">
+    **Update When:**
+    - Business structure changes
+    - Moving to different country
+    - Changing professions
+    - Adding new business activities
+    - Tax rules change
+    
+    **Maintenance:**
+    - Review preferences quarterly
+    - Update after major changes
+    - Refine AI context as needed
+  </Card>
+  
+  <Card title="Test After Changes" icon="experiment">
+    **Verification Steps:**
+    - Upload sample transactions
+    - Review AI categorization
+    - Check currency formatting
+    - Verify tax calculations
+    - Test exports
+    
+    **Ensure:**
+    - Settings applied correctly
+    - AI accuracy improved
+    - Tax rates accurate
+    - No unexpected changes
+  </Card>
+</Columns>
+
+### Optimization Tips
+
+<AccordionGroup>
+  <Accordion title="Maximize AI Accuracy">
+    **Tips for Better Categorization:**
+    
+    1. **Be Specific**: "Freelance web developer" better than "IT"
+    2. **Add Context**: Describe your actual business activities
+    3. **List Vendors**: Mention regular merchants and services
+    4. **Update Regularly**: Refresh when business evolves
+    5. **Test and Refine**: Review AI suggestions and adjust context
+    
+    **Impact:**
+    - Higher confidence scores
+    - Fewer manual corrections
+    - Better pattern recognition
+    - Faster processing
+  </Accordion>
+  
+  <Accordion title="Multi-Business Management">
+    **Managing Multiple Businesses:**
+    
+    **Challenge:**
+    - Single account, multiple business activities
+    - Different tax treatments per business
+    - Varied expense patterns
+    
+    **Solution:**
+    1. Choose primary business type
+    2. In AI Context, mention secondary activities
+    3. Use Custom Rules for business-specific categorization
+    4. Use Categories to separate businesses
+    5. Consider separate accounts for very different businesses
+    
+    **Example Context:**
+    ```
+    Primary: Freelance graphic designer.
+    Secondary: Part-time Etsy shop selling prints.
+    Design expenses: Adobe, Wacom tablet, stock photos.
+    Shop expenses: Etsy fees, printing, packaging, shipping.
+    ```
+  </Accordion>
+  
+  <Accordion title="International Business">
+    **Multi-Country Operations:**
+    
+    **Setup:**
+    - Select primary operating country
+    - Set currency to main business currency
+    - Mention international operations in AI context
+    
+    **AI Context Example:**
+    ```
+    Software consultancy based in Singapore, serving 
+    international clients. Regular USD and EUR transactions.
+    Travel to US and Europe for client meetings.
+    Multi-currency expenses for cloud services and tools.
+    ```
+    
+    **Handling:**
+    - Platform supports multi-currency transactions
+    - Tax rules based on primary country
+    - Custom Rules for country-specific expenses
+    - Separate categories for international costs
+  </Accordion>
+</AccordionGroup>
+
+## Troubleshooting
+
+<AccordionGroup>
+  <Accordion title="Cannot Save Preferences">
+    **Missing Required Fields:**
+    - Error message shows which fields are missing
+    - Navigate to appropriate tab (highlighted)
+    - Fill in required fields marked with ⭐
+    - Try saving again
+    
+    **Common Issues:**
+    - Business Type not selected
+    - Profession field empty
+    - Industry not chosen
+    - Country not selected
+  </Accordion>
+  
+  <Accordion title="Wrong Currency Displaying">
+    **Fix Currency Issues:**
+    1. Open User Preferences
+    2. Go to Country & Tax tab
+    3. Verify country is correct
+    4. Currency should match country
+    5. If mismatch, change country or contact support
+    6. Save preferences
+    7. Refresh page to see updates
+  </Accordion>
+  
+  <Accordion title="Tax Rate Incorrect">
+    **Adjust Tax Rate:**
+    1. Open User Preferences
+    2. Country & Tax tab
+    3. Check country selection
+    4. Manually select correct tax rate from dropdown
+    5. Save preferences
+    
+    **Note:** Tax rate is customizable per region/state
+  </Accordion>
+  
+  <Accordion title="AI Not Recognizing Expenses">
+    **Improve AI Understanding:**
+    1. Open User Preferences
+    2. Go to Customize tab (Tab 4)
+    3. Add detailed AI Context Input
+    4. Describe specific expense patterns
+    5. Mention vendors and services
+    6. Save and test with new transactions
+    
+    **If Still Issues:**
+    - Use Custom Rules for specific patterns
+    - Manually categorize to train AI
+    - Review Profession and Industry selections
+  </Accordion>
+</AccordionGroup>
+
+## Security & Privacy
+
+### Data Protection
+
+<Columns cols={2}>
+  <Card title="Preference Storage" icon="shield">
+    **Secure Storage:**
+    - Encrypted in database
+    - User-specific data isolation
+    - No sharing with third parties
+    - GDPR compliant
+  </Card>
+  
+  <Card title="AI Context Privacy" icon="lock">
+    **Context Data Usage:**
+    - Used only for your AI categorization
+    - Not shared between users
+    - Not used for marketing
+    - Can be deleted anytime
+  </Card>
+</Columns>
+
+---
+
+**Related Features:** After setting preferences, use [Smart Categorize](/features/ai-analysis-tools) to see improved AI accuracy, or explore [Custom Rules](/features/custom-rules) for business-specific automation.
+
+*User Preferences - Personalize AI2Fin to match your unique business needs.*
+
