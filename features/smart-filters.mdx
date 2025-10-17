@@ -1,0 +1,626 @@
+---
+title: "Smart Filters"
+description: "Master the powerful filtering system to efficiently find and analyze transactions"
+---
+
+## Smart Filters Overview
+
+Smart Filters provide a comprehensive filtering system that allows you to narrow down transactions for viewing, analysis, and processing. The filter system integrates seamlessly with all AI analysis tools and export features.
+
+<Card title="Access Smart Filters" icon="filter" href="https://app.ai2fin.com/all-transactions" horizontal>
+Smart Filters appear at the top of the All Transactions page in an expandable card interface.
+</Card>
+
+## Getting Started with Smart Filters
+
+### Accessing Smart Filters
+
+<Steps>
+  <Step title="Navigate to All Transactions">
+    Go to the All Transactions page from the sidebar under "3. Analysis & Management".
+  </Step>
+  
+  <Step title="Locate Smart Filters Card">
+    Find the "Smart Filters" expandable card at the top of the page, just below the page header.
+  </Step>
+  
+  <Step title="Expand Filter Panel">
+    Click to expand the filters panel. The panel shows the number of active filters in a badge.
+  </Step>
+  
+  <Step title="Apply Filters">
+    Use tabs to switch between Quick Mode (presets) and Advanced Mode (custom filters). Filters apply automatically as you change them.
+  </Step>
+</Steps>
+
+### Filter Modes
+
+<Columns cols={2}>
+  <Card title="Quick Mode" icon="bolt">
+    **Pre-configured Filters:**
+    - One-click filter application
+    - Common use case presets
+    - Combine multiple quick filters
+    - Instant filter combinations
+    
+    **Examples:**
+    - This Month + Tax Deductible
+    - Uncategorized + Needs Analysis
+    - Bills Only + Over $100
+  </Card>
+  
+  <Card title="Advanced Mode" icon="sliders">
+    **Custom Filtering:**
+    - Detailed filter controls
+    - Multiple criteria combination
+    - Precise date and amount ranges
+    - Category and type selection
+    
+    **Features:**
+    - Search with AI enhancement
+    - Custom date ranges
+    - Multi-select categories
+    - Source filtering
+  </Card>
+</Columns>
+
+## Filter Categories
+
+### Date & Time Filters
+
+Control the time range of transactions to view and analyze.
+
+<AccordionGroup>
+  <Accordion title="Date Presets">
+    **Quick Date Ranges:**
+    - **Today**: Transactions from today only
+    - **This Week**: Current week (Monday to Sunday)
+    - **This Month**: Current calendar month
+    - **Last Month**: Previous calendar month
+    - **This Year**: Current calendar year
+    - **Last Year**: Previous calendar year
+    - **All Time**: No date filtering
+    
+    **Individual Month Presets:**
+    - January through December for specific month filtering
+    - Useful for monthly reporting and reconciliation
+    - Automatically calculates date range for selected month
+  </Accordion>
+  
+  <Accordion title="Custom Date Ranges">
+    **Flexible Date Selection:**
+    - **Date From**: Select start date for range
+    - **Date To**: Select end date for range
+    - **Calendar Picker**: Visual date selection
+    - **Manual Entry**: Type dates directly
+    
+    **Date Range Tips:**
+    - Leave "Date From" empty to filter "up to" a date
+    - Leave "Date To" empty to filter "from" a date onwards
+    - Both fields empty = All Time
+    - Date filters persist across sessions
+  </Accordion>
+  
+  <Accordion title="Date Filter Behavior">
+    **How Dates Work:**
+    - Filters apply to transaction date (not upload date)
+    - Inclusive of both start and end dates
+    - Time component ignored (full day filtering)
+    - Timezone aware (uses your local timezone)
+    
+    **Use Cases:**
+    - **Tax Year Filtering**: Set to financial/tax year dates
+    - **Monthly Review**: Use "This Month" preset
+    - **Historical Analysis**: Custom range for specific period
+    - **Quarter Reports**: Set 3-month ranges
+  </Accordion>
+</AccordionGroup>
+
+### Search & Text Filters
+
+Find transactions using text-based search with optional AI enhancement.
+
+<AccordionGroup>
+  <Accordion title="Search Query">
+    **What You Can Search:**
+    - **Transaction Description**: Original bank description
+    - **Merchant Name**: Extracted merchant/vendor name
+    - **Category Name**: Assigned category names
+    - **Pattern Name**: Associated recurring pattern name
+    - **Notes**: Custom notes added to transactions
+    
+    **Search Features:**
+    - **Real-time Search**: Results update as you type (debounced)
+    - **Case Insensitive**: Matches regardless of letter case
+    - **Partial Matching**: Finds partial word matches
+    - **Multiple Words**: Space-separated terms (AND logic)
+    
+    **Search Tips:**
+    - Use specific merchant names for precise results
+    - Press Enter for immediate refresh (bypasses debounce)
+    - Clear search to reset results
+    - Combine with other filters for targeted search
+  </Accordion>
+  
+  <Accordion title="AI-Enhanced Search">
+    **Intelligent Search Toggle:**
+    - Enable AI for semantic search understanding
+    - Finds conceptually related transactions
+    - Natural language query support
+    - Context-aware matching
+    
+    **AI Search Benefits:**
+    - **Synonym Matching**: "Food" finds "Restaurants", "Groceries"
+    - **Intent Understanding**: "Business meals" finds relevant expenses
+    - **Related Concepts**: "Travel" includes flights, hotels, car rentals
+    - **Smart Categorization**: Understands spending categories
+    
+    **When to Use AI Search:**
+    - Broad exploratory searches
+    - Finding related transactions
+    - Natural language queries
+    - Category-based searches
+    
+    **When to Use Standard Search:**
+    - Exact merchant name lookup
+    - Specific transaction reference
+    - Known description text
+    - Faster performance needed
+  </Accordion>
+</AccordionGroup>
+
+### Amount & Value Filters
+
+Filter transactions by monetary amounts and transaction direction.
+
+<AccordionGroup>
+  <Accordion title="Amount Range Filtering">
+    **Amount Controls:**
+    - **Minimum Amount**: Lower bound (inclusive)
+    - **Maximum Amount**: Upper bound (inclusive)
+    - **Currency Aware**: Uses your account currency
+    - **Absolute Values**: Filters work on absolute amounts
+    
+    **Range Options:**
+    - **Min Only**: Find transactions above a threshold
+    - **Max Only**: Find transactions below a threshold
+    - **Both**: Precise range filtering (e.g., $100-$500)
+    - **Neither**: No amount filtering
+    
+    **Common Use Cases:**
+    - **Large Transactions**: Set min to $1,000+ for major expenses
+    - **Small Expenses**: Set max to $50 for minor purchases
+    - **Mid-Range**: $100-$1,000 for typical business expenses
+    - **Subscription Range**: $5-$50 for subscription services
+  </Accordion>
+  
+  <Accordion title="Transaction Direction">
+    **Type Filters:**
+    - **All Types**: Show both debits and credits
+    - **Debits Only**: Outgoing transactions (expenses, payments)
+    - **Credits Only**: Incoming transactions (income, refunds)
+    - **Combination**: Use with amount filters for precision
+    
+    **Debit/Credit Usage:**
+    - **Expense Analysis**: Filter debits for spending review
+    - **Income Tracking**: Filter credits for revenue analysis
+    - **Refund Identification**: Credits + specific merchant
+    - **Payment Verification**: Debits + amount range
+  </Accordion>
+</AccordionGroup>
+
+### Category & Classification Filters
+
+Filter by transaction categories, types, and classification status.
+
+<AccordionGroup>
+  <Accordion title="Category Filtering">
+    **Category Selection:**
+    - **Multi-Select**: Choose multiple categories at once
+    - **Dropdown Interface**: Searchable category list
+    - **Hierarchical Display**: Parent and child categories
+    - **All Categories Option**: Clear category filter
+    
+    **Special Category Filters:**
+    - **Uncategorized Only**: Transactions without categories
+    - **Tax Deductible Only**: Flag for deductible expenses
+    - **Specific Categories**: Focus on particular expense types
+    
+    **Category Filter Tips:**
+    - Combine with date filters for period analysis
+    - Use for category performance review
+    - Identify miscategorized transactions
+    - Track specific business expense categories
+  </Accordion>
+  
+  <Accordion title="Transaction Nature Filters">
+    **Nature Types:**
+    - **BILL**: Recurring bills and subscriptions
+    - **EXPENSE**: One-time expense transactions
+    - **INCOME**: Income and revenue transactions
+    - **TRANSFER**: Internal account transfers
+    
+    **When to Use:**
+    - **Bill Analysis**: Filter bills for subscription review
+    - **Expense Reports**: One-time expenses for reporting
+    - **Income Tracking**: Revenue and income analysis
+    - **Transfer Exclusion**: Remove transfers from expense reports
+  </Accordion>
+  
+  <Accordion title="Analysis Status Filters">
+    **AI Analysis Flags:**
+    - **Has AI Analysis**: Transactions already processed by AI
+    - **Needs Analysis**: Transactions pending AI review
+    - **Already Analysed**: Used for selective re-analysis
+    - **Combination Use**: Find unprocessed transactions
+    
+    **Use Cases:**
+    - **Maintenance**: Find transactions needing attention
+    - **Verification**: Review AI-processed transactions
+    - **Selective Processing**: Analyze only new transactions
+    - **Quality Control**: Audit AI categorization results
+  </Accordion>
+  
+  <Accordion title="Recurring Pattern Filters">
+    **Recurrence Filtering:**
+    - **Recurring Only**: Show only recurring transactions
+    - **Pattern Association**: Filter by specific patterns
+    - **One-Time Only**: Exclude recurring transactions
+    
+    **Pattern Filter Benefits:**
+    - Isolate subscription expenses
+    - Review recurring bill performance
+    - Identify pattern anomalies
+    - Exclude recurring from one-time analysis
+  </Accordion>
+</AccordionGroup>
+
+### Source & Data Filters
+
+Filter by data source, import batch, and originating account.
+
+<AccordionGroup>
+  <Accordion title="Data Bucket Filtering">
+    **What Are Data Buckets:**
+    - Each CSV/PDF import creates a data bucket
+    - Contains metadata: bank name, account, upload date
+    - Allows filtering by specific imports
+    - Useful for data validation and reconciliation
+    
+    **Data Bucket Information:**
+    - **File Name**: Original upload filename
+    - **Bank Name**: Extracted or user-provided bank name
+    - **Account Number**: Last digits of account
+    - **Upload Date**: When data was imported
+    
+    **Use Cases:**
+    - **Import Verification**: Check specific import accuracy
+    - **Account Separation**: Filter by individual accounts
+    - **Time-Based Review**: Recent imports vs historical
+    - **Multi-Account Management**: Isolate specific accounts
+  </Accordion>
+  
+  <Accordion title="Source Filtering Strategies">
+    **Strategic Uses:**
+    - **Bank Account Segregation**: Personal vs business accounts
+    - **Import Comparison**: Compare data from different sources
+    - **Error Isolation**: Troubleshoot specific import issues
+    - **Reconciliation**: Match imports to bank statements
+    
+    **Filtering Tips:**
+    - Select multiple buckets for combined account view
+    - Use with date filters for period-specific imports
+    - Clear to view all sources combined
+    - Useful for duplicate detection across imports
+  </Accordion>
+</AccordionGroup>
+
+## Quick Filters (Presets)
+
+Pre-configured filter combinations for common use cases.
+
+### Available Quick Filters
+
+<Columns cols={2}>
+  <Card title="Time-Based Presets" icon="calendar">
+    **Quick Date Filters:**
+    - **This Month**: Current month transactions
+    - Auto-updates daily
+    - Most common filter
+    - Combine with other presets
+  </Card>
+  
+  <Card title="Analysis Presets" icon="brain">
+    **AI Status Filters:**
+    - **Already Analysed**: AI-processed transactions
+    - **Needs Analysis**: Pending AI review
+    - Quick categorization workflow
+    - Quality control checks
+  </Card>
+  
+  <Card title="Type Presets" icon="tag">
+    **Transaction Type Filters:**
+    - **Bills Only**: Recurring bills
+    - **Expenses Only**: One-time expenses
+    - **Debits Only**: Outgoing transactions
+    - **Credits Only**: Incoming transactions
+  </Card>
+  
+  <Card title="Special Filters" icon="star">
+    **Targeted Presets:**
+    - **Tax Deductible**: Deductible expenses
+    - **Uncategorized**: Needs categorization
+    - **Over $100**: Large transactions
+    - **Recurring**: Pattern-linked transactions
+  </Card>
+</Columns>
+
+### Quick Filter Combinations
+
+<AccordionGroup>
+  <Accordion title="Common Workflow Combinations">
+    **Effective Preset Combos:**
+    
+    **Monthly Maintenance:**
+    - This Month + Uncategorized
+    - Review and categorize new transactions
+    
+    **Tax Preparation:**
+    - This Year + Tax Deductible
+    - Compile annual deductible expenses
+    
+    **Bill Review:**
+    - Bills Only + This Month
+    - Monitor recurring subscriptions
+    
+    **Large Expense Analysis:**
+    - Over $100 + Expenses Only
+    - Review significant spending
+    
+    **Quality Control:**
+    - Needs Analysis + This Month
+    - Find transactions needing AI review
+  </Accordion>
+  
+  <Accordion title="How to Combine Quick Filters">
+    **Combination Methods:**
+    1. Click first quick filter
+    2. Click additional quick filters to add
+    3. Filters combine with AND logic
+    4. Clear all to reset
+    5. Switch to Advanced for more control
+    
+    **Tips:**
+    - Quick filters stack (combine multiple)
+    - Each adds to active filter set
+    - Badge shows total active filters
+    - Clear All removes all quick filters
+  </Accordion>
+</AccordionGroup>
+
+## Filter Persistence & Management
+
+### Session Persistence
+
+<Info>
+**Filters Are Automatically Saved**
+
+All Smart Filter settings are stored in your browser session and automatically restored when you return to the All Transactions page.
+</Info>
+
+<Columns cols={2}>
+  <Card title="What Gets Saved" icon="save">
+    **Persisted Settings:**
+    - Active filter selections
+    - Date range preferences
+    - Search query text
+    - Category selections
+    - Quick filter combinations
+    - AI search toggle state
+  </Card>
+  
+  <Card title="Session Behavior" icon="refresh">
+    **Persistence Details:**
+    - Saved to browser sessionStorage
+    - Persists within browser tab
+    - Restored on page navigation
+    - Cleared on browser close
+    - Independent per browser tab
+  </Card>
+</Columns>
+
+### Managing Filters
+
+<Steps>
+  <Step title="View Active Filters">
+    Check the badge on Smart Filters header showing count of active filters.
+  </Step>
+  
+  <Step title="Modify Filters">
+    Click on any filter control to adjust. Changes apply automatically with debounce.
+  </Step>
+  
+  <Step title="Clear Individual Filters">
+    Remove specific filters using clear buttons or deselecting options.
+  </Step>
+  
+  <Step title="Clear All Filters">
+    Click "Clear All" button to reset all filters and show all transactions.
+  </Step>
+</Steps>
+
+## Filter Integration with Features
+
+### Works With AI Analysis
+
+<Card title="AI Analysis Tools" icon="robot" href="/features/ai-analysis-tools" horizontal>
+All AI analysis buttons (Smart Categorize, Pattern Analysis, Tax Analysis) respect active filters and analyze only filtered transactions.
+</Card>
+
+<Columns cols={3}>
+  <Card title="Smart Categorize" icon="brain">
+    **Filter Integration:**
+    - Categorizes filtered set only
+    - Use "Uncategorized Only" filter
+    - Combine with date ranges
+    - Process specific periods
+  </Card>
+  
+  <Card title="Pattern Analysis" icon="repeat">
+    **Filter Usage:**
+    - Detect patterns in filtered data
+    - Use 6-12 month date range
+    - Filter by category for targeted detection
+    - Exclude known patterns
+  </Card>
+  
+  <Card title="Tax Analysis" icon="calculator">
+    **Tax Filtering:**
+    - Filter to tax/financial year
+    - Exclude personal transactions
+    - Focus on business categories
+    - Use amount thresholds
+  </Card>
+</Columns>
+
+### Export & Reporting
+
+<AccordionGroup>
+  <Accordion title="CSV Export with Filters">
+    **Export Behavior:**
+    - CSV exports respect active filters
+    - Only filtered transactions exported
+    - Use for targeted data extraction
+    - Combine filters for precise exports
+    
+    **Export Strategies:**
+    - Filter to specific month → Export monthly report
+    - Tax deductible filter → Export for tax filing
+    - Category filter → Category-specific analysis
+    - Date range → Period-based exports
+  </Accordion>
+  
+  <Accordion title="Statistics & Calculations">
+    **Filtered Statistics:**
+    - Transaction count reflects filtered set
+    - Amount totals calculated from filters
+    - Statistics update with filter changes
+    - Real-time calculation updates
+    
+    **Use for Analysis:**
+    - Monthly spending totals
+    - Category-specific sums
+    - Tax deductible amounts
+    - Filtered averages and trends
+  </Accordion>
+</AccordionGroup>
+
+## Advanced Filter Tips & Tricks
+
+### Power User Techniques
+
+<AccordionGroup>
+  <Accordion title="Complex Filter Combinations">
+    **Advanced Workflows:**
+    
+    **Monthly Tax Review:**
+    1. Set date to "This Month"
+    2. Enable "Tax Deductible Only"
+    3. Filter "Needs Analysis"
+    4. Run Intelligent Tax Analysis
+    
+    **Subscription Audit:**
+    1. Set date to "Last 6 Months"
+    2. Enable "Recurring Only"
+    3. Set amount range $5-$100
+    4. Run Pattern Analysis
+    
+    **Large Expense Investigation:**
+    1. Set "This Year" date range
+    2. Set min amount $1,000
+    3. Filter "Debits Only"
+    4. Review and categorize
+    
+    **Import Verification:**
+    1. Select specific Data Bucket
+    2. Set date to import date range
+    3. Review for errors
+    4. Cross-check with bank statement
+  </Accordion>
+  
+  <Accordion title="Performance Optimization">
+    **Filter Performance Tips:**
+    - Use date ranges to limit result sets
+    - Combine amount filters with dates
+    - Clear unnecessary filters
+    - Use Quick Mode for common scenarios
+    - Press Enter for instant search refresh
+    
+    **Large Dataset Handling:**
+    - Start with date filters (most efficient)
+    - Add category filters to narrow further
+    - Use amount ranges for precision
+    - Enable AI search only when needed
+  </Accordion>
+  
+  <Accordion title="Keyboard Shortcuts">
+    **Efficiency Shortcuts:**
+    - **Enter Key**: Instant refresh (bypasses debounce)
+    - **Escape**: Clear search input
+    - **Tab**: Navigate between filter fields
+    - **Space**: Toggle checkboxes
+    
+    **Quick Access:**
+    - Bookmark All Transactions page
+    - Use direct URL navigation
+    - Set browser shortcuts
+    - Use back/forward for filter states
+  </Accordion>
+</AccordionGroup>
+
+### Best Practices
+
+<Columns cols={2}>
+  <Card title="Filter Strategy" icon="strategy">
+    **Effective Filtering:**
+    - Start broad, narrow progressively
+    - Use date filters first (most impactful)
+    - Combine related filters logically
+    - Clear filters between different tasks
+    - Save common workflows mentally
+  </Card>
+  
+  <Card title="Workflow Integration" icon="workflow">
+    **Daily/Weekly/Monthly:**
+    - **Daily**: "Today" + quick review
+    - **Weekly**: "This Week" + categorization
+    - **Monthly**: "This Month" + AI analysis
+    - **Quarterly**: 3-month range + tax review
+    - **Annual**: "This Year" + export
+  </Card>
+  
+  <Card title="Error Prevention" icon="shield">
+    **Avoid Common Mistakes:**
+    - Check active filter count before export
+    - Verify date range before analysis
+    - Clear filters for full view
+    - Don't forget data bucket filters
+    - Review filter state regularly
+  </Card>
+  
+  <Card title="Maintenance Routine" icon="calendar-check">
+    **Regular Filter Use:**
+    - Weekly: Uncategorized review
+    - Monthly: Tax deductible check
+    - Quarterly: Pattern analysis
+    - Annual: Full year tax export
+    - Ad-hoc: Custom range analysis
+  </Card>
+</Columns>
+
+---
+
+**Next Steps:** Learn how to use [AI Analysis Tools](/features/ai-analysis-tools) with your filtered transaction sets, or explore [Transaction Management](/guides/transaction-management) for basic operations.
+
+*Smart Filters - Precision control for intelligent financial management.*
+

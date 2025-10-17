@@ -1,0 +1,836 @@
+---
+title: "AI Analysis Tools"
+description: "Master the three powerful AI analysis buttons for intelligent transaction processing"
+---
+
+## AI Analysis Tools Overview
+
+The All Transactions page features three powerful AI-driven analysis buttons that automate complex financial tasks. All three tools integrate seamlessly with Smart Filters, allowing you to analyze specific transaction sets for targeted insights and automation.
+
+<Card title="Access AI Analysis Tools" icon="robot" href="https://app.ai2fin.com/all-transactions" horizontal>
+Located at the top of the All Transactions page, these three buttons provide instant access to AI-powered financial automation.
+</Card>
+
+## The Three AI Analysis Buttons
+
+<Columns cols={3}>
+  <Card title="Smart Categorize" icon="brain">
+    **AI Categorization:**
+    - Bulk transaction categorization
+    - Machine learning suggestions
+    - Confidence scoring
+    - Manual override capability
+  </Card>
+  
+  <Card title="Pattern Analysis" icon="repeat">
+    **Recurring Detection:**
+    - Identify recurring bills
+    - Subscription tracking
+    - Payment pattern recognition
+    - Automated bill creation
+  </Card>
+  
+  <Card title="Intelligent Tax Analysis" icon="calculator">
+    **Tax Optimization:**
+    - Deduction identification
+    - Business expense classification
+    - Tax compliance checking
+    - Global tax support
+  </Card>
+</Columns>
+
+### Filter Integration
+
+<Info>
+**All AI Tools Respect Active Filters**
+
+When you apply Smart Filters before clicking any AI analysis button, the analysis runs ONLY on the filtered transaction set. This enables targeted, focused analysis of specific transaction groups.
+</Info>
+
+<Card title="Smart Filters Integration" icon="filter" href="/features/smart-filters" horizontal>
+Learn how to use Smart Filters to control which transactions get analyzed by AI tools.
+</Card>
+
+## 1. Smart Categorize
+
+AI-powered bulk categorization that automatically assigns categories to multiple transactions based on machine learning analysis.
+
+### How Smart Categorize Works
+
+<Steps>
+  <Step title="Apply Filters (Optional)">
+    Use Smart Filters to narrow down transactions you want to categorize. Common filters:
+    - "This Month" + "Uncategorized"
+    - Date range + "Needs Analysis"
+    - Specific amount range
+  </Step>
+  
+  <Step title="Click Smart Categorize">
+    Click the "Smart Categorize" button at the top of the page. The system fetches all filtered transactions for analysis.
+  </Step>
+  
+  <Step title="AI Processing">
+    AI analyzes each transaction's description, merchant, and historical patterns to suggest appropriate categories with confidence scores.
+  </Step>
+  
+  <Step title="Review Suggestions">
+    Modal opens showing all AI-suggested categories. Review suggestions, modify as needed, or skip transactions.
+  </Step>
+  
+  <Step title="Apply Categories">
+    Click "Apply Categories" to save all categorizations. The system updates transactions and refreshes the table automatically.
+  </Step>
+</Steps>
+
+### AI Analysis Process
+
+<AccordionGroup>
+  <Accordion title="What AI Analyzes">
+    **Data Points Considered:**
+    - **Transaction Description**: Full bank description text
+    - **Merchant Name**: Extracted vendor/payee information
+    - **Transaction Amount**: Value and spending patterns
+    - **Historical Patterns**: Previous similar transactions
+    - **User Preferences**: Your past categorization choices
+    - **Category Relationships**: Semantic category matching
+    
+    **Machine Learning Features:**
+    - Natural language processing (NLP)
+    - Pattern recognition algorithms
+    - User feedback learning
+    - Contextual understanding
+    - Merchant database matching
+  </Accordion>
+  
+  <Accordion title="Confidence Scoring">
+    **How Confidence Works:**
+    - **High Confidence (90%+)**: Strong match based on clear patterns
+    - **Medium Confidence (70-90%)**: Good match with some uncertainty
+    - **Low Confidence (less than 70%)**: Weak match, manual review recommended
+    
+    **Confidence Indicators:**
+    - Green badge: High confidence (auto-apply safe)
+    - Yellow badge: Medium confidence (review suggested)
+    - Orange badge: Low confidence (manual override recommended)
+    
+    **Improving Confidence:**
+    - Consistently categorize similar transactions
+    - Provide feedback on AI suggestions
+    - Use descriptive category names
+    - Maintain category hierarchy
+  </Accordion>
+  
+  <Accordion title="Manual Override & Correction">
+    **Override Options:**
+    - **Accept Suggestion**: Use AI-recommended category
+    - **Change Category**: Select different category from dropdown
+    - **Skip Transaction**: Leave transaction uncategorized
+    - **Bulk Accept**: Accept all high-confidence suggestions
+    
+    **AI Learning:**
+    - Every correction teaches the AI
+    - Future suggestions improve
+    - User-specific learning model
+    - Patterns recognized over time
+    
+    **Best Practice:**
+    - Review low-confidence suggestions carefully
+    - Accept high-confidence matches quickly
+    - Provide consistent corrections
+    - Use same categories for similar transactions
+  </Accordion>
+</AccordionGroup>
+
+### Smart Categorize Use Cases
+
+<Columns cols={2}>
+  <Card title="New Import Processing" icon="upload">
+    **Workflow:**
+    1. Import CSV/PDF bank statement
+    2. Filter to newly imported transactions
+    3. Run Smart Categorize
+    4. Review and apply categories
+    5. Export categorized data
+    
+    **Benefits:**
+    - Process hundreds of transactions quickly
+    - Consistent categorization
+    - Reduced manual work
+    - Faster monthly close
+  </Card>
+  
+  <Card title="Monthly Maintenance" icon="calendar">
+    **Routine:**
+    1. Filter to "This Month"
+    2. Add "Uncategorized Only" filter
+    3. Run Smart Categorize
+    4. Accept high-confidence suggestions
+    5. Review low-confidence matches
+    
+    **Benefits:**
+    - Regular cleanup workflow
+    - Maintain data quality
+    - Catch miscategorizations
+    - Keep books up to date
+  </Card>
+  
+  <Card title="Historical Cleanup" icon="history">
+    **Process:**
+    1. Set date range to past period
+    2. Filter "Uncategorized Only"
+    3. Run Smart Categorize in batches
+    4. Review by confidence level
+    5. Process high-confidence first
+    
+    **Benefits:**
+    - Clean up old data
+    - Improve historical reporting
+    - Enable trend analysis
+    - Complete tax records
+  </Card>
+  
+  <Card title="Category Consistency" icon="check">
+    **Quality Control:**
+    1. Filter by specific category
+    2. Review AI categorization
+    3. Correct inconsistencies
+    4. Re-run on similar transactions
+    5. Train AI with corrections
+    
+    **Benefits:**
+    - Ensure categorization accuracy
+    - Standardize category use
+    - Identify miscategorizations
+    - Improve AI performance
+  </Card>
+</Columns>
+
+### Tips for Effective Categorization
+
+<AccordionGroup>
+  <Accordion title="Best Practices">
+    **Maximize Accuracy:**
+    - Start with small batches (100-200 transactions)
+    - Review all suggestions before applying
+    - Correct low-confidence matches manually
+    - Accept high-confidence matches quickly
+    - Run regularly (weekly or monthly)
+    
+    **Workflow Optimization:**
+    - Use "Uncategorized Only" filter first
+    - Combine with date filters for period-based processing
+    - Process by transaction type (expenses, then income)
+    - Sort by amount to prioritize large transactions
+    - Review merchant patterns for consistency
+  </Accordion>
+  
+  <Accordion title="Common Scenarios">
+    **Scenario 1: After CSV Import**
+    - Filter: Newest Data Bucket + Uncategorized
+    - Action: Smart Categorize all
+    - Review: Accept 90%+, review rest
+    
+    **Scenario 2: End of Month**
+    - Filter: This Month + Uncategorized
+    - Action: Smart Categorize remaining
+    - Review: Quick approval of high confidence
+    
+    **Scenario 3: Tax Preparation**
+    - Filter: This Year + All transactions
+    - Action: Re-categorize for accuracy
+    - Review: Focus on tax-deductible items
+    
+    **Scenario 4: Category Audit**
+    - Filter: Specific Category
+    - Action: Verify AI categorization
+    - Review: Ensure category consistency
+  </Accordion>
+  
+  <Accordion title="Troubleshooting">
+    **Low Confidence Issues:**
+    - **Cause**: Unusual merchant names, new vendors
+    - **Solution**: Manually categorize, AI learns for next time
+    
+    **Incorrect Suggestions:**
+    - **Cause**: Similar merchant names, ambiguous descriptions
+    - **Solution**: Provide correct category, pattern recognized
+    
+    **Inconsistent Categories:**
+    - **Cause**: Multiple similar categories, unclear hierarchy
+    - **Solution**: Consolidate categories, use clear naming
+    
+    **Slow Processing:**
+    - **Cause**: Large transaction sets, complex filters
+    - **Solution**: Use date filters to limit scope, process in batches
+  </Accordion>
+</AccordionGroup>
+
+## 2. Pattern Analysis
+
+Automatically detect recurring bills and payment patterns from transaction history using AI pattern recognition.
+
+<Card title="Pattern Analysis Details" icon="repeat" href="/features/pattern-analysis" horizontal>
+Learn more about Pattern Analysis and recurring transaction management.
+</Card>
+
+### How Pattern Analysis Works
+
+<Steps>
+  <Step title="Set Appropriate Date Range">
+    Use Smart Filters to set a date range for pattern detection. Recommended: 3-12 months for accurate analysis.
+  </Step>
+  
+  <Step title="Click Pattern Analysis">
+    Click the "Pattern Analysis" button. AI scans all filtered transactions for recurring patterns.
+  </Step>
+  
+  <Step title="AI Detection">
+    AI identifies recurring patterns based on merchant, amount consistency, date patterns, and frequency.
+  </Step>
+  
+  <Step title="Review Detected Patterns">
+    Modal shows all detected patterns with details: frequency, amount range, merchant, dates.
+  </Step>
+  
+  <Step title="Create Bill Patterns">
+    Select which patterns to convert into tracked recurring bills. AI monitors future occurrences.
+  </Step>
+</Steps>
+
+### Pattern Detection Capabilities
+
+<AccordionGroup>
+  <Accordion title="What Gets Detected">
+    **Pattern Types:**
+    - **Monthly Bills**: Rent, utilities, subscriptions, loan payments
+    - **Weekly Recurring**: Weekly services, payroll, recurring deliveries
+    - **Quarterly Payments**: Insurance premiums, quarterly fees
+    - **Annual Charges**: Annual subscriptions, licenses, memberships
+    
+    **Detection Criteria:**
+    - **Frequency**: Consistent time intervals between transactions
+    - **Amount**: Fixed or variable amount patterns
+    - **Merchant**: Same merchant recurring transactions
+    - **Date Patterns**: Specific dates or date ranges
+    
+    **Pattern Characteristics:**
+    - Fixed amount (exact match required)
+    - Variable amount (within percentage range)
+    - Same-day recurring (specific date each period)
+    - Approximate date (within 3-day window)
+    - Merchant consistency (same vendor each time)
+  </Accordion>
+  
+  <Accordion title="Filter Strategies for Detection">
+    **Optimal Date Ranges:**
+    - **3 Months**: Minimum for monthly pattern detection
+    - **6 Months**: Recommended for accurate patterns
+    - **12 Months**: Best for annual and quarterly detection
+    - **Longer**: Better for irregular patterns
+    
+    **Filter Combinations:**
+    - **All Categories**: Detect all patterns
+    - **Specific Category**: Focus on one expense type (e.g., "Subscriptions")
+    - **Amount Range**: Find patterns in specific price ranges
+    - **Debit Only**: Focus on outgoing recurring payments
+    - **Specific Merchant**: Analyze vendor-specific patterns
+    
+    **Use Case Examples:**
+    - Find all subscriptions: 6 months + $5-$100 + Debits
+    - Utility pattern analysis: 12 months + Utilities category
+    - Subscription audit: 12 months + Recurring filter
+    - Insurance patterns: 12 months + Insurance category
+  </Accordion>
+  
+  <Accordion title="Pattern Management">
+    **After Pattern Creation:**
+    - Patterns saved to "Patterns (Recurring)" page
+    - Future matching transactions automatically flagged
+    - Pattern rules can be edited and refined
+    - Pause or delete patterns as needed
+    - Export pattern reports for analysis
+    
+    **Monitoring Features:**
+    - **Missed Pattern Alerts**: Notification when pattern doesn't occur
+    - **Amount Variance Warnings**: Alert on unusual amounts
+    - **Date Shift Notifications**: Notice when dates drift
+    - **New Occurrence Confirmations**: Confirm pattern matches
+    
+    **Pattern Editing:**
+    - Adjust amount tolerance
+    - Modify date flexibility
+    - Change frequency settings
+    - Update merchant matching rules
+    - Add exclusion criteria
+  </Accordion>
+</AccordionGroup>
+
+### Pattern Analysis Use Cases
+
+<Columns cols={2}>
+  <Card title="Subscription Discovery" icon="search">
+    **Find All Subscriptions:**
+    1. Filter: Last 12 Months
+    2. Amount: $5 - $100
+    3. Run Pattern Analysis
+    4. Review monthly patterns
+    5. Create recurring bills
+    
+    **Discover:**
+    - Forgotten subscriptions
+    - Duplicate services
+    - Price changes
+    - Inactive subscriptions
+  </Card>
+  
+  <Card title="Budget Planning" icon="piggy-bank">
+    **Identify Fixed Costs:**
+    1. Filter: Last 6 Months
+    2. Category: All
+    3. Run Pattern Analysis
+    4. Export pattern list
+    5. Calculate monthly fixed costs
+    
+    **Plan:**
+    - Monthly budget allocation
+    - Fixed vs variable expenses
+    - Cash flow forecasting
+    - Savings opportunities
+  </Card>
+  
+  <Card title="Bill Tracking" icon="file-invoice">
+    **Monitor Recurring Bills:**
+    1. Filter: Utilities + Last Year
+    2. Run Pattern Analysis
+    3. Create bill patterns
+    4. Enable monitoring
+    5. Track variance
+    
+    **Track:**
+    - Utility bill trends
+    - Seasonal variations
+    - Cost increases
+    - Missed payments
+  </Card>
+  
+  <Card title="Subscription Optimization" icon="optimize">
+    **Reduce Subscription Costs:**
+    1. Find all recurring patterns
+    2. Review frequency and amounts
+    3. Identify unused services
+    4. Cancel or downgrade
+    5. Monitor savings
+    
+    **Optimize:**
+    - Eliminate unused subscriptions
+    - Find cheaper alternatives
+    - Consolidate services
+    - Negotiate better rates
+  </Card>
+</Columns>
+
+## 3. Intelligent Tax Analysis
+
+AI-powered tax deductibility analysis that identifies potential tax deductions and classifies business expenses for global tax compliance.
+
+<Card title="Tax Export Feature" icon="file-export" href="/features/tax-export" horizontal>
+After analysis, use Tax Export to generate tax-compliant reports for filing.
+</Card>
+
+### How Intelligent Tax Analysis Works
+
+<Steps>
+  <Step title="Filter Target Period">
+    Apply Smart Filters to focus on your tax/financial year or specific period:
+    - "This Year" or custom date range
+    - Business-related categories
+    - Optional: Amount thresholds
+  </Step>
+  
+  <Step title="Click Intelligent Tax Analysis">
+    Click the "Intelligent Tax Analysis" button. AI begins analyzing filtered transactions for tax deductibility.
+  </Step>
+  
+  <Step title="AI Tax Classification">
+    AI evaluates each transaction for:
+    - Business vs personal classification
+    - Deduction category identification
+    - Partial deductibility calculation
+    - Compliance requirements
+  </Step>
+  
+  <Step title="Review Tax Analysis">
+    Modal displays detected tax-deductible expenses with:
+    - Deduction categories
+    - Confidence levels
+    - Business use percentages
+    - Documentation requirements
+  </Step>
+  
+  <Step title="Confirm and Apply">
+    Review AI suggestions, adjust business use percentages, add notes, and apply tax flags to transactions.
+  </Step>
+</Steps>
+
+### Tax Deduction Detection
+
+<AccordionGroup>
+  <Accordion title="What AI Identifies">
+    **Business Expense Categories:**
+    
+    **Office & Operations:**
+    - Office supplies and equipment
+    - Computer hardware and software
+    - Furniture and fixtures
+    - Office rent and utilities
+    
+    **Vehicle & Travel:**
+    - Fuel and vehicle maintenance
+    - Vehicle registration and insurance
+    - Business travel expenses
+    - Accommodation and meals
+    
+    **Professional Services:**
+    - Legal and accounting fees
+    - Consulting and advisory services
+    - Professional memberships
+    - Industry subscriptions
+    
+    **Marketing & Sales:**
+    - Advertising and promotions
+    - Marketing materials
+    - Website and hosting
+    - Sales commissions
+    
+    **Employee & Contractors:**
+    - Wages and salaries
+    - Contractor payments
+    - Training and development
+    - Employee benefits
+    
+    **Other Deductions:**
+    - Insurance premiums (business)
+    - Bank fees and merchant services
+    - Communication costs
+    - Education and training
+  </Accordion>
+  
+  <Accordion title="Intelligence Features">
+    **AI Classification:**
+    - **Business vs Personal**: Distinguishes business from personal expenses
+    - **Partial Deductibility**: Calculates mixed-use percentages
+    - **Category-Specific Rules**: Applies tax rules by expense type
+    - **Compliance Checking**: Flags documentation requirements
+    
+    **Business Use Percentage:**
+    - AI suggests business use percentage
+    - Common defaults: 100%, 80%, 50%, etc.
+    - User can override and adjust
+    - Consistent application across similar items
+    
+    **Documentation Flags:**
+    - Receipt required indicators
+    - Logbook requirements (vehicles)
+    - Business purpose notes needed
+    - Additional documentation alerts
+  </Accordion>
+  
+  <Accordion title="Global Tax Compliance">
+    **International Support:**
+    - **GST/VAT Calculations**: Automatic tax component extraction
+    - **Sales Tax Tracking**: Regional sales tax handling
+    - **Multi-Currency**: International transaction support
+    - **Regional Rules**: Country-specific tax regulations
+    
+    **Compliance Features:**
+    - Tax-compliant categorization
+    - Audit trail maintenance
+    - Record keeping standards
+    - Report generation capability
+    
+    **Supported Regions:**
+    - North America: USA, Canada
+    - Europe: UK, EU countries
+    - Asia Pacific: Australia, NZ, Singapore
+    - Other: Global coverage expanding
+  </Accordion>
+</AccordionGroup>
+
+### Tax Analysis Use Cases
+
+<Columns cols={2}>
+  <Card title="Year-End Tax Prep" icon="calendar-check">
+    **Annual Tax Filing:**
+    1. Filter: This Tax Year
+    2. Category: Business expenses
+    3. Run Tax Analysis
+    4. Review deductions
+    5. Export for filing
+    
+    **Maximize:**
+    - Identify all deductions
+    - Ensure compliance
+    - Optimize tax position
+    - Document properly
+  </Card>
+  
+  <Card title="Quarterly Review" icon="chart-line">
+    **Quarterly Tax Estimates:**
+    1. Filter: Current Quarter
+    2. Run Tax Analysis
+    3. Calculate tax liability
+    4. Adjust estimates
+    5. Plan quarterly payment
+    
+    **Monitor:**
+    - Quarterly deductions
+    - Tax obligation tracking
+    - Cash flow planning
+    - Estimated tax accuracy
+  </Card>
+  
+  <Card title="Deduction Optimization" icon="optimize">
+    **Maximize Deductions:**
+    1. Filter: Full year
+    2. Include all categories
+    3. Run Tax Analysis
+    4. Review AI suggestions
+    5. Reclassify as needed
+    
+    **Optimize:**
+    - Find missed deductions
+    - Proper categorization
+    - Business use allocation
+    - Documentation completion
+  </Card>
+  
+  <Card title="Audit Preparation" icon="shield-check">
+    **Tax Audit Readiness:**
+    1. Filter: Audit period
+    2. Run Tax Analysis
+    3. Verify classifications
+    4. Check documentation
+    5. Prepare explanations
+    
+    **Prepare:**
+    - Complete records
+    - Proper classification
+    - Documentation attached
+    - Business purpose noted
+  </Card>
+</Columns>
+
+### Filter Optimization for Tax Analysis
+
+<AccordionGroup>
+  <Accordion title="Recommended Filter Setups">
+    **Tax Year Analysis:**
+    - Date: January 1 - December 31 (or fiscal year)
+    - Categories: Business-related only
+    - Transaction Types: Expenses and debits
+    - Exclude: Personal and transfers
+    
+    **Monthly Tax Review:**
+    - Date: This Month
+    - Tax Deductible: Yes
+    - Categories: All business
+    - Review: New transactions
+    
+    **Category-Specific Analysis:**
+    - Date: Tax year
+    - Category: Specific (e.g., "Vehicle")
+    - Amount: All
+    - Purpose: Deep-dive analysis
+    
+    **Large Expense Focus:**
+    - Date: Tax year
+    - Amount: Min $500+
+    - Type: Business expenses
+    - Reason: Prioritize significant deductions
+  </Accordion>
+  
+  <Accordion title="Analysis Workflow">
+    **Complete Tax Analysis Process:**
+    
+    **Step 1: Initial Filter**
+    - Set tax year date range
+    - Filter business categories
+    - Exclude personal transactions
+    
+    **Step 2: Run Analysis**
+    - Click Intelligent Tax Analysis
+    - Wait for AI processing
+    - Review summary statistics
+    
+    **Step 3: Review Results**
+    - Check high-confidence matches
+    - Review medium-confidence items
+    - Investigate low-confidence flags
+    
+    **Step 4: Adjust Classifications**
+    - Modify business use percentages
+    - Reclassify as needed
+    - Add business purpose notes
+    - Flag for documentation
+    
+    **Step 5: Apply and Export**
+    - Apply tax analysis results
+    - Use Tax Export feature
+    - Generate filing reports
+    - Maintain documentation
+  </Accordion>
+  
+  <Accordion title="Best Practices">
+    **Accuracy Tips:**
+    - Run analysis regularly (monthly)
+    - Review all AI suggestions carefully
+    - Maintain consistent categorization
+    - Document business purposes clearly
+    - Keep receipts and records organized
+    
+    **Compliance Tips:**
+    - Follow regional tax rules
+    - Maintain proper documentation
+    - Use correct business use percentages
+    - Keep audit trail complete
+    - Consult tax professional when needed
+    
+    **Efficiency Tips:**
+    - Filter to focus areas first
+    - Process high-value items first
+    - Accept high-confidence matches
+    - Batch similar transactions
+    - Use keyboard shortcuts
+  </Accordion>
+</AccordionGroup>
+
+## AI Analysis Best Practices
+
+### Combining All Three Tools
+
+<Info>
+**Recommended Workflow: Use All Three Together**
+
+For complete financial automation, use all three AI tools in sequence: Smart Categorize → Pattern Analysis → Intelligent Tax Analysis. Each tool enhances the next.
+</Info>
+
+<Steps>
+  <Step title="1. Smart Categorize First">
+    Ensure all transactions are properly categorized before running other analyses.
+  </Step>
+  
+  <Step title="2. Pattern Analysis Second">
+    With categorized transactions, pattern detection is more accurate and useful.
+  </Step>
+  
+  <Step title="3. Tax Analysis Last">
+    Categorized and pattern-linked transactions enable most accurate tax analysis.
+  </Step>
+</Steps>
+
+### Monthly Maintenance Workflow
+
+<AccordionGroup>
+  <Accordion title="Complete Monthly Routine">
+    **Monthly Financial Maintenance:**
+    
+    **Week 1: Import and Categorize**
+    1. Import new bank statements
+    2. Filter: This Month + Uncategorized
+    3. Run Smart Categorize
+    4. Review and apply categories
+    
+    **Week 2: Pattern Review**
+    1. Filter: Last 6 Months
+    2. Run Pattern Analysis
+    3. Update recurring patterns
+    4. Check for missed patterns
+    
+    **Week 3: Tax Review**
+    1. Filter: This Month + Tax Deductible
+    2. Run Intelligent Tax Analysis
+    3. Verify business classifications
+    4. Document as needed
+    
+    **Week 4: Export and Report**
+    1. Filter: This Month
+    2. Generate reports
+    3. Export for accounting
+    4. Archive documentation
+  </Accordion>
+  
+  <Accordion title="Quarterly Deep-Dive">
+    **Quarterly Financial Review:**
+    
+    **Data Quality Check:**
+    - Review all categorizations
+    - Verify pattern accuracy
+    - Check tax classifications
+    - Clean up inconsistencies
+    
+    **Pattern Maintenance:**
+    - Analyze 12-month patterns
+    - Update changed patterns
+    - Remove obsolete patterns
+    - Add new recurring items
+    
+    **Tax Preparation:**
+    - Filter to quarter
+    - Run comprehensive tax analysis
+    - Calculate quarterly liability
+    - Prepare estimated payments
+    
+    **Reporting:**
+    - Generate quarterly reports
+    - Export tax summaries
+    - Update financial projections
+    - Review budget vs actual
+  </Accordion>
+</AccordionGroup>
+
+### Performance Tips
+
+<Columns cols={2}>
+  <Card title="Speed Optimization" icon="gauge">
+    **Process Faster:**
+    - Use date filters to limit scope
+    - Process in smaller batches
+    - Focus on high-priority transactions
+    - Clear filters between analyses
+    - Use Quick Filters for common tasks
+  </Card>
+  
+  <Card title="Accuracy Improvement" icon="target">
+    **Better Results:**
+    - Train AI with consistent corrections
+    - Review low-confidence matches
+    - Maintain clean category structure
+    - Document business purposes
+    - Regular data quality checks
+  </Card>
+  
+  <Card title="Workflow Efficiency" icon="workflow">
+    **Work Smarter:**
+    - Establish routine schedules
+    - Use filter combinations
+    - Process by priority
+    - Automate where possible
+    - Monitor AI performance
+  </Card>
+  
+  <Card title="Data Quality" icon="quality">
+    **Maintain Standards:**
+    - Consistent categorization
+    - Complete documentation
+    - Regular reviews
+    - Correct AI mistakes
+    - Clean historical data
+  </Card>
+</Columns>
+
+---
+
+**Related Features:** Use [Smart Filters](/features/smart-filters) to control analysis scope, explore [Smart Categorisation](/features/smart-categorisation) for category details, or check [Pattern Analysis](/features/pattern-analysis) for recurring bill management.
+
+*AI Analysis Tools - Intelligent automation for effortless financial management.*
+

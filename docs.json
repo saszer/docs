@@ -60,6 +60,8 @@
             "group": "3. Analysis & Management",
             "pages": [
               "guides/transaction-management",
+              "features/smart-filters",
+              "features/ai-analysis-tools",
               "features/smart-categorisation",
               "features/pattern-analysis",
               "guides/travel-expenses"
