@@ -3,14 +3,14 @@
   "theme": "mint",
   "name": "AI2Fin Documentation",
   "colors": {
-    "primary": "#0D9488",
-    "light": "#14B8A6",
-    "dark": "#0F766E"
+    "primary": "#3B82F6",
+    "light": "#60A5FA",
+    "dark": "#1D4ED8"
   },
-  "favicon": "/favicon.svg",
+  "favicon": "/favicon.ico",
   "logo": {
-    "light": "/logo/light.svg",
-    "dark": "/logo/dark.svg"
+    "light": "/logo.png",
+    "dark": "/logo.png"
   },
   "navbar": {
     "links": [
@@ -39,35 +39,41 @@
             ]
           },
           {
-            "group": "Core Features",
+            "group": "1. Inputs",
             "pages": [
-              "features/smart-categorisation",
-              "features/pattern-analysis",
-              "features/tax-analysis",
-              "features/custom-rules"
+              "data-sources/csv-imports",
+              "coming-soon/email-processing"
             ]
           },
           {
-            "group": "Data Sources",
+            "group": "2. Personalize",
             "pages": [
-              "data-sources/csv-imports",
-              "data-sources/bank-feeds"
+              "features/categories",
+              "features/custom-rules",
+              "coming-soon/allocations"
+            ]
+          },
+          {
+            "group": "3. Analysis & Management",
+            "pages": [
+              "guides/transaction-management",
+              "features/smart-categorisation",
+              "features/pattern-analysis",
+              "guides/travel-expenses"
+            ]
+          },
+          {
+            "group": "4. Reports and Trends",
+            "pages": [
+              "coming-soon/insight-plus",
+              "features/tax-export",
+              "coming-soon/ai-assistant"
             ]
           },
           {
             "group": "User Guides",
             "pages": [
-              "guides/dashboard-navigation",
-              "guides/transaction-management",
-              "guides/travel-expenses"
-            ]
-          },
-          {
-            "group": "Advanced Features",
-            "pages": [
-              "advanced/exports",
-              "advanced/allocations",
-              "advanced/ai-assist"
+              "guides/dashboard-navigation"
             ]
           },
           {
@@ -108,9 +114,9 @@
           "icon": "rocket"
         },
         {
-          "anchor": "Community",
-          "href": "https://ai2fin.com/community",
-          "icon": "slack"
+          "anchor": "Blog",
+          "href": "https://ai2fin.com/blog",
+          "icon": "book-open"
         }
       ]
     }
@@ -131,23 +137,27 @@
     }
   },
   "seo": {
-    "title": "AI2Fin Documentation - AI-Powered Financial Management Platform",
-    "description": "Complete guide to AI2Fin's intelligent financial management platform. Learn about AI-powered expense tracking, tax optimization, and automated categorization.",
+    "title": "AI2Fin Documentation - Global AI-Powered Financial Management Platform",
+    "description": "Complete guide to AI2Fin's intelligent financial management platform. Learn about AI-powered expense tracking, global tax optimization, and automated categorization for businesses worldwide.",
     "keywords": [
       "AI financial management",
-      "expense tracking software",
-      "tax deduction optimization",
+      "global expense tracking software",
+      "international tax optimization",
       "automated categorization",
       "financial AI platform",
       "business expense management",
       "AI accounting software",
-      "smart financial analytics"
+      "smart financial analytics",
+      "global business finance",
+      "international accounting"
     ],
     "og": {
-      "title": "AI2Fin Documentation - AI-Powered Financial Management",
-      "description": "Master AI2Fin's intelligent financial management platform with comprehensive guides and tutorials.",
+      "title": "AI2Fin Documentation - Global AI-Powered Financial Management",
+      "description": "Master AI2Fin's intelligent financial management platform with comprehensive guides and tutorials for global businesses.",
       "image": "/og-image.png"
     }
   }
 }
+
+
 
