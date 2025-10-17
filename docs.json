@@ -122,38 +122,51 @@
   "footer": {
     "socials": {
       "x": "https://twitter.com/ai2fin",
-      "github": "https://github.com/ai2fin",
       "linkedin": "https://linkedin.com/company/ai2fin"
     }
   },
   "seo": {
-    "title": "AI2Fin Documentation - Global AI-Powered Financial Management Platform",
-    "description": "Complete guide to AI2Fin's intelligent financial management platform. Learn about AI-powered expense tracking, global tax optimization, automated categorization, pattern analysis, and smart financial insights for businesses worldwide.",
+    "title": "AI2Fin Documentation - AI-Powered Financial Management & Expense Tracking",
+    "description": "Complete guide to AI2Fin's intelligent financial management platform. Learn AI-powered expense tracking, global tax optimization, smart categorization, pattern analysis, and automated workflows for businesses worldwide.",
     "keywords": [
       "AI financial management",
-      "global expense tracking software",
-      "international tax optimization",
-      "automated categorization",
-      "financial AI platform",
+      "AI expense tracking",
+      "automated expense categorization",
+      "smart financial filters",
+      "AI tax analysis",
+      "recurring bill detection",
+      "pattern analysis software",
+      "global tax compliance",
       "business expense management",
       "AI accounting software",
-      "smart financial analytics",
-      "global business finance",
-      "international accounting",
-      "pattern analysis",
+      "financial automation platform",
+      "expense management software",
+      "AI-powered bookkeeping",
       "smart categorization",
+      "intelligent tax deductions",
+      "financial data analysis",
+      "automated financial reporting",
+      "business intelligence platform",
+      "CSV import financial data",
+      "transaction management software",
+      "GST VAT automation",
       "travel expense tracking",
-      "tax compliance",
-      "financial automation",
-      "AI-powered insights",
-      "expense management",
-      "financial reporting",
-      "business intelligence",
-      "workflow automation"
+      "recurring payment tracking",
+      "financial workflow automation",
+      "AI business finance"
     ],
     "og": {
-      "title": "AI2Fin Documentation - Global AI-Powered Financial Management",
-      "description": "Master AI2Fin's intelligent financial management platform with comprehensive guides and tutorials for global businesses. Features AI categorization, pattern analysis, tax optimization, and automated workflows.",
+      "title": "AI2Fin Documentation - AI Financial Management Platform",
+      "description": "Master AI2Fin's intelligent platform: AI categorization, smart filters, pattern analysis, tax optimization, and automated workflows. Complete guides and tutorials for global businesses.",
+      "image": "/og-image.png",
+      "site_name": "AI2Fin Documentation"
+    },
+    "twitter": {
+      "card": "summary_large_image",
+      "site": "@ai2fin",
+      "creator": "@ai2fin",
+      "title": "AI2Fin Documentation - AI Financial Management",
+      "description": "Complete guides for AI-powered expense tracking, smart categorization, and financial automation.",
       "image": "/og-image.png"
     }
   }
