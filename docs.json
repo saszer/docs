@@ -44,7 +44,7 @@
               "data-sources/csv-imports",
               "data-sources/bank-connectors",
               "data-sources/ipaas-middlewares",
-              "coming-soon/email-processing"
+              "data-sources/email-processing"
             ]
           },
           {
@@ -54,7 +54,7 @@
               "features/categories",
               "features/custom-rules",
               "features/auto-type-detection",
-              "coming-soon/allocations"
+              "features/allocations"
             ]
           },
           {
@@ -71,9 +71,9 @@
           {
             "group": "4. Reports and Trends",
             "pages": [
-              "coming-soon/insight-plus",
+              "features/insight-plus",
               "features/tax-export",
-              "coming-soon/ai-assistant"
+              "features/ai-assistant"
             ]
           },
           {
