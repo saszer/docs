@@ -56,9 +56,13 @@ Click your avatar/profile icon in the top-right corner, then select "Preferences
 
 The User Preferences modal is organized into 4 tabs for different setting types.
 
-### 1. Country & Tax Settings
+### 1. Country & Tax Settings (GST/VAT)
 
-Configure your location, currency, and tax preferences for accurate financial calculations.
+<Card title="🟢 GST/VAT Configuration" icon="calculator" color="green">
+Configure your country, currency, and GST/VAT tax rate for automatic tax calculations across all transactions.
+</Card>
+
+Configure your location, currency, and tax preferences for accurate financial calculations and GST/VAT management.
 
 <AccordionGroup>
   <Accordion title="Country Selection">
@@ -107,7 +111,14 @@ Configure your location, currency, and tax preferences for accurate financial ca
     - Dashboard statistics
   </Accordion>
   
-  <Accordion title="Tax Rate Configuration">
+  <Accordion title="🟢 GST/VAT Rate Configuration">
+    **Automatic GST/VAT Setup:**
+    - Select your country and GST/VAT rate auto-populates
+    - Used for all transaction tax calculations
+    - Appears in transaction GST calculator
+    - Applied to tax exports and reports
+    - Customizable per your business needs
+    
     **Tax Type by Country:**
     - **Australia**: GST 10%
     - **United Kingdom**: VAT 20%
@@ -516,39 +527,49 @@ Configure location-based settings for currency and tax compliance.
     - Standard tax rate for country
   </Accordion>
   
-  <Accordion title="Tax Rate Field">
+  <Accordion title="🟢 Tax Rate Field (GST/VAT)">
     **Tax Rate Options:**
-    - 0% (No tax or tax-exempt)
-    - 5% (Canada GST, UAE VAT, etc.)
+    - 0% (No tax or tax-exempt regions like Hong Kong)
+    - 5% (Canada GST, UAE VAT, Taiwan)
+    - 9% (Singapore GST)
     - 10% (Australia GST, Japan Consumption Tax)
     - 15% (New Zealand GST, Saudi Arabia VAT)
-    - 20% (UK VAT, EU standard)
-    - 25% (Sweden, Norway VAT)
+    - 18% (India GST)
+    - 19% (Germany MwSt)
+    - 20% (UK VAT, France TVA, EU standard)
+    - 25% (Sweden Moms, Norway MVA - highest rates)
     
     **Tax Type Indicator:**
-    - Shows tax type label: GST, VAT, Sales Tax, etc.
+    - Shows tax type label: GST, VAT, Sales Tax, Consumption Tax, etc.
     - Country-specific tax terminology
-    - Updates based on country selection
+    - Updates automatically based on country selection
     
     **Custom Rates:**
     - Select closest rate from dropdown
     - Platform supports any rate between 0-25%
-    - Used for all tax calculations
+    - Used for all GST/VAT calculations across platform
   </Accordion>
   
-  <Accordion title="Tax Settings Impact">
-    **Where Tax Settings Apply:**
-    - GST/VAT calculations on transactions
-    - Tax Export reports and summaries
-    - Intelligent Tax Analysis results
-    - Deduction calculations
-    - Compliance checking
+  <Accordion title="🟢 Tax Settings Impact & Usage">
+    **Where GST/VAT Settings Apply:**
+    - **GST Calculator**: Auto-fills when adding/editing transactions
+    - **Transaction Table**: Displays GST amounts using your rate
+    - **Tax Export**: Includes GST in tax reports
+    - **Intelligent Tax Analysis**: Uses rate for deduction calculations
+    - **Custom Rules**: Can set up automatic GST calculations
+    - **Bills & Patterns**: GST applied to recurring transactions
     
     **Global Compliance:**
-    - Adapts to regional tax rules
-    - Uses correct terminology (GST vs VAT)
-    - Formats exports for local authorities
-    - Maintains tax compliance standards
+    - Adapts to regional tax rules automatically
+    - Uses correct terminology (GST vs VAT vs Sales Tax)
+    - Formats exports for local tax authorities
+    - Maintains international tax compliance standards
+    
+    **Tax Calculation Features:**
+    - Tax-inclusive calculations (GST included in total)
+    - Tax-exclusive calculations (GST added to base)
+    - Automatic base amount calculation
+    - GST amount breakdown on every transaction
   </Accordion>
 </AccordionGroup>
 

@@ -88,9 +88,81 @@ Navigate to the main transaction management interface to view, edit, and categor
     - **Transaction List**: All transactions with inline editing
     - **Action Buttons**: Edit, categorize, delete for each row
     - **Status Indicators**: AI categorization status
+    - **GST/Tax Display**: View GST amounts and rates for each transaction
     - **Pagination**: Navigate through large transaction lists
     - **Sort Options**: Sort by date, amount, category, etc.
     - **Inline Editing**: Click any field to edit directly
+  </Accordion>
+</AccordionGroup>
+
+## GST/Tax Management Features
+
+<Card title="Global GST/VAT Support" icon="receipt" color="green">
+AI2Fin includes comprehensive GST/VAT/Sales Tax support for 30+ countries worldwide with automatic tax calculations.
+</Card>
+
+### Tax Features in All Transactions
+
+<Columns cols={2}>
+  <Card title="GST Display Column" icon="eye">
+    **View Tax Information:**
+    - GST/VAT amounts for each transaction
+    - Tax type indicator (GST, VAT, Sales Tax)
+    - Tax rate percentage
+    - Base amount vs total amount
+    - Hover tooltips for details
+  </Card>
+  
+  <Card title="GST Calculator" icon="calculator">
+    **Add/Edit GST on Transactions:**
+    - Available in transaction edit dialogs
+    - Set whether GST is included or excluded
+    - Choose tax rate based on country
+    - Automatic GST amount calculation
+    - Updates base and total amounts
+  </Card>
+</Columns>
+
+<AccordionGroup>
+  <Accordion title="Supported Tax Types by Country">
+    **Global Tax Coverage:**
+    - 🇦🇺 **Australia**: GST 10%
+    - 🇬🇧 **UK**: VAT 20%
+    - 🇳🇿 **New Zealand**: GST 15%
+    - 🇸🇬 **Singapore**: GST 9%
+    - 🇨🇦 **Canada**: GST 5%
+    - 🇩🇪 **Germany**: MwSt 19%
+    - 🇫🇷 **France**: TVA 20%
+    - 🇯🇵 **Japan**: Consumption Tax 10%
+    - 🇮🇳 **India**: GST 18%
+    - 🇭🇰 **Hong Kong**: No Tax 0%
+    - 🇸🇪 **Sweden**: Moms 25%
+    - Plus 20+ more countries
+  </Accordion>
+  
+  <Accordion title="GST Calculation Methods">
+    **Tax-Inclusive (GST Included):**
+    - Total amount already includes tax
+    - System calculates: Base = Total ÷ (1 + rate)
+    - GST = Total - Base
+    - Common in retail transactions
+    
+    **Tax-Exclusive (GST Excluded):**
+    - Base amount without tax
+    - System calculates: GST = Base × rate
+    - Total = Base + GST
+    - Common in B2B transactions
+  </Accordion>
+  
+  <Accordion title="Setting Your Tax Rate">
+    **Configure in User Preferences:**
+    1. Click avatar → Preferences
+    2. Go to "Country & Tax" tab
+    3. Select your country
+    4. Tax rate auto-populates
+    5. Customize if needed
+    
+    → See [User Preferences](/features/user-preferences) for more details
   </Accordion>
 </AccordionGroup>
 
