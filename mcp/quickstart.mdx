@@ -1,0 +1,273 @@
+---
+title: 'MCP Quickstart'
+description: 'Get started with AI2Fin MCP Server in 5 minutes'
+---
+
+# MCP Quickstart
+
+Get your AI assistant connected to AI2Fin data in minutes.
+
+## Prerequisites
+
+- AI2Fin account (Free or Premium)
+- Valid JWT authentication token
+- Basic understanding of REST APIs
+
+## Step 1: Authenticate
+
+Get your JWT token by logging in:
+
+```bash
+curl -X POST https://app.ai2fin.com/api/auth/login \
+  -H "Content-Type: application/json" \
+  -d '{
+    "email": "your@email.com",
+    "password": "your-password"
+  }'
+```
+
+Response:
+```json
+{
+  "success": true,
+  "data": {
+    "token": "eyJhbGciOiJIUzI1NiIs...",
+    "user": {
+      "id": "user-abc-123",
+      "email": "your@email.com"
+    }
+  }
+}
+```
+
+**Save the token** - you'll need it for all MCP calls!
+
+## Step 2: Send Your First Message
+
+```bash
+curl -X POST https://app.ai2fin.com/api/chat/message \
+  -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIs..." \
+  -H "Content-Type: application/json" \
+  -d '{
+    "message": "Show me my transactions"
+  }'
+```
+
+Response:
+```json
+{
+  "success": true,
+  "data": {
+    "conversationId": "conv-xyz-789",
+    "message": {
+      "id": "msg-abc-123",
+      "role": "assistant",
+      "content": "You have 47 transactions in your account...",
+      "metadata": {
+        "model": "gpt-5",
+        "tokens": 450,
+        "duration": 1200
+      }
+    },
+    "toolsUsed": ["get_transactions"]
+  }
+}
+```
+
+<Success>
+**Success!** The AI assistant accessed your data securely and responded with your transaction count.
+</Success>
+
+## Step 3: Explore Available Tools
+
+The AI can call 9 different tools to help you. Try these queries:
+
+<CodeGroup>
+```bash Tax Deductions
+curl -X POST https://app.ai2fin.com/api/chat/message \
+  -H "Authorization: Bearer YOUR_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "message": "Show my tax deductible transactions"
+  }'
+```
+
+```bash Bills
+curl -X POST https://app.ai2fin.com/api/chat/message \
+  -H "Authorization: Bearer YOUR_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "message": "What bills do I have this month?"
+  }'
+```
+
+```bash Subscription
+curl -X POST https://app.ai2fin.com/api/chat/message \
+  -H "Authorization: Bearer YOUR_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "message": "What features do I have access to?"
+  }'
+```
+
+```bash Create Transaction
+curl -X POST https://app.ai2fin.com/api/chat/message \
+  -H "Authorization: Bearer YOUR_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "message": "Create a transaction for coffee $5 today"
+  }'
+```
+</CodeGroup>
+
+## Step 4: View Conversation History
+
+Get your chat history:
+
+```bash
+curl -X GET https://app.ai2fin.com/api/chat/conversations \
+  -H "Authorization: Bearer YOUR_TOKEN"
+```
+
+Response:
+```json
+{
+  "success": true,
+  "data": [
+    {
+      "id": "conv-xyz-789",
+      "userId": "user-abc-123",
+      "title": "AI2Fin Assistant",
+      "messageCount": 8,
+      "createdAt": "2024-10-30T10:00:00Z",
+      "updatedAt": "2024-10-30T19:04:00Z"
+    }
+  ]
+}
+```
+
+## Understanding the Response
+
+Every MCP response includes:
+
+```json
+{
+  "success": true,              // Operation status
+  "data": {
+    "conversationId": "...",    // Conversation ID (for history)
+    "message": {
+      "id": "...",              // Message ID
+      "role": "assistant",      // Who sent it
+      "content": "...",         // The actual response
+      "metadata": {
+        "model": "gpt-5",       // Model used
+        "tokens": 450,          // Tokens consumed
+        "duration": 1200        // Response time (ms)
+      }
+    },
+    "toolsUsed": ["get_transactions"]  // Tools AI called
+  }
+}
+```
+
+## Key Features
+
+<CardGroup cols={2}>
+  <Card title="Conversation Memory" icon="brain">
+    Chat history retained permanently. AI remembers context across messages.
+  </Card>
+  
+  <Card title="Function Calling" icon="wrench">
+    AI automatically calls appropriate tools based on your question.
+  </Card>
+  
+  <Card title="User Isolated" icon="shield">
+    Your data never mixes with other users. Complete privacy guaranteed.
+  </Card>
+  
+  <Card title="GPT-5 Powered" icon="sparkles">
+    Latest GPT-5 model for intelligent, accurate responses.
+  </Card>
+</CardGroup>
+
+## Common Use Cases
+
+<AccordionGroup>
+  <Accordion title="Financial Query & Analysis">
+    ```
+    "Show my tax deductible transactions from last month"
+    "How much do I spend on bills monthly?"
+    "What's my biggest expense category?"
+    ```
+  </Accordion>
+  
+  <Accordion title="Data Management">
+    ```
+    "Create a transaction for lunch $25 today"
+    "Categorize my uncategorized transactions"
+    "Link this transaction to my Netflix bill"
+    ```
+  </Accordion>
+  
+  <Accordion title="Navigation & Help">
+    ```
+    "How do I export to ATO?"
+    "What features are available on my plan?"
+    "How does smart categorization work?"
+    ```
+  </Accordion>
+  
+  <Accordion title="Insights & Summaries">
+    ```
+    "Summarize my spending this quarter"
+    "What bills are due this month?"
+    "Am I eligible for any tax deductions?"
+    ```
+  </Accordion>
+</AccordionGroup>
+
+## Rate Limits
+
+**Free Plan**:
+- 10 messages per minute
+- 100 tool calls per hour
+
+**Premium Plan**:
+- 20 messages per minute
+- 500 tool calls per hour
+
+**Enterprise Plan**:
+- Custom limits
+- Dedicated resources
+
+## Error Handling
+
+Common errors and solutions:
+
+| Error | Cause | Solution |
+|-------|-------|----------|
+| `401 Unauthorized` | Missing/invalid token | Re-authenticate and get new token |
+| `429 Too Many Requests` | Rate limit exceeded | Wait 60 seconds and retry |
+| `400 Bad Request` | Invalid message format | Check request body structure |
+| `500 Server Error` | Internal error | Retry or contact support |
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Explore All Tools" icon="wrench" href="/mcp/tools">
+    See complete tool reference with parameters
+  </Card>
+  
+  <Card title="Security Model" icon="shield" href="/mcp/security">
+    Understand how data isolation works
+  </Card>
+  
+  <Card title="Code Examples" icon="code" href="/mcp/examples">
+    Ready-to-use integration code
+  </Card>
+  
+  <Card title="RAG System" icon="database" href="/mcp/rag-system">
+    How docs.ai2fin.com knowledge works
+  </Card>
+</CardGroup>
+

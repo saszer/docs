@@ -1,0 +1,247 @@
+---
+title: 'Subscription Tools'
+description: 'Check subscription plans and feature access'
+---
+
+# Subscription Tools
+
+AI2Fin MCP provides 2 tools to check user subscription status and feature access.
+
+<Note>
+These tools return REAL subscription data from your AI2Fin account, including plan type and available features.
+</Note>
+
+---
+
+## get_user_subscription
+
+Retrieves current subscription plan, status, and available features.
+
+###Parameters
+
+None required.
+
+### Response
+
+```json
+{
+  "success": true,
+  "data": {
+    "plan": "pro",
+    "planName": "Pro Plan",
+    "isActive": true,
+    "status": "active",
+    "features": [
+      "dashboard",
+      "category_management",
+      "travel_expenses",
+      "patterns",
+      "bank_import",
+      "all_transactions",
+      "expense_management",
+      "custom_rules",
+      "privacy_management",
+      "ato_export",
+      "ai_categorization",
+      "ai_tax_analysis"
+    ],
+    "trialEnd": null,
+    "nextPaymentDate": "2025-12-01T00:00:00.000Z"
+  }
+}
+```
+
+### Real Plans
+
+| Plan | Features Included |
+|------|------------------|
+| **free** | dashboard, category_management, travel_expenses, patterns, expense_management, privacy_management |
+| **trial** | Same as free (trial period) |
+| **basic** | Free features + bank_import, all_transactions, custom_rules |
+| **pro** | Basic features + ato_export, ai_categorization, ai_tax_analysis |
+| **elite+** | All features including email_processing, budget_allocations, tax_reports, ai_assistant, admin_panel |
+
+---
+
+## check_feature_access
+
+Checks if user can access a specific feature based on their subscription.
+
+### Parameters
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `feature` | string | Yes | Feature name to check |
+
+### Real Features
+
+**Free Features** (all plans):
+- `dashboard` - View financial overview
+- `category_management` - Manage categories
+- `travel_expenses` - Track vehicle trips
+- `patterns` - Recurring bill detection
+- `expense_management` - Track expenses
+- `privacy_management` - Privacy settings
+
+**Basic+ Features** (basic, pro, elite+):
+- `bank_import` - Import bank statements
+- `all_transactions` - View all transactions
+- `custom_rules` - Automated categorization rules
+
+**Pro+ Features** (pro, elite+):
+- `ato_export` - Tax export
+- `ai_categorization` - AI-powered categorization
+- `ai_tax_analysis` - AI tax optimization
+
+**Elite+ Features** (elite+ only):
+- `email_processing` - Receipt extraction from emails (coming soon)
+- `budget_allocations` - Budget planning (coming soon)
+- `tax_reports` - Advanced insights (coming soon)
+- `ai_assistant` - AI financial assistant (MCP chat)
+- `admin_panel` - System administration
+
+### Example Request
+
+```json
+{
+  "feature": "ai_categorization"
+}
+```
+
+### Example Response
+
+```json
+{
+  "success": true,
+  "data": {
+    "feature": "ai_categorization",
+    "hasAccess": true,
+    "currentPlan": "pro",
+    "planName": "Pro Plan",
+    "upgradeRequired": false,
+    "upgradeUrl": "/subscription"
+  }
+}
+```
+
+### Response (No Access)
+
+```json
+{
+  "success": true,
+  "data": {
+    "feature": "ai_categorization",
+    "hasAccess": false,
+    "currentPlan": "free",
+    "planName": "Free Plan",
+    "upgradeRequired": true,
+    "upgradeUrl": "/subscription"
+  }
+}
+```
+
+---
+
+## Use Cases
+
+### Check Current Plan
+
+```bash
+curl -X POST https://app.ai2fin.com/api/chat/message \
+  -H "Authorization: Bearer YOUR_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "message": "What plan am I on?"
+  }'
+```
+
+AI will call `get_user_subscription` and respond:
+```
+You're currently on the Pro Plan, which gives you access to:
+- All basic features
+- Tax export (ato_export)
+- AI categorization
+- AI tax analysis
+
+Your next payment is on December 1st, 2025.
+```
+
+### Check Feature Availability
+
+```bash
+curl -X POST https://app.ai2fin.com/api/chat/message \
+  -H "Authorization: Bearer YOUR_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "message": "Can I use AI categorization?"
+  }'
+```
+
+AI will call `check_feature_access` with `feature: "ai_categorization"` and respond appropriately.
+
+---
+
+## Upgrade Prompts
+
+If user tries to use a feature they don't have access to, AI will:
+
+1. Call `check_feature_access` 
+2. See `hasAccess: false`
+3. Suggest upgrade:
+
+```
+AI categorization requires the Pro Plan or higher.
+
+Your current plan: Free Plan
+
+Upgrade to Pro to unlock:
+✓ AI categorization
+✓ AI tax analysis
+✓ Tax export
+
+Visit /subscription to upgrade.
+```
+
+---
+
+## Free Quota System
+
+Some features have free quotas for trial users:
+
+| Feature | Free Quota | Notes |
+|---------|-----------|-------|
+| `ai_categorization` | 5 calls | Then requires Pro+ |
+| Most others | Unlimited | Based on plan |
+
+---
+
+## Technical Details
+
+### Authentication
+
+Both tools require JWT authentication. Token must be valid and contain `userId`.
+
+### Fallback Behavior
+
+If subscription service is unavailable:
+- Returns free plan with basic features
+- User can still access free features
+- Prevents total service outage
+
+### Caching
+
+Subscription data is fetched fresh on each call (no caching) to ensure accurate feature access.
+
+---
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Transaction Tools" icon="list" href="/mcp/transaction-tools">
+    Access transaction data
+  </Card>
+  
+  <Card title="Bill Tools" icon="calendar" href="/mcp/bill-tools">
+    Manage recurring bills
+  </Card>
+</CardGroup>

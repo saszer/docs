@@ -1,0 +1,427 @@
+---
+title: 'MCP Examples'
+description: 'Real-world integration examples for AI2Fin MCP Server'
+---
+
+# MCP Integration Examples
+
+Production-ready code examples for integrating with AI2Fin's MCP Server.
+
+## Example 1: Basic Chat Integration
+
+### Python
+
+```python
+import requests
+
+# Your AI2Fin JWT token
+TOKEN = "eyJhbGciOiJIUzI1NiIs..."
+BASE_URL = "https://app.ai2fin.com"
+
+def send_message(message: str, conversation_id: str = None):
+    """Send message to AI2Fin MCP chat"""
+    response = requests.post(
+        f"{BASE_URL}/api/chat/message",
+        headers={
+            "Authorization": f"Bearer {TOKEN}",
+            "Content-Type": "application/json"
+        },
+        json={
+            "message": message,
+            "conversationId": conversation_id
+        }
+    )
+    
+    return response.json()
+
+# Usage
+result = send_message("Show my tax deductible transactions")
+print(result['data']['message']['content'])
+# Output: "You have 23 tax deductible transactions totaling $4,532..."
+```
+
+### JavaScript/TypeScript
+
+```typescript
+const TOKEN = 'eyJhbGciOiJIUzI1NiIs...';
+const BASE_URL = 'https://app.ai2fin.com';
+
+async function sendMessage(message: string, conversationId?: string) {
+  const response = await fetch(`${BASE_URL}/api/chat/message`, {
+    method: 'POST',
+    headers: {
+      'Authorization': `Bearer ${TOKEN}`,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      message,
+      conversationId
+    })
+  });
+  
+  return await response.json();
+}
+
+// Usage
+const result = await sendMessage('What bills do I have this month?');
+console.log(result.data.message.content);
+```
+
+---
+
+## Example 2: Custom AI Agent
+
+Build a custom financial AI agent that uses AI2Fin data.
+
+```python
+import openai
+from ai2fin_mcp import AI2FinMCP
+
+class FinancialAgent:
+    def __init__(self, ai2fin_token: str, openai_key: str):
+        self.mcp = AI2FinMCP(token=ai2fin_token)
+        self.openai = openai.Client(api_key=openai_key)
+        
+    def analyze_spending(self, question: str):
+        """Analyze spending using AI2Fin data + custom AI"""
+        
+        # 1. Get data from AI2Fin
+        transactions = self.mcp.get_transactions(limit=100)
+        bills = self.mcp.get_bills()
+        
+        # 2. Build context
+        context = f"""
+        User has {len(transactions)} transactions.
+        Monthly bills total: ${bills['monthlyTotal']}
+        
+        Transactions:
+        {self.format_transactions(transactions)}
+        """
+        
+        # 3. Call your custom AI
+        response = self.openai.chat.completions.create(
+            model="gpt-4",
+            messages=[
+                {"role": "system", "content": "Financial advisor AI"},
+                {"role": "user", "content": f"{question}\n\nContext: {context}"}
+            ]
+        )
+        
+        return response.choices[0].message.content
+
+# Usage
+agent = FinancialAgent(
+    ai2fin_token="YOUR_AI2FIN_TOKEN",
+    openai_key="YOUR_OPENAI_KEY"
+)
+
+advice = agent.analyze_spending("How can I reduce my monthly expenses?")
+print(advice)
+```
+
+---
+
+## Example 3: Conversational Interface
+
+Maintain conversation history across multiple requests.
+
+```typescript
+class AI2FinChat {
+  private token: string;
+  private conversationId: string | null = null;
+  
+  constructor(token: string) {
+    this.token = token;
+  }
+  
+  async chat(message: string): Promise<string> {
+    const response = await fetch('https://app.ai2fin.com/api/chat/message', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${this.token}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        message,
+        conversationId: this.conversationId
+      })
+    });
+    
+    const data = await response.json();
+    
+    // Save conversation ID for history
+    this.conversationId = data.data.conversationId;
+    
+    return data.data.message.content;
+  }
+  
+  async getHistory(): Promise<Message[]> {
+    if (!this.conversationId) return [];
+    
+    const response = await fetch(
+      `https://app.ai2fin.com/api/chat/conversations/${this.conversationId}`,
+      {
+        headers: { 'Authorization': `Bearer ${this.token}` }
+      }
+    );
+    
+    const data = await response.json();
+    return data.data;
+  }
+}
+
+// Usage
+const chat = new AI2FinChat('YOUR_TOKEN');
+
+// First message
+await chat.chat("Show my transactions");
+// AI: "You have 47 transactions..."
+
+// Second message (AI remembers context!)
+await chat.chat("Which ones are tax deductible?");
+// AI: "Of those 47, 23 are tax deductible..."
+
+// Get full history
+const history = await chat.getHistory();
+console.log(history);  // All messages retained
+```
+
+---
+
+## Example 4: CLI Tool
+
+Build a command-line interface for AI2Fin.
+
+```python
+#!/usr/bin/env python3
+import sys
+from ai2fin_mcp import AI2FinChat
+
+def main():
+    token = input("Enter your AI2Fin token: ")
+    chat = AI2FinChat(token)
+    
+    print("AI2Fin Assistant (type 'exit' to quit)\n")
+    
+    while True:
+        user_input = input("You: ")
+        
+        if user_input.lower() == 'exit':
+            break
+            
+        response = chat.send_message(user_input)
+        print(f"AI: {response}\n")
+
+if __name__ == "__main__":
+    main()
+```
+
+**Usage**:
+```bash
+$ python ai2fin_cli.py
+Enter your AI2Fin token: eyJhbGciOiJIUzI1NiIs...
+AI2Fin Assistant (type 'exit' to quit)
+
+You: Show my bills
+AI: You have 12 recurring bills totaling $445.50 monthly...
+
+You: What's due this week?
+AI: You have 3 bills due this week:
+- Netflix ($15.99) - Due Nov 5
+- Spotify ($11.99) - Due Nov 8
+- Adobe CC ($54.99) - Due Nov 10
+
+You: exit
+```
+
+---
+
+## Example 5: Slack Bot Integration
+
+```javascript
+const { App } = require('@slack/bolt');
+const { AI2FinMCP } = require('ai2fin-mcp-sdk');
+
+const app = new App({
+  token: process.env.SLACK_BOT_TOKEN,
+  signingSecret: process.env.SLACK_SIGNING_SECRET
+});
+
+// Map Slack users to AI2Fin tokens (securely!)
+const userTokens = new Map();
+
+app.message(async ({ message, say }) => {
+  const userId = message.user;
+  const ai2finToken = userTokens.get(userId);
+  
+  if (!ai2finToken) {
+    await say("Please authenticate with AI2Fin first: /ai2fin-login");
+    return;
+  }
+  
+  // Send to AI2Fin MCP
+  const mcp = new AI2FinMCP(ai2finToken);
+  const response = await mcp.chat(message.text);
+  
+  await say(response.data.message.content);
+});
+
+app.start(3000);
+```
+
+**Result**: Ask AI2Fin questions directly in Slack! ✅
+
+---
+
+## Example 6: Error Handling
+
+```typescript
+async function safeMCPCall(message: string, token: string) {
+  try {
+    const response = await fetch('https://app.ai2fin.com/api/chat/message', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ message })
+    });
+    
+    const data = await response.json();
+    
+    if (!data.success) {
+      // Handle MCP errors
+      if (response.status === 401) {
+        return "Authentication failed. Please login again.";
+      } else if (response.status === 429) {
+        return "Rate limit exceeded. Please wait a minute.";
+      } else {
+        return `Error: ${data.error}`;
+      }
+    }
+    
+    return data.data.message.content;
+    
+  } catch (error) {
+    return `Network error: ${error.message}`;
+  }
+}
+```
+
+---
+
+## Example 7: Multi-User Application
+
+```typescript
+// Enterprise app with multiple AI2Fin users
+class EnterpriseAI2FinService {
+  private userSessions = new Map<string, { token: string, conversationId: string }>();
+  
+  async handleUserQuery(userId: string, query: string): Promise<string> {
+    // Get user's AI2Fin session
+    const session = this.userSessions.get(userId);
+    
+    if (!session) {
+      throw new Error('User not authenticated with AI2Fin');
+    }
+    
+    // Call MCP with user's token (isolated!)
+    const response = await fetch('https://app.ai2fin.com/api/chat/message', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${session.token}`,  // User-specific!
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        message: query,
+        conversationId: session.conversationId
+      })
+    });
+    
+    const data = await response.json();
+    
+    // Update conversation ID
+    session.conversationId = data.data.conversationId;
+    
+    return data.data.message.content;
+  }
+}
+
+// Each user gets isolated access ✅
+```
+
+---
+
+## Example 8: Voice Assistant Integration
+
+```python
+import speech_recognition as sr
+from ai2fin_mcp import AI2FinChat
+import pyttsx3
+
+# Initialize
+recognizer = sr.Recognizer()
+tts = pyttsx3.init()
+chat = AI2FinChat(token="YOUR_TOKEN")
+
+def voice_assistant():
+    with sr.Microphone() as source:
+        print("Listening...")
+        audio = recognizer.listen(source)
+        
+    try:
+        # Speech to text
+        text = recognizer.recognize_google(audio)
+        print(f"You: {text}")
+        
+        # Send to AI2Fin
+        response = chat.send_message(text)
+        print(f"AI: {response}")
+        
+        # Text to speech
+        tts.say(response)
+        tts.runAndWait()
+        
+    except Exception as e:
+        print(f"Error: {e}")
+
+# Usage
+while True:
+    voice_assistant()
+```
+
+---
+
+## SDK Libraries
+
+### Official SDKs (Coming Soon)
+
+```bash
+# Python
+pip install ai2fin-mcp-sdk
+
+# JavaScript/TypeScript
+npm install @ai2fin/mcp-sdk
+
+# Go
+go get github.com/ai2fin/mcp-sdk-go
+```
+
+### Community SDKs
+
+Check our [GitHub](https://github.com/ai2fin) for community-contributed SDKs.
+
+---
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="RAG System" icon="database" href="/mcp/rag-system">
+    Learn how docs knowledge works
+  </Card>
+  
+  <Card title="Best Practices" icon="check-circle" href="/mcp/best-practices">
+    Production deployment guidelines
+  </Card>
+</CardGroup>
+

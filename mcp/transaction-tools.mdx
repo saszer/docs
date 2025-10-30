@@ -1,0 +1,413 @@
+---
+title: 'Transaction Tools'
+description: 'Access and manage financial transactions'
+---
+
+# Transaction Tools
+
+AI2Fin MCP provides 4 tools for transaction management with direct database access for maximum performance.
+
+<Note>
+All transaction data is **user-isolated**. You can only access your own transactions.
+</Note>
+
+---
+
+## get_transactions
+
+Retrieves transactions with AI analysis (cached - no re-analysis).
+
+### Parameters
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `startDate` | string | No | Start date (ISO 8601, e.g., "2025-01-01") |
+| `endDate` | string | No | End date (ISO 8601) |
+| `isTaxDeductible` | boolean | No | Filter tax deductible only |
+| `categoryId` | string | No | Filter by category ID |
+| `minAmount` | number | No | Minimum amount |
+| `maxAmount` | number | No | Maximum amount |
+| `limit` | number | No | Max results (default: 100) |
+
+### Real Transaction Fields
+
+```typescript
+{
+  id: string;
+  transactionId: string;         // Unique transaction ID
+  userId: string;                // Owner
+  description: string;           // Transaction description
+  amount: number;                // Amount (negative = expense, positive = income)
+  date: string;                  // ISO date
+  
+  // Primary categorization
+  primaryType: string;           // "expense" | "income" | "transfer"
+  secondaryType?: string;        // "bill" | "one-time expense" | "capital expense"
+  
+  // Tax & business
+  isTaxDeductible: boolean;
+  taxDeductionReason?: string;
+  businessUsePercentage: number; // 0-100
+  
+  // Categorization
+  category?: {
+    id: string;
+    name: string;
+    color: string;
+  };
+  categoryId?: string;
+  
+  // Recurrence
+  recurring: boolean;
+  recurrencePattern?: string;    // "weekly" | "monthly" | "quarterly" | "adhoc"
+  nextDueDate?: string;
+  
+  // Metadata
+  merchant?: string;
+  reference?: string;
+  notes?: string;
+  receiptUrl?: string;
+  
+  // AI analysis (cached)
+  aiTaxAnalysis?: string;        // JSON string of AI analysis
+  taxCache?: string;             // Cached tax analysis
+  
+  // Rules
+  appliedRuleId?: string;
+  appliedRuleName?: string;
+  ruleAppliedAt?: string;
+  
+  // Status
+  processed: boolean;
+  needsReview: boolean;
+}
+```
+
+### Example Request
+
+```json
+{
+  "startDate": "2025-01-01",
+  "endDate": "2025-03-31",
+  "isTaxDeductible": true,
+  "limit": 50
+}
+```
+
+### Example Response
+
+```json
+{
+  "success": true,
+  "data": {
+    "transactions": [
+      {
+        "id": "clx123abc",
+        "transactionId": "txn_unique_id",
+        "description": "Office Supplies - Staples",
+        "amount": -125.50,
+        "date": "2025-02-15T00:00:00.000Z",
+        "primaryType": "expense",
+        "secondaryType": "one-time expense",
+        "isTaxDeductible": true,
+        "taxDeductionReason": "Business expense - office supplies",
+        "businessUsePercentage": 100,
+        "category": {
+          "id": "cat_office",
+          "name": "Office Expenses",
+          "color": "#4CAF50"
+        },
+        "merchant": "Staples",
+        "aiTaxAnalysis": "{\"deductible\":true,\"reason\":\"Office supplies for business use\",\"confidence\":0.95}",
+        "recurring": false,
+        "processed": true,
+        "needsReview": false
+      }
+    ],
+    "count": 23,
+    "filters": {
+      "startDate": "2025-01-01",
+      "endDate": "2025-03-31",
+      "isTaxDeductible": true
+    }
+  }
+}
+```
+
+---
+
+## get_tax_deductible_summary
+
+Summarizes tax deductible transactions grouped by category.
+
+### Parameters
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `startDate` | string | No | Start date |
+| `endDate` | string | No | End date |
+
+### Example Request
+
+```json
+{
+  "startDate": "2025-01-01",
+  "endDate": "2025-12-31"
+}
+```
+
+### Example Response
+
+```json
+{
+  "success": true,
+  "data": {
+    "totalCount": 156,
+    "totalAmount": 24532.75,
+    "byCategory": {
+      "Office Expenses": {
+        "count": 23,
+        "total": 3250.50
+      },
+      "Travel - Vehicle": {
+        "count": 45,
+        "total": 12500.00
+      },
+      "Professional Services": {
+        "count": 12,
+        "total": 8782.25
+      }
+    },
+    "dateRange": {
+      "startDate": "2025-01-01",
+      "endDate": "2025-12-31"
+    }
+  }
+}
+```
+
+---
+
+## create_transaction
+
+Creates a new transaction.
+
+### Parameters
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `description` | string | Yes | Transaction description |
+| `amount` | number | Yes | Amount (negative for expenses, positive for income) |
+| `date` | string | Yes | Date (ISO 8601) |
+| `primaryType` | string | Yes | "expense", "income", or "transfer" |
+| `secondaryType` | string | No | "bill", "one-time expense", "capital expense" |
+| `isTaxDeductible` | boolean | No | Is tax deductible (default: false) |
+| `categoryId` | string | No | Category ID |
+| `merchant` | string | No | Merchant name |
+| `notes` | string | No | Additional notes |
+
+### Example Request
+
+```json
+{
+  "description": "Office Rent - March 2025",
+  "amount": -2500.00,
+  "date": "2025-03-01",
+  "primaryType": "expense",
+  "secondaryType": "bill",
+  "isTaxDeductible": true,
+  "merchant": "Property Management Co",
+  "notes": "Monthly office rent"
+}
+```
+
+### Example Response
+
+```json
+{
+  "success": true,
+  "data": {
+    "transaction": {
+      "id": "clx789xyz",
+      "transactionId": "txn_new_unique",
+      "description": "Office Rent - March 2025",
+      "amount": -2500.00,
+      "date": "2025-03-01T00:00:00.000Z",
+      "primaryType": "expense",
+      "secondaryType": "bill",
+      "isTaxDeductible": true,
+      "merchant": "Property Management Co",
+      "notes": "Monthly office rent",
+      "processed": true,
+      "createdAt": "2025-03-01T10:30:00.000Z"
+    }
+  }
+}
+```
+
+---
+
+## trigger_smart_categorization
+
+Triggers AI categorization on uncategorized or specified transactions.
+
+<Warning>
+This **runs the actual AI categorization flow** - it does NOT re-analyze. It uses the existing cached AI analysis or triggers new analysis if not present.
+</Warning>
+
+### Parameters
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `transactionIds` | string[] | No | Specific transaction IDs (if empty, processes uncategorized) |
+| `force` | boolean | No | Force re-categorization (default: false) |
+
+### Example Request
+
+```json
+{
+  "transactionIds": ["clx123abc", "clx456def"],
+  "force": false
+}
+```
+
+### Example Response
+
+```json
+{
+  "success": true,
+  "data": {
+    "processed": 2,
+    "categorized": 2,
+    "failed": 0,
+    "results": [
+      {
+        "transactionId": "clx123abc",
+        "categoryId": "cat_office",
+        "categoryName": "Office Expenses",
+        "confidence": 0.95
+      },
+      {
+        "transactionId": "clx456def",
+        "categoryId": "cat_travel",
+        "categoryName": "Travel - Vehicle",
+        "confidence": 0.89
+      }
+    ]
+  }
+}
+```
+
+---
+
+## Real-World Examples
+
+### Get Recent Expenses
+
+**User**: "Show my expenses from last month"
+
+**AI calls**:
+```json
+{
+  "tool": "get_transactions",
+  "params": {
+    "startDate": "2025-02-01",
+    "endDate": "2025-02-28",
+    "primaryType": "expense"
+  }
+}
+```
+
+### Tax Deductible Summary
+
+**User**: "How much can I deduct this quarter?"
+
+**AI calls**:
+```json
+{
+  "tool": "get_tax_deductible_summary",
+  "params": {
+    "startDate": "2025-01-01",
+    "endDate": "2025-03-31"
+  }
+}
+```
+
+**AI responds**: "You have 156 tax deductible transactions totaling $24,532.75 this quarter. Breakdown by category: Office Expenses ($3,250.50), Travel ($12,500.00), Professional Services ($8,782.25)."
+
+### Add Transaction
+
+**User**: "Create a transaction for lunch $45 today"
+
+**AI calls**:
+```json
+{
+  "tool": "create_transaction",
+  "params": {
+    "description": "Lunch",
+    "amount": -45.00,
+    "date": "2025-10-30",
+    "primaryType": "expense",
+    "secondaryType": "one-time expense"
+  }
+}
+```
+
+### Categorize Uncategorized
+
+**User**: "Categorize my uncategorized transactions"
+
+**AI calls**:
+```json
+{
+  "tool": "trigger_smart_categorization",
+  "params": {}
+}
+```
+
+---
+
+## Important Notes
+
+### Transaction Amounts
+
+- **Negative** = Expenses (e.g., -100 means you spent $100)
+- **Positive** = Income (e.g., +100 means you received $100)
+
+### Primary Types
+
+- `expense` - Money going out
+- `income` - Money coming in
+- `transfer` - Moving money between accounts
+
+### Secondary Types (for expenses)
+
+- `bill` - Recurring bills
+- `one-time expense` - One-off purchases
+- `capital expense` - Large asset purchases
+
+### AI Analysis Caching
+
+- `aiTaxAnalysis` field contains cached AI analysis
+- **NO re-analysis** on retrieval (fast!)
+- Use `trigger_smart_categorization` to update if needed
+
+### Performance
+
+- Direct database access = ~5-10ms response time
+- No HTTP overhead
+- User-isolated queries (secure)
+
+---
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Bill Tools" icon="calendar" href="/mcp/bill-tools">
+    Manage recurring bills
+  </Card>
+  
+  <Card title="Subscription Tools" icon="credit-card" href="/mcp/subscription-tools">
+    Check feature access
+  </Card>
+</CardGroup>

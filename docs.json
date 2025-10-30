@@ -95,6 +95,39 @@
             ]
           }
         ]
+      },
+      {
+        "tab": "MCP Server",
+        "groups": [
+          {
+            "group": "Getting Started",
+            "pages": [
+              "mcp/introduction",
+              "mcp/quickstart"
+            ]
+          },
+          {
+            "group": "Authentication",
+            "pages": [
+              "mcp/authentication"
+            ]
+          },
+          {
+            "group": "Tools Reference",
+            "pages": [
+              "mcp/tools-overview",
+              "mcp/transaction-tools",
+              "mcp/bill-tools",
+              "mcp/subscription-tools"
+            ]
+          },
+          {
+            "group": "Integration",
+            "pages": [
+              "mcp/examples"
+            ]
+          }
+        ]
       }
     ],
     "global": {

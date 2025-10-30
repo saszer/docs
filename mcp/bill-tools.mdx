@@ -1,0 +1,374 @@
+---
+title: 'Bill Tools'
+description: 'Manage recurring bills and patterns'
+---
+
+# Bill Tools
+
+AI2Fin MCP provides 3 tools for managing recurring bill patterns and upcoming occurrences.
+
+<Note>
+Bills are automatically detected patterns in your transaction history. The AI identifies recurring payments and creates bill patterns.
+</Note>
+
+---
+
+## get_bills
+
+Retrieves all recurring bill patterns for the user.
+
+### Parameters
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `active` | boolean | No | Filter active bills only |
+
+### Real Bill Pattern Fields
+
+```typescript
+{
+  id: string;
+  userId: string;
+  merchantName: string;          // Bill merchant/provider
+  description: string;           // Bill description
+  amount: number;                // Base amount
+  baseRecurringAmount: number;   // Recurring amount
+  billFrequency: string;         // "WEEKLY" | "FORTNIGHTLY" | "MONTHLY" | "QUARTERLY" | "YEARLY"
+  nextDueDate: Date;             // Next expected due date
+  isActive: boolean;             // Is bill still active
+  category?: {
+    id: string;
+    name: string;
+  };
+  firstOccurrence: Date;         // When first detected
+  lastOccurrence: Date;          // Last occurrence
+  occurrenceCount: number;       // Total occurrences
+  confidence: number;            // AI confidence (0-1)
+  createdAt: Date;
+  updatedAt: Date;
+}
+```
+
+### Example Request
+
+```json
+{
+  "active": true
+}
+```
+
+### Example Response
+
+```json
+{
+  "success": true,
+  "data": {
+    "bills": [
+      {
+        "id": "bill_123",
+        "merchantName": "Netflix",
+        "description": "Netflix Subscription",
+        "amount": 19.99,
+        "baseRecurringAmount": 19.99,
+        "billFrequency": "MONTHLY",
+        "nextDueDate": "2025-11-15T00:00:00.000Z",
+        "isActive": true,
+        "occurrenceCount": 24,
+        "confidence": 0.98,
+        "firstOccurrence": "2023-11-15T00:00:00.000Z",
+        "lastOccurrence": "2025-10-15T00:00:00.000Z"
+      },
+      {
+        "id": "bill_456",
+        "merchantName": "Office Rent",
+        "description": "Monthly Office Rent",
+        "amount": 2500.00,
+        "baseRecurringAmount": 2500.00,
+        "billFrequency": "MONTHLY",
+        "nextDueDate": "2025-11-01T00:00:00.000Z",
+        "isActive": true,
+        "occurrenceCount": 36,
+        "confidence": 1.0
+      }
+    ],
+    "count": 2
+  }
+}
+```
+
+---
+
+## get_upcoming_bills
+
+Retrieves upcoming bill occurrences (due dates).
+
+### Parameters
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `days` | number | No | Days ahead to look (default: 30) |
+
+### Bill Occurrence Fields
+
+```typescript
+{
+  id: string;
+  billPatternId: string;
+  dueDate: Date;                // When bill is due
+  amount: number;               // Expected amount
+  status: string;               // "pending" | "paid" | "overdue"
+  paid: boolean;                // Has been paid
+  paidDate?: Date;              // When it was paid
+  linkedTransactionId?: string; // Transaction that paid this bill
+  billPattern: {                // Full pattern info
+    merchantName: string;
+    description: string;
+    billFrequency: string;
+  };
+}
+```
+
+### Example Request
+
+```json
+{
+  "days": 30
+}
+```
+
+### Example Response
+
+```json
+{
+  "success": true,
+  "data": {
+    "occurrences": [
+      {
+        "id": "occ_789",
+        "billPatternId": "bill_456",
+        "dueDate": "2025-11-01T00:00:00.000Z",
+        "amount": 2500.00,
+        "status": "pending",
+        "paid": false,
+        "billPattern": {
+          "merchantName": "Office Rent",
+          "description": "Monthly Office Rent",
+          "billFrequency": "MONTHLY"
+        }
+      },
+      {
+        "id": "occ_790",
+        "billPatternId": "bill_123",
+        "dueDate": "2025-11-15T00:00:00.000Z",
+        "amount": 19.99,
+        "status": "pending",
+        "paid": false,
+        "billPattern": {
+          "merchantName": "Netflix",
+          "description": "Netflix Subscription",
+          "billFrequency": "MONTHLY"
+        }
+      }
+    ],
+    "count": 2,
+    "daysAhead": 30
+  }
+}
+```
+
+---
+
+## get_bill_summary
+
+Calculates bill summary including monthly totals and frequency breakdown.
+
+### Parameters
+
+None required.
+
+### Example Response
+
+```json
+{
+  "success": true,
+  "data": {
+    "totalBills": 5,
+    "monthlyTotal": 3845.50,
+    "byFrequency": {
+      "MONTHLY": 3,
+      "QUARTERLY": 1,
+      "YEARLY": 1
+    },
+    "bills": [
+      {
+        "name": "Office Rent",
+        "amount": 2500.00,
+        "frequency": "MONTHLY"
+      },
+      {
+        "name": "Netflix",
+        "amount": 19.99,
+        "frequency": "MONTHLY"
+      },
+      {
+        "name": "Spotify",
+        "amount": 12.99,
+        "frequency": "MONTHLY"
+      },
+      {
+        "name": "Professional Insurance",
+        "amount": 1200.00,
+        "frequency": "QUARTERLY"
+      },
+      {
+        "name": "Software License",
+        "amount": 599.00,
+        "frequency": "YEARLY"
+      }
+    ]
+  }
+}
+```
+
+**Monthly Total Calculation**:
+- WEEKLY bills × 4
+- FORTNIGHTLY bills × 2
+- MONTHLY bills × 1
+- QUARTERLY bills ÷ 3
+- YEARLY bills ÷ 12
+
+---
+
+## Real-World Examples
+
+### View All Bills
+
+**User**: "What bills do I have?"
+
+**AI calls**:
+```json
+{
+  "tool": "get_bills",
+  "params": {
+    "active": true
+  }
+}
+```
+
+**AI responds**: "You have 5 active recurring bills: Office Rent ($2,500/month), Netflix ($19.99/month), Spotify ($12.99/month), Professional Insurance ($1,200/quarter), and Software License ($599/year)."
+
+### Check Upcoming Payments
+
+**User**: "What bills are due this month?"
+
+**AI calls**:
+```json
+{
+  "tool": "get_upcoming_bills",
+  "params": {
+    "days": 30
+  }
+}
+```
+
+**AI responds**: "You have 2 bills due this month: Office Rent ($2,500) on November 1st and Netflix ($19.99) on November 15th. Total: $2,519.99."
+
+### Calculate Monthly Bill Cost
+
+**User**: "How much do I spend on bills monthly?"
+
+**AI calls**:
+```json
+{
+  "tool": "get_bill_summary",
+  "params": {}
+}
+```
+
+**AI responds**: "Your monthly bill total is approximately $3,845.50. This includes 3 monthly bills, 1 quarterly bill (prorated), and 1 yearly bill (prorated)."
+
+---
+
+## Bill Frequencies
+
+| Frequency | Description | Monthly Calculation |
+|-----------|-------------|---------------------|
+| `WEEKLY` | Every week | Amount × 4 |
+| `FORTNIGHTLY` | Every 2 weeks | Amount × 2 |
+| `MONTHLY` | Every month | Amount × 1 |
+| `QUARTERLY` | Every 3 months | Amount ÷ 3 |
+| `YEARLY` | Once per year | Amount ÷ 12 |
+
+---
+
+## Bill Detection
+
+Bills are **automatically detected** by AI analyzing your transaction history:
+
+1. **Pattern Recognition**: Identifies recurring merchants
+2. **Frequency Detection**: Determines payment frequency
+3. **Amount Consistency**: Checks if amounts are consistent
+4. **Confidence Score**: Assigns confidence (0-1)
+5. **Bill Creation**: Creates pattern if confidence > 0.8
+
+**High Confidence** (0.9+):
+- Same merchant
+- Same amount (±5%)
+- Consistent interval
+
+**Medium Confidence** (0.7-0.9):
+- Same merchant
+- Varying amount (±20%)
+- Mostly consistent interval
+
+---
+
+## Bill Status
+
+### Bill Pattern Status
+- `isActive: true` - Bill is currently active
+- `isActive: false` - Bill stopped/cancelled
+
+### Occurrence Status
+- `pending` - Not yet paid
+- `paid` - Payment processed
+- `overdue` - Past due date, not paid
+
+---
+
+## Important Notes
+
+### Automatic Updates
+
+Bills update automatically when:
+- New matching transaction detected
+- Payment processed for occurrence
+- Pattern changes (amount, frequency)
+
+### Manual Management
+
+Users can:
+- Mark bills as inactive
+- Edit bill details
+- Link transactions manually
+- Override AI detection
+
+### Performance
+
+- Direct database access (~5-10ms)
+- No external API calls
+- User-isolated queries
+
+---
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Transaction Tools" icon="list" href="/mcp/transaction-tools">
+    Access transaction data
+  </Card>
+  
+  <Card title="Subscription Tools" icon="credit-card" href="/mcp/subscription-tools">
+    Check feature access
+  </Card>
+</CardGroup>

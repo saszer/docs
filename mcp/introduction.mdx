@@ -1,0 +1,135 @@
+---
+title: 'MCP Server'
+description: 'Connect AI models to AI2Fin financial data'
+---
+
+# AI2Fin MCP Server
+
+## What is MCP?
+
+The **Model Context Protocol (MCP)** allows AI models to interact with your AI2Fin financial data securely through standardized function calling.
+
+<Note>
+Think of it as an API specifically designed for AI assistants like ChatGPT, Claude, or custom agents.
+</Note>
+
+## Quick Overview
+
+```
+Your AI Model → MCP Server → Your AI2Fin Data
+```
+
+- **AI Model** asks question in natural language
+- **MCP Server** translates to function calls
+- **Your Data** returns (user-isolated, secure)
+- **AI Model** formats answer conversationally
+
+## Key Features
+
+<CardGroup cols={2}>
+  <Card title="9 Powerful Tools" icon="wrench">
+    Access transactions, bills, subscriptions via simple function calls
+  </Card>
+  
+  <Card title="User Isolated" icon="shield">
+    Each request scoped to authenticated user - zero data leakage
+  </Card>
+  
+  <Card title="GPT-5 Powered" icon="sparkles">
+    AI2Fin's built-in assistant uses GPT-5 for intelligent responses
+  </Card>
+  
+  <Card title="Conversation Memory" icon="brain">
+    Chat history retained - AI remembers context across messages
+  </Card>
+</CardGroup>
+
+## Available Tools
+
+**Transaction Management**:
+- Get filtered transactions with AI analysis
+- Create new transactions
+- Get tax deduction summaries
+- Trigger AI categorization
+
+**Bill Management**:
+- Get recurring bill patterns
+- View upcoming bill due dates
+- Calculate monthly bill totals
+
+**Subscription**:
+- Check user's subscription plan
+- Verify feature access
+
+## Use Cases
+
+<Tabs>
+  <Tab title="Built-in Chat">
+    AI2Fin's chat window (bottom-right) uses MCP internally to answer your questions about finances.
+  </Tab>
+  
+  <Tab title="Custom AI Agents">
+    Build custom financial agents that access your AI2Fin data via MCP protocol.
+  </Tab>
+  
+  <Tab title="AI Integrations">
+    Connect external AI models (ChatGPT, Claude) to your AI2Fin account.
+  </Tab>
+</Tabs>
+
+## Authentication Required
+
+All MCP requests require **JWT authentication**. Each user's token only accesses their own data.
+
+```http
+POST /api/chat/message
+Authorization: Bearer eyJhbGciOiJIUzI1NiIs...
+```
+
+<Warning>
+MCP is currently **private** - used only by AI2Fin's built-in assistant. External access requires enterprise authentication.
+</Warning>
+
+## Quick Example
+
+```bash
+curl -X POST https://app.ai2fin.com/api/chat/message \
+  -H "Authorization: Bearer YOUR_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "message": "Show my tax deductible transactions"
+  }'
+```
+
+Response:
+```json
+{
+  "success": true,
+  "data": {
+    "message": {
+      "content": "You have 23 tax deductible transactions totaling $4,532..."
+    },
+    "toolsUsed": ["get_transactions"]
+  }
+}
+```
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Quickstart Guide" icon="rocket" href="/mcp/quickstart">
+    Get started in 5 minutes
+  </Card>
+  
+  <Card title="Authentication" icon="key" href="/mcp/authentication">
+    Learn how to authenticate
+  </Card>
+  
+  <Card title="Tools Reference" icon="wrench" href="/mcp/tools-overview">
+    Explore all available tools
+  </Card>
+  
+  <Card title="Code Examples" icon="code" href="/mcp/examples">
+    Ready-to-use integration code
+  </Card>
+</CardGroup>
