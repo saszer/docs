@@ -1,113 +1,134 @@
 ---
-title: "AI Assistant"
-description: "Coming Soon - AI-powered financial insights and intelligent assistance"
+title: "AI Assistant (Chat)"
+description: "Conversational AI assistant for financial insights, actions, and guidance"
 ---
 
-<Warning>
-**Coming Soon Feature**
+## Overview
 
-AI Assistant is currently in development and will be available in a future update.
-</Warning>
+The AI Assistant provides a secure, conversational chat experience to query finances, get insights, and trigger actions. Conversations are persisted per user and protected by authentication.
 
-## Planned AI Assistant Features
-
-### What's Coming
-
-<CardGroup cols={2}>
-  <Card title="Intelligent Chat" icon="message-circle">
-    **Planned Features:**
-    - Natural language financial queries
-    - Conversational AI interface
-    - Context-aware responses
-    - Multi-language support
-    - Voice interaction capabilities
+<CardGroup cols={3}>
+  <Card title="Persistent Conversations" icon="message-circle">
+    Your chats are saved with full history per conversation.
   </Card>
-  
-  <Card title="Financial Insights" icon="lightbulb">
-    **Future Features:**
-    - Personalized financial advice
-    - Spending pattern analysis
-    - Budget optimization suggestions
-    - Tax optimization recommendations
-    - Investment insights
+  <Card title="Context-Aware" icon="brain">
+    Answers leverage your data, preferences, and patterns.
+  </Card>
+  <Card title="Secure by Default" icon="shield">
+    All endpoints require auth and are isolated per user.
   </Card>
 </CardGroup>
 
-### How It Will Work
+## Quick Start (App UI)
 
 <Steps>
-  <Step title="Ask Questions">
-    Ask natural language questions about your finances.
+  <Step title="Open Chat">
+    Click the chat button in the app to open the assistant.
   </Step>
-  
-  <Step title="AI Analysis">
-    Advanced AI analyzes your financial data and patterns.
+  <Step title="Start a Conversation">
+    Ask a question or create a new conversation to keep topics organized.
   </Step>
-  
-  <Step title="Get Insights">
-    Receive personalized insights and recommendations.
-  </Step>
-  
-  <Step title="Take Action">
-    Implement suggested improvements and track results.
+  <Step title="Refine & Act">
+    Follow up for deeper insights or ask the assistant to perform supported actions.
   </Step>
 </Steps>
 
-### Global AI Support
+## API Endpoints
 
-<AccordionGroup>
-  <Accordion title="Multi-Language AI">
-    **Global Features:**
-    - Support for multiple languages
-    - Regional financial terminology
-    - Local business practices
-    - International tax knowledge
-    - Cross-cultural financial advice
-  </Accordion>
-  
-  <Accordion title="Regional Expertise">
-    **Localized Features:**
-    - Country-specific financial regulations
-    - Local tax optimization strategies
-    - Regional business insights
-    - Currency-specific advice
-    - International compliance guidance
-  </Accordion>
-</AccordionGroup>
+All endpoints require a valid `Authorization: Bearer <token>` header. Errors include an `X-Error-ID` header for support tracing.
 
-## Current AI Features
+### Send Message
 
-While the full AI Assistant is in development, you can currently access:
+POST `/api/chat/message`
 
-<CardGroup cols={2}>
-  <Card title="Smart Categorization" icon="brain">
-    **Available Now:**
-    - AI-powered transaction categorization
-    - Automatic merchant recognition
-    - Tax deductibility analysis
-    - Pattern recognition
-  </Card>
-  
-  <Card title="Pattern Analysis" icon="repeat">
-    **Current Features:**
-    - Recurring transaction detection
-    - Spending pattern analysis
-    - Anomaly identification
-    - Trend analysis
-  </Card>
-</CardGroup>
+Request body:
 
-## Stay Updated
+```json
+{ "message": "string", "conversationId": "optional" }
+```
 
-<Card title="Get Notified" icon="bell" href="https://ai2fin.com/newsletter" horizontal>
-Subscribe to our newsletter to be notified when AI Assistant becomes available.
-</Card>
+Successful response:
 
----
+```json
+{
+  "success": true,
+  "data": {
+    "conversationId": "uuid",
+    "message": {
+      "id": "uuid",
+      "conversationId": "uuid",
+      "role": "assistant",
+      "content": "...",
+      "createdAt": "ISO-8601"
+    },
+    "toolsUsed": ["optional", "list"]
+  }
+}
+```
 
-**Ready to use current AI features?** Check out [Smart Categorization](/features/smart-categorisation) for AI-powered categorization or [Pattern Analysis](/features/pattern-analysis) for transaction patterns.
+### List Conversations
 
-*AI Assistant coming soon - stay tuned for intelligent financial insights!*
+GET `/api/chat/conversations`
+
+Response:
+
+```json
+{ "success": true, "data": [ { "id": "uuid", "title": "AI2Fin Assistant", "messageCount": 0, "createdAt": "ISO-8601", "updatedAt": "ISO-8601" } ] }
+```
+
+### Create Conversation
+
+POST `/api/chat/conversations`
+
+Response:
+
+```json
+{ "success": true, "data": { "id": "uuid" } }
+```
+
+### Get Conversation Messages
+
+GET `/api/chat/conversations/:id`
+
+Response:
+
+```json
+{ "success": true, "data": [ { "id": "uuid", "role": "user", "content": "...", "createdAt": "ISO-8601" } ] }
+```
+
+## Authentication
+
+All endpoints are protected with the platform auth middleware. Provide a valid bearer token. Server-side requires `OPENAI_API_KEY` configured.
+
+## Examples
+
+```bash
+curl -X POST https://app.ai2fin.com/api/chat/message \
+  -H "Authorization: Bearer $TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{"message":"Summarize my last 5 expenses","conversationId":"$CID"}'
+```
+
+```bash
+curl -X GET https://app.ai2fin.com/api/chat/conversations \
+  -H "Authorization: Bearer $TOKEN"
+```
+
+```bash
+curl -X POST https://app.ai2fin.com/api/chat/conversations \
+  -H "Authorization: Bearer $TOKEN"
+```
+
+```bash
+curl -X GET https://app.ai2fin.com/api/chat/conversations/$CID \
+  -H "Authorization: Bearer $TOKEN"
+```
+
+## Notes
+
+- Responses may include `toolsUsed` when the assistant invoked internal tools.
+- On failures, the API returns `{ success: false, error }` and sets `X-Error-ID`.
+- Conversation history is retained for continuity and auditability.
 
 
 
