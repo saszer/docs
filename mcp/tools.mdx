@@ -1,0 +1,150 @@
+---
+title: "MCP Tools (AI Assistant Internal APIs)"
+description: "Developer-facing reference for Model Tool Calling used by the AI Assistant"
+---
+
+## Overview
+
+These tools are invoked by the assistant server-side under the authenticated user. They never require client tokens and respect row-level isolation by `userId`.
+
+### Execution & Safety
+
+- All tools require auth (handled by the server). Results are scoped to the current user.
+- The assistant performs a silent intent check and prefers tools first; it only asks the user for missing fields if a lookup fails.
+
+## Transactions
+
+`get_transactions`
+
+Parameters:
+
+```json
+{
+  "startDate": "ISO optional",
+  "endDate": "ISO optional",
+  "merchant": "string optional (contains, case-insensitive)",
+  "q": "string optional (search in description)",
+  "isTaxDeductible": "boolean optional",
+  "categoryId": "string optional",
+  "minAmount": "number optional",
+  "maxAmount": "number optional",
+  "amountEquals": "number optional (exact match ±0.01)",
+  "limit": "number optional (default 100)"
+}
+```
+
+Returns: `{ success, data: { transactions, count, filters } }`
+
+## User Profile & Preferences
+
+`get_user_profile`
+
+Parameters: `{}`
+
+Returns:
+
+```json
+{
+  "success": true,
+  "data": {
+    "userId": "...",
+    "email": "...",
+    "countryCode": "AU",
+    "businessType": "INDIVIDUAL",
+    "industry": null,
+    "profession": null,
+    "currency": "AUD",
+    "aiContextInput": "...",
+    "psychologyVersion": 1
+  }
+}
+```
+
+`set_user_preferences`
+
+Parameters (any subset):
+
+```json
+{
+  "countryCode": "ISO",
+  "businessType": "string",
+  "industry": "string",
+  "profession": "string",
+  "aiContextInput": "string"
+}
+```
+
+Returns: `{ success, data: { userId, updated: [fields...] } }`
+
+## Travel (Vehicles & Trips)
+
+`get_travel_profile`
+
+Parameters: `{}`
+
+Returns: `{ success, data: { countryCode, currency, defaultMethod } }`
+
+`get_vehicles`
+
+Parameters: `{}`
+
+Returns: vehicle list for the user.
+
+`get_trips`
+
+Parameters:
+
+```json
+{
+  "from": "ISO optional",
+  "to": "ISO optional",
+  "vehicleId": "string optional",
+  "tripType": "BUSINESS|EMPLOYEE optional",
+  "limit": 200
+}
+```
+
+Returns: trips for the user.
+
+`create_trip`
+
+Parameters (required unless marked optional):
+
+```json
+{
+  "vehicleId": "string",
+  "tripDate": "ISO",
+  "tripType": "BUSINESS|EMPLOYEE",
+  "purpose": "string",
+  "startOdometer": 0,
+  "endOdometer": 0,
+  "startLocation": "string optional",
+  "endLocation": "string optional",
+  "isReturnJourney": false,
+  "notes": "string optional"
+}
+```
+
+`update_trip`
+
+Parameters:
+
+```json
+{ "id": "string", "tripDate": "ISO?", "tripType": "?", "purpose": "?", "startOdometer": "?", "endOdometer": "?", "startLocation": "?", "endLocation": "?", "isReturnJourney": "?", "notes": "?" }
+```
+
+`get_travel_deduction_summary`
+
+Parameters:
+
+```json
+{ "year": 2025 }
+```
+
+Returns: `{ success, data: { countryCode, period: { from, to }, totalKm, byVehicle } }`
+
+## Subscription
+
+`get_user_subscription`, `check_feature_access` – used to tailor features/guidance to plan.
+
+
