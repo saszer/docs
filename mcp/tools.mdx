@@ -147,4 +147,58 @@ Returns: `{ success, data: { countryCode, period: { from, to }, totalKm, byVehic
 
 `get_user_subscription`, `check_feature_access` – used to tailor features/guidance to plan.
 
+## Custom Rules
+
+`get_rules`
+
+Parameters: `{ "isActive?": boolean, "name?": string, "limit?": number }`
+
+`create_rule`
+
+Parameters:
+
+```json
+{
+  "name": "string",
+  "description": "string?",
+  "isActive": true,
+  "priority": 0,
+  "conditionLogic": "AND|OR",
+  "targetEntityType": "transaction|bill_pattern|bill_occurrence|all",
+  "conditions": {},
+  "actions": {}
+}
+```
+
+`update_rule`
+
+Parameters: `{ "id": "string", ...any of the create fields }`
+
+`delete_rule`
+
+Parameters: `{ "id": "string" }`
+
+`enable_rule`
+
+Parameters: `{ "id": "string", "isActive": true }`
+
+`test_rule`
+
+Parameters (limited evaluator for transactions):
+
+```json
+{
+  "conditions": {
+    "merchantContains": "string?",
+    "descriptionContains": "string?",
+    "amountGte": 0,
+    "amountLte": 999,
+    "categoryId": "string?"
+  },
+  "sampleLimit": 200
+}
+```
+
+Returns: `{ success, data: { tested, matchedCount, sampleIds } }`
+
 
