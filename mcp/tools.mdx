@@ -12,28 +12,73 @@ These tools are invoked by the assistant server-side under the authenticated use
 - All tools require auth (handled by the server). Results are scoped to the current user.
 - The assistant performs a silent intent check and prefers tools first; it only asks the user for missing fields if a lookup fails.
 
-## Transactions
+## Transactions (10 tools)
+
+### Query & Analysis
 
 `get_transactions`
 
-Parameters:
-
-```json
-{
-  "startDate": "ISO optional",
-  "endDate": "ISO optional",
-  "merchant": "string optional (contains, case-insensitive)",
-  "q": "string optional (search in description)",
-  "isTaxDeductible": "boolean optional",
-  "categoryId": "string optional",
-  "minAmount": "number optional",
-  "maxAmount": "number optional",
-  "amountEquals": "number optional (exact match ±0.01)",
-  "limit": "number optional (default 100)"
-}
-```
+Parameters: `{ startDate?, endDate?, merchant?, q?, isTaxDeductible?, categoryId?, minAmount?, maxAmount?, amountEquals?, limit? }`
 
 Returns: `{ success, data: { transactions, count, filters } }`
+
+`get_tax_deductible_summary`
+
+Parameters: `{ startDate?, endDate? }`
+
+Returns: `{ success, data: { totalCount, totalAmount, byCategory, dateRange } }`
+
+`get_category_spending_summary` <Badge text="NEW" />
+
+Parameters: `{ startDate, endDate, minAmount?, limit? }`
+
+Returns: `{ success, data: { totalSpending, totalTransactions, categories[], topCategory } }`
+
+`get_top_merchants` <Badge text="NEW" />
+
+Parameters: `{ startDate, endDate, limit? }`
+
+Returns: `{ success, data: { totalSpending, merchants[] } }`
+
+`compare_spending_periods` <Badge text="NEW" />
+
+Parameters: `{ period1Start, period1End, period2Start, period2End, groupBy? }`
+
+Returns: `{ success, data: { period1, period2, difference, percentChange, trend, comparison[] } }`
+
+### Creation & Categorization
+
+`create_transaction`
+
+Parameters: `{ description, amount, date, type, merchant?, categoryId?, isTaxDeductible?, notes? }`
+
+Returns: `{ success, data: { transaction }, rulesApplied, message }`
+
+`trigger_smart_categorization`
+
+Parameters: `{ transactionIds[] }`
+
+Returns: `{ success, data: { queued, message } }`
+
+### Bulk Operations
+
+`bulk_categorize_transactions` <Badge text="NEW" />
+
+Parameters: `{ transactionIds[]?, categoryId, filterByMerchant?, filterStartDate?, filterEndDate? }`
+
+Returns: `{ success, data: { updatedCount, categoryName, message } }`
+
+`bulk_update_transactions` <Badge text="NEW" />
+
+Parameters: `{ transactionIds[], updates: { categoryId?, isTaxDeductible?, businessUsePercentage?, notes? } }`
+
+Returns: `{ success, data: { updatedCount, fields[], message } }`
+
+`find_duplicate_transactions` <Badge text="NEW" />
+
+Parameters: `{ startDate, endDate, toleranceHours?, amountTolerance? }`
+
+Returns: `{ success, data: { duplicateGroupsCount, duplicateGroups[], potentialSavings } }`
 
 ## User Profile & Preferences
 
@@ -147,6 +192,76 @@ Returns: `{ success, data: { countryCode, period: { from, to }, totalKm, byVehic
 
 `get_user_subscription`, `check_feature_access` – used to tailor features/guidance to plan.
 
+## Bills (10 tools)
+
+### Bill Patterns
+
+`get_bills`
+
+Parameters: `{ active? }`
+
+Returns: `{ success, data: { bills[], count } }`
+
+`get_bill_summary`
+
+Parameters: `{}`
+
+Returns: `{ success, data: { totalBills, monthlyTotal, byFrequency, bills[] } }`
+
+`create_bill_pattern` <Badge text="NEW" />
+
+Parameters: `{ merchantName, amount, firstDueDate, frequency, description?, categoryId?, isTaxDeductible?, businessUsePercentage?, notes? }`
+
+Returns: `{ success, data, rulesApplied, message }`
+
+`update_bill_pattern` <Badge text="NEW" />
+
+Parameters: `{ billPatternId, merchantName?, amount?, frequency?, categoryId?, isTaxDeductible?, isActive? }`
+
+Returns: `{ success, data, message }`
+
+### Bill Occurrences
+
+`get_upcoming_bills`
+
+Parameters: `{ days?, includeOverdue? }`
+
+Returns: `{ success, data: { occurrences[], count, daysAhead } }`
+
+`get_bill_occurrences` <Badge text="NEW" />
+
+Parameters: `{ isPaid?, startDate?, endDate?, merchantName?, billPatternId?, limit? }`
+
+Returns: `{ success, data: { occurrences[], count, totalAmount, filters } }`
+
+`get_overdue_bills` <Badge text="NEW" />
+
+Parameters: `{ limit? }`
+
+Returns: `{ success, data: { occurrences[], count, totalOverdue } }`
+
+`get_bill_pattern_financial_summary` <Badge text="NEW" />
+
+Parameters: `{ billPatternId?/merchantName?, period, startDate?, endDate?, includeProjections? }`
+
+Period options: `financial_year`, `year_to_date`, `calendar_year`, `all_time`, `custom`
+
+Returns: `{ success, data: { billPattern, period, actualPaid, projected, summary } }`
+
+### Payment Management
+
+`mark_bill_as_paid` <Badge text="NEW" />
+
+Parameters: `{ occurrenceId, paidDate?, actualAmount?, transactionId?, notes? }`
+
+Returns: `{ success, data: { occurrence, message } }`
+
+`upload_receipt_for_bill` <Badge text="NEW" />
+
+Parameters: `{ occurrenceId, receiptUrl, receiptFileName?, notes? }`
+
+Returns: `{ success, data: { occurrence, message } }`
+
 ## Custom Rules
 
 `get_rules`
@@ -201,4 +316,28 @@ Parameters (limited evaluator for transactions):
 
 Returns: `{ success, data: { tested, matchedCount, sampleIds } }`
 
+## Budgets (5 tools) <Badge text="Coming Soon" variant="warning" />
+
+`create_budget`, `get_budgets`, `get_budget_status`, `update_budget`, `delete_budget`
+
+Currently return: `{ success: false, error: "coming_soon", data: { message: "Budgets coming soon!" } }`
+
+Framework ready for Phase 2 implementation.
+
+---
+
+## Tool Count Summary
+
+| Category | Tools | Status |
+|----------|-------|--------|
+| **Transactions** | 10 | ✅ Live |
+| **Bills** | 10 | ✅ Live |
+| **Custom Rules** | 6 | ✅ Live |
+| **Travel** | 5 | ✅ Live |
+| **User Profile** | 2 | ✅ Live |
+| **Subscription** | 2 | ✅ Live |
+| **Expenses** | 1 | ✅ Live |
+| **Receipts** | 1 | ✅ Live |
+| **Budgets** | 5 | ⏳ Coming Soon |
+| **TOTAL** | **45** | **40 Live** |
 

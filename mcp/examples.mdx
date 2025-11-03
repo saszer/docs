@@ -392,6 +392,195 @@ while True:
 
 ---
 
+## Example 9: Analytics Dashboard
+
+<Note>NEW - Using Analytics Tools</Note>
+
+Build a spending analytics dashboard using the new tools.
+
+```typescript
+async function getSpendingInsights(token: string, month: string) {
+  const baseUrl = 'https://app.ai2fin.com';
+  const headers = {
+    'Authorization': `Bearer ${token}`,
+    'Content-Type': 'application/json'
+  };
+  
+  // Calculate date range
+  const startDate = `${month}-01`;
+  const endDate = new Date(new Date(month).getFullYear(), new Date(month).getMonth() + 1, 0)
+    .toISOString().split('T')[0];
+  
+  // Use AI chat to get insights
+  const response = await fetch(`${baseUrl}/api/chat/message`, {
+    method: 'POST',
+    headers,
+    body: JSON.stringify({
+      message: `Give me a complete spending analysis for ${month} including:
+        1. Breakdown by category
+        2. Top 5 merchants
+        3. Comparison vs previous month`
+    })
+  });
+  
+  const data = await response.json();
+  return data.data.message.content;
+}
+
+// Usage
+const insights = await getSpendingInsights('YOUR_TOKEN', '2024-10');
+console.log(insights);
+
+/*
+Output:
+"October 2024 Spending Analysis:
+
+📊 By Category:
+• Groceries: $1,245.67 (32%)
+• Dining Out: $876.43 (23%)
+• Transport: $654.32 (17%)
+
+🏪 Top Merchants:
+1. Woolworths - $487.23
+2. Caltex - $312.45
+3. Uber - $234.67
+
+📈 vs September:
+Total: $3,876 vs $3,234 (+19.9% increase)
+Biggest increase: Dining Out (+36.5%)"
+*/
+```
+
+---
+
+## Example 10: Bulk Operations
+
+<Note>NEW - Batch Processing</Note>
+
+Efficiently categorize large numbers of transactions.
+
+```typescript
+async function bulkCategorizeByMerchant(
+  token: string,
+  merchant: string,
+  categoryId: string
+) {
+  const response = await fetch('https://app.ai2fin.com/api/chat/message', {
+    method: 'POST',
+    headers: {
+      'Authorization': `Bearer ${token}`,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      message: `Categorize all ${merchant} transactions as ${categoryId}`
+    })
+  });
+  
+  const data = await response.json();
+  return data.data.message.content;
+}
+
+// Usage
+await bulkCategorizeByMerchant(
+  'YOUR_TOKEN',
+  'Uber',
+  'cat_transport_123'
+);
+// Output: "✅ Updated 15 transaction(s) to category "Transport""
+```
+
+---
+
+## Example 11: Duplicate Detection
+
+<Note>NEW - Find Double Charges</Note>
+
+Detect and alert users about potential duplicate payments.
+
+```python
+from ai2fin_mcp import AI2FinChat
+from datetime import datetime, timedelta
+
+def check_duplicates(token: str):
+    """Check last 30 days for duplicates"""
+    chat = AI2FinChat(token)
+    
+    end_date = datetime.now()
+    start_date = end_date - timedelta(days=30)
+    
+    message = f"Find duplicate transactions from {start_date.date()} to {end_date.date()}"
+    response = chat.send_message(message)
+    
+    return response
+
+# Usage
+result = check_duplicates('YOUR_TOKEN')
+print(result)
+
+# Output:
+# "🔍 Found 2 potential duplicate groups:
+# 
+# 1. Netflix - $15.99
+#    • Oct 15 at 3:45 PM
+#    • Oct 15 at 11:23 PM
+# 
+# 2. Woolworths - $87.45
+#    • Oct 12 at 9:15 AM
+#    • Oct 12 at 9:17 AM (2 min apart)
+# 
+# Potential savings if duplicates: $103.44"
+```
+
+---
+
+## Example 12: Financial Year Analysis
+
+<Note>NEW - Country-Aware FY Queries</Note>
+
+Get financial year summaries for any bill pattern.
+
+```typescript
+async function getFYSummary(
+  token: string,
+  merchantName: string,
+  includeProjections: boolean = true
+) {
+  const response = await fetch('https://app.ai2fin.com/api/chat/message', {
+    method: 'POST',
+    headers: {
+      'Authorization': `Bearer ${token}`,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      message: `How much have I paid for ${merchantName} this financial year?${includeProjections ? ' Include projections.' : ''}`
+    })
+  });
+  
+  const data = await response.json();
+  return data.data.message.content;
+}
+
+// Usage (Australian user)
+const netflixFY = await getFYSummary('YOUR_TOKEN', 'Netflix', true);
+console.log(netflixFY);
+
+/*
+Output:
+"Netflix - Financial Year 2024-2025 (AU: Jul-Jun)
+
+✅ Paid to Date (Jul-Nov):
+• 5 payments × $15.99 = $79.95
+
+📊 Projected (Dec-Jun):
+• 7 payments × $15.99 = $111.93
+
+💰 Full FY Estimate: $191.88
+(Actual: $79.95 + Projected: $111.93)"
+*/
+```
+
+---
+
 ## SDK Libraries
 
 ### Official SDKs (Coming Soon)

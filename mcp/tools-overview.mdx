@@ -1,1 +1,259 @@
+---
+title: 'Tools Overview'
+description: 'Complete list of AI2Fin MCP tools'
+---
 
+# MCP Tools Overview
+
+AI2Fin MCP provides **45 tools** across 9 categories for comprehensive financial management.
+
+<Note>
+All tools enforce **user-isolation** - you can only access your own data.
+</Note>
+
+---
+
+## 📊 Tool Categories
+
+<CardGroup cols={3}>
+  <Card title="Transactions" icon="list" iconType="solid">
+    **10 tools**
+    
+    Query, create, analyze spending
+  </Card>
+  
+  <Card title="Bills" icon="calendar" iconType="solid">
+    **10 tools**
+    
+    Recurring bills, payments, FY analysis
+  </Card>
+  
+  <Card title="Custom Rules" icon="wand-magic-sparkles" iconType="solid">
+    **6 tools**
+    
+    Automation rules for categorization
+  </Card>
+  
+  <Card title="Expenses" icon="receipt" iconType="solid">
+    **1 tool**
+    
+    Manual expense tracking
+  </Card>
+  
+  <Card title="Travel" icon="car" iconType="solid">
+    **5 tools**
+    
+    Vehicle expenses, trip logging
+  </Card>
+  
+  <Card title="User Profile" icon="user" iconType="solid">
+    **2 tools**
+    
+    Preferences, country settings
+  </Card>
+  
+  <Card title="Subscription" icon="credit-card" iconType="solid">
+    **2 tools**
+    
+    Plan status, feature access
+  </Card>
+  
+  <Card title="Receipts" icon="file-image" iconType="solid">
+    **1 tool**
+    
+    Receipt management
+  </Card>
+  
+  <Card title="Budgets" icon="piggy-bank" iconType="solid">
+    **5 tools** (Coming Soon)
+    
+    Budget tracking and alerts
+  </Card>
+</CardGroup>
+
+---
+
+## 🚀 Quick Tool Reference
+
+### Transaction Tools (10)
+
+| Tool | Purpose | Status |
+|------|---------|--------|
+| `get_transactions` | Query with filters | ✅ |
+| `get_tax_deductible_summary` | Tax summary by category | ✅ |
+| `create_transaction` | Add transaction | ✅ |
+| `trigger_smart_categorization` | AI categorization | ✅ |
+| `get_category_spending_summary` | **NEW** Spending breakdown | ✅ |
+| `get_top_merchants` | **NEW** Top vendors | ✅ |
+| `compare_spending_periods` | **NEW** Period comparison | ✅ |
+| `bulk_categorize_transactions` | **NEW** Batch categorization | ✅ |
+| `bulk_update_transactions` | **NEW** Batch updates | ✅ |
+| `find_duplicate_transactions` | **NEW** Duplicate detection | ✅ |
+
+### Bill Tools (10)
+
+| Tool | Purpose | Status |
+|------|---------|--------|
+| `get_bills` | List bill patterns | ✅ |
+| `get_upcoming_bills` | Future bills | ✅ |
+| `get_bill_summary` | Monthly totals | ✅ |
+| `get_bill_occurrences` | **NEW** Historical queries | ✅ |
+| `get_overdue_bills` | **NEW** Overdue bills | ✅ |
+| `get_bill_pattern_financial_summary` | **NEW** FY analysis | ✅ |
+| `mark_bill_as_paid` | **NEW** Payment tracking | ✅ |
+| `upload_receipt_for_bill` | **NEW** Receipt linking | ✅ |
+| `create_bill_pattern` | **NEW** Manual creation | ✅ |
+| `update_bill_pattern` | **NEW** Update pattern | ✅ |
+
+### Custom Rules (6)
+
+| Tool | Purpose | Status |
+|------|---------|--------|
+| `get_rules` | List rules | ✅ |
+| `create_rule` | Create automation | ✅ |
+| `update_rule` | Update rule | ✅ |
+| `delete_rule` | Remove rule | ✅ |
+| `enable_rule` | Toggle rule | ✅ |
+| `test_rule` | Test before saving | ✅ |
+
+### Travel Tools (5)
+
+| Tool | Purpose | Status |
+|------|---------|--------|
+| `get_travel_profile` | Travel settings | ✅ |
+| `get_vehicles` | Registered vehicles | ✅ |
+| `get_trips` | Trip history | ✅ |
+| `create_trip` | Log trip | ✅ |
+| `get_travel_deduction_summary` | Tax deductions | ✅ |
+
+### Other Tools (14)
+
+| Tool | Category | Purpose |
+|------|----------|---------|
+| `create_expense` | Expenses | Manual expense entry |
+| `get_user_profile` | User | Get preferences |
+| `set_user_preferences` | User | Update settings |
+| `get_user_subscription` | Subscription | Check plan |
+| `check_feature_access` | Subscription | Feature gates |
+| `get_receipts` | Receipts | Receipt management |
+| **Budgets (5)** | Budgets | ⏳ Coming Soon |
+
+---
+
+## 🆕 Recent Additions (Nov 2024)
+
+<AccordionGroup>
+  <Accordion title="Analytics Tools (3)" icon="chart-line">
+    **`get_category_spending_summary`**  
+    Analyze spending breakdown by category
+    
+    **`get_top_merchants`**  
+    Rank merchants by total spend
+    
+    **`compare_spending_periods`**  
+    Period-over-period comparison
+  </Accordion>
+  
+  <Accordion title="Bulk Operations (3)" icon="layer-group">
+    **`bulk_categorize_transactions`**  
+    Batch categorization by merchant
+    
+    **`bulk_update_transactions`**  
+    Update multiple fields at once
+    
+    **`find_duplicate_transactions`**  
+    Detect duplicate payments
+  </Accordion>
+  
+  <Accordion title="Bill Management (7)" icon="calendar-check">
+    **`get_bill_occurrences`**  
+    Flexible historical queries
+    
+    **`get_overdue_bills`**  
+    Overdue bill detection
+    
+    **`get_bill_pattern_financial_summary`**  
+    FY-aware analysis with projections
+    
+    **`mark_bill_as_paid`**  
+    Payment tracking
+    
+    **`upload_receipt_for_bill`**  
+    Receipt linking
+    
+    **`create_bill_pattern`**  
+    Manual bill creation
+    
+    **`update_bill_pattern`**  
+    Pattern management
+  </Accordion>
+</AccordionGroup>
+
+---
+
+## 🎯 Common Use Cases
+
+### "Show me my spending breakdown"
+→ `get_category_spending_summary`
+
+### "Where do I spend the most?"
+→ `get_top_merchants`
+
+### "Did I spend more this month vs last?"
+→ `compare_spending_periods`
+
+### "Categorize all Uber as Transport"
+→ `bulk_categorize_transactions`
+
+### "What are my overdue bills?"
+→ `get_overdue_bills`
+
+### "How much have I paid for Netflix this FY?"
+→ `get_bill_pattern_financial_summary`
+
+### "Mark Netflix as paid"
+→ `mark_bill_as_paid`
+
+### "Did I pay this bill twice?"
+→ `find_duplicate_transactions`
+
+---
+
+## 🔐 Security & Performance
+
+### User Isolation
+- All queries filtered by `userId`
+- No cross-user data access
+- Enforced at database level
+
+### Performance
+- Direct database access (no HTTP overhead)
+- Response times: 5-200ms typical
+- Efficient bulk operations
+
+### Data Privacy
+- No raw data exposed to AI
+- Cached analysis only
+- Secure authentication required
+
+---
+
+## 📚 Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Transaction Tools" icon="list" href="/mcp/transaction-tools">
+    Detailed transaction API docs
+  </Card>
+  
+  <Card title="Bill Tools" icon="calendar" href="/mcp/bill-tools">
+    Bill management API docs
+  </Card>
+  
+  <Card title="Examples" icon="code" href="/mcp/examples">
+    Real-world usage examples
+  </Card>
+  
+  <Card title="Authentication" icon="key" href="/mcp/authentication">
+    Setup & authentication
+  </Card>
+</CardGroup>

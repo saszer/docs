@@ -5,7 +5,7 @@ description: 'Access and manage financial transactions'
 
 # Transaction Tools
 
-AI2Fin MCP provides 4 tools for transaction management with direct database access for maximum performance.
+AI2Fin MCP provides **10 tools** for transaction management, analytics, and bulk operations with direct database access for maximum performance.
 
 <Note>
 All transaction data is **user-isolated**. You can only access your own transactions.
@@ -300,6 +300,251 @@ This **runs the actual AI categorization flow** - it does NOT re-analyze. It use
 
 ---
 
+## get_category_spending_summary
+
+<Note>NEW - Analytics Tool</Note>
+
+Analyzes spending breakdown by category for a date range. Perfect for answering "Where does my money go?" questions.
+
+### Parameters
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `startDate` | string | Yes | Start date (ISO 8601) |
+| `endDate` | string | Yes | End date (ISO 8601) |
+| `minAmount` | number | No | Minimum transaction amount to include |
+| `limit` | number | No | Max categories to return (default: 100) |
+
+### Example Response
+
+```json
+{
+  "success": true,
+  "data": {
+    "totalSpending": 3876.42,
+    "totalTransactions": 143,
+    "uncategorizedAmount": 123.45,
+    "uncategorizedPercentage": 3.18,
+    "categories": [
+      {
+        "categoryName": "Groceries",
+        "total": 1245.67,
+        "count": 18,
+        "percentage": 32.15,
+        "averageTransaction": 69.20
+      },
+      {
+        "categoryName": "Dining Out",
+        "total": 876.43,
+        "count": 24,
+        "percentage": 22.62,
+        "averageTransaction": 36.52
+      }
+    ]
+  }
+}
+```
+
+---
+
+## get_top_merchants
+
+<Note>NEW - Analytics Tool</Note>
+
+Ranks merchants by total spending. Answers "Where do I spend the most?"
+
+### Parameters
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `startDate` | string | Yes | Start date (ISO 8601) |
+| `endDate` | string | Yes | End date (ISO 8601) |
+| `limit` | number | No | Max merchants to return (default: 10) |
+
+### Example Response
+
+```json
+{
+  "success": true,
+  "data": {
+    "totalSpending": 3876.42,
+    "merchants": [
+      {
+        "merchant": "Woolworths",
+        "total": 487.23,
+        "count": 12,
+        "percentage": 12.57,
+        "averageTransaction": 40.60,
+        "category": "Groceries"
+      }
+    ]
+  }
+}
+```
+
+---
+
+## compare_spending_periods
+
+<Note>NEW - Analytics Tool</Note>
+
+Compares spending between two time periods (e.g., this month vs last month).
+
+### Parameters
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `period1Start` | string | Yes | Period 1 start date |
+| `period1End` | string | Yes | Period 1 end date |
+| `period2Start` | string | Yes | Period 2 start date |
+| `period2End` | string | Yes | Period 2 end date |
+| `groupBy` | string | No | "total", "category", or "merchant" (default: "category") |
+
+### Example Response (Total Comparison)
+
+```json
+{
+  "success": true,
+  "data": {
+    "period1": {
+      "start": "2024-10-01",
+      "end": "2024-10-31",
+      "total": 3876.42,
+      "count": 143
+    },
+    "period2": {
+      "start": "2024-09-01",
+      "end": "2024-09-30",
+      "total": 3234.21,
+      "count": 128
+    },
+    "difference": 642.21,
+    "percentChange": 19.86,
+    "trend": "increased"
+  }
+}
+```
+
+---
+
+## bulk_categorize_transactions
+
+<Note>NEW - Bulk Operation</Note>
+
+Updates category for multiple transactions at once. Great for "Categorize all Uber as Transport" requests.
+
+### Parameters
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `transactionIds` | string[] | No* | Specific transaction IDs |
+| `categoryId` | string | Yes | Category to assign |
+| `filterByMerchant` | string | No* | Merchant name filter (alternative to IDs) |
+| `filterStartDate` | string | No | Start date for filter |
+| `filterEndDate` | string | No | End date for filter |
+
+*Either `transactionIds` OR `filterByMerchant` required
+
+### Example Response
+
+```json
+{
+  "success": true,
+  "data": {
+    "updatedCount": 15,
+    "categoryName": "Transport",
+    "message": "✅ Updated 15 transaction(s) to category \"Transport\""
+  }
+}
+```
+
+---
+
+## bulk_update_transactions
+
+<Note>NEW - Bulk Operation</Note>
+
+Updates multiple fields for multiple transactions simultaneously.
+
+### Parameters
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `transactionIds` | string[] | Yes | Transaction IDs to update |
+| `updates` | object | Yes | Fields to update (see below) |
+
+**Updates Object:**
+- `categoryId` (string): New category
+- `isTaxDeductible` (boolean): Tax status
+- `businessUsePercentage` (number): Business use 0-100
+- `notes` (string): Add notes
+
+### Example Response
+
+```json
+{
+  "success": true,
+  "data": {
+    "updatedCount": 8,
+    "fields": ["categoryId", "isTaxDeductible"],
+    "message": "✅ Updated 8 transaction(s)"
+  }
+}
+```
+
+---
+
+## find_duplicate_transactions
+
+<Note>NEW - Bulk Operation</Note>
+
+Detects potential duplicate payments based on merchant, amount, and date proximity.
+
+### Parameters
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `startDate` | string | Yes | Start date to search |
+| `endDate` | string | Yes | End date to search |
+| `toleranceHours` | number | No | Time window (default: 72 hours) |
+| `amountTolerance` | number | No | Amount tolerance (default: $0.01) |
+
+### Example Response
+
+```json
+{
+  "success": true,
+  "data": {
+    "duplicateGroupsCount": 2,
+    "duplicateGroups": [
+      {
+        "merchant": "Netflix",
+        "amount": 15.99,
+        "count": 2,
+        "totalAmount": 31.98,
+        "transactions": [
+          {
+            "id": "txn_1",
+            "date": "2024-10-15T15:45:00Z",
+            "merchant": "Netflix",
+            "amount": -15.99
+          },
+          {
+            "id": "txn_2",
+            "date": "2024-10-15T23:23:00Z",
+            "merchant": "Netflix",
+            "amount": -15.99
+          }
+        ]
+      }
+    ],
+    "potentialSavings": 15.99
+  }
+}
+```
+
+---
+
 ## Real-World Examples
 
 ### Get Recent Expenses
@@ -362,6 +607,89 @@ This **runs the actual AI categorization flow** - it does NOT re-analyze. It use
 {
   "tool": "trigger_smart_categorization",
   "params": {}
+}
+```
+
+### Analytics - Category Breakdown
+
+**User**: "What's my biggest expense category this month?"
+
+**AI calls**:
+```json
+{
+  "tool": "get_category_spending_summary",
+  "params": {
+    "startDate": "2024-10-01",
+    "endDate": "2024-10-31"
+  }
+}
+```
+
+**AI responds**: "Your biggest expense category in October was Groceries at $1,245.67 (32% of spending), followed by Dining Out at $876.43 (23%)."
+
+### Analytics - Top Merchants
+
+**User**: "Where do I spend the most?"
+
+**AI calls**:
+```json
+{
+  "tool": "get_top_merchants",
+  "params": {
+    "startDate": "2024-10-01",
+    "endDate": "2024-10-31",
+    "limit": 5
+  }
+}
+```
+
+### Analytics - Period Comparison
+
+**User**: "Did I spend more this month vs last month?"
+
+**AI calls**:
+```json
+{
+  "tool": "compare_spending_periods",
+  "params": {
+    "period1Start": "2024-10-01",
+    "period1End": "2024-10-31",
+    "period2Start": "2024-09-01",
+    "period2End": "2024-09-30",
+    "groupBy": "total"
+  }
+}
+```
+
+**AI responds**: "You spent $3,876.42 in October compared to $3,234.21 in September - an increase of $642.21 (19.9%)."
+
+### Bulk Operations - Categorize by Merchant
+
+**User**: "Categorize all Uber transactions as Transport"
+
+**AI calls**:
+```json
+{
+  "tool": "bulk_categorize_transactions",
+  "params": {
+    "filterByMerchant": "Uber",
+    "categoryId": "cat_transport_123"
+  }
+}
+```
+
+### Bulk Operations - Find Duplicates
+
+**User**: "Did I pay this bill twice?"
+
+**AI calls**:
+```json
+{
+  "tool": "find_duplicate_transactions",
+  "params": {
+    "startDate": "2024-10-01",
+    "endDate": "2024-10-31"
+  }
 }
 ```
 

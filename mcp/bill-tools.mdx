@@ -5,7 +5,7 @@ description: 'Manage recurring bills and patterns'
 
 # Bill Tools
 
-AI2Fin MCP provides 3 tools for managing recurring bill patterns and upcoming occurrences.
+AI2Fin MCP provides **10 tools** for managing recurring bill patterns, occurrences, payments, and financial year summaries.
 
 <Note>
 Bills are automatically detected patterns in your transaction history. The AI identifies recurring payments and creates bill patterns.
@@ -239,6 +239,243 @@ None required.
 
 ---
 
+## get_bill_occurrences
+
+<Note>NEW - Flexible Historical Queries</Note>
+
+Query bill occurrences with flexible filtering by payment status, date range, and merchant.
+
+### Parameters
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `isPaid` | boolean | No | true=paid only, false=unpaid only, undefined=all |
+| `startDate` | string | No | Start date (ISO 8601) |
+| `endDate` | string | No | End date (ISO 8601) |
+| `merchantName` | string | No | Filter by merchant (partial match) |
+| `billPatternId` | string | No | Specific pattern ID |
+| `limit` | number | No | Max results (default: 100) |
+
+### Example Response
+
+```json
+{
+  "success": true,
+  "data": {
+    "count": 4,
+    "totalAmount": 63.96,
+    "occurrences": [
+      {
+        "id": "occ_123",
+        "dueDate": "2024-10-15",
+        "amount": 15.99,
+        "isPaid": true,
+        "paidDate": "2024-10-15",
+        "billPattern": {
+          "merchantName": "Netflix",
+          "frequency": "MONTHLY"
+        }
+      }
+    ]
+  }
+}
+```
+
+---
+
+## get_overdue_bills
+
+<Note>NEW - Overdue Detection</Note>
+
+Retrieves all overdue (unpaid) bills that have passed their due date.
+
+### Parameters
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `limit` | number | No | Max results (default: 50) |
+
+### Example Response
+
+```json
+{
+  "success": true,
+  "data": {
+    "count": 2,
+    "totalOverdue": 28.98,
+    "occurrences": [
+      {
+        "id": "occ_456",
+        "dueDate": "2024-10-15",
+        "amount": 15.99,
+        "isPaid": false,
+        "billPattern": {
+          "merchantName": "Netflix"
+        }
+      }
+    ]
+  }
+}
+```
+
+---
+
+## get_bill_pattern_financial_summary
+
+<Note>NEW - Financial Year Analysis</Note>
+
+Get financial summary for a bill pattern with country-aware FY calculations and projections.
+
+### Parameters
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `billPatternId` | string | No* | Specific pattern ID |
+| `merchantName` | string | No* | Merchant name (alternative to ID) |
+| `period` | string | Yes | "financial_year", "year_to_date", "calendar_year", "all_time", "custom" |
+| `startDate` | string | No | Custom start date (if period=custom) |
+| `endDate` | string | No | Custom end date (if period=custom) |
+| `includeProjections` | boolean | No | Include future/unpaid (default: true) |
+
+*Either `billPatternId` OR `merchantName` required
+
+### Example Response
+
+```json
+{
+  "success": true,
+  "data": {
+    "billPattern": {
+      "merchantName": "Netflix",
+      "frequency": "MONTHLY",
+      "baseAmount": 15.99
+    },
+    "period": {
+      "type": "financial_year",
+      "financialYear": "FY2024-2025",
+      "country": "AU"
+    },
+    "actualPaid": {
+      "count": 4,
+      "total": 63.96
+    },
+    "projected": {
+      "count": 8,
+      "total": 127.92
+    },
+    "summary": {
+      "actualPaidTotal": 63.96,
+      "projectedTotal": 127.92,
+      "totalExpected": 191.88,
+      "averageActual": 15.99
+    }
+  }
+}
+```
+
+---
+
+## mark_bill_as_paid
+
+<Note>NEW - Payment Management</Note>
+
+Mark a bill occurrence as paid with optional transaction linking.
+
+### Parameters
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `occurrenceId` | string | Yes | Bill occurrence ID |
+| `paidDate` | string | No | Payment date (default: today) |
+| `actualAmount` | number | No | Actual amount paid |
+| `transactionId` | string | No | Link to transaction |
+| `notes` | string | No | Payment notes |
+
+### Example Response
+
+```json
+{
+  "success": true,
+  "data": {
+    "message": "✅ Marked Netflix ($15.99) as paid on Nov 3, 2024."
+  }
+}
+```
+
+---
+
+## upload_receipt_for_bill
+
+<Note>NEW - Receipt Management</Note>
+
+Link an uploaded receipt to a bill payment.
+
+### Parameters
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `occurrenceId` | string | Yes | Bill occurrence ID |
+| `receiptUrl` | string | Yes | Receipt file URL/path |
+| `receiptFileName` | string | No | Original file name |
+| `notes` | string | No | Additional notes |
+
+### Example Response
+
+```json
+{
+  "success": true,
+  "data": {
+    "message": "✅ Receipt uploaded and linked to Netflix payment."
+  }
+}
+```
+
+---
+
+## create_bill_pattern
+
+<Note>NEW - Manual Bill Creation</Note>
+
+Create a new recurring bill pattern manually.
+
+### Parameters
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `merchantName` | string | Yes | Merchant/biller name |
+| `amount` | number | Yes | Bill amount (positive) |
+| `firstDueDate` | string | Yes | First due date (ISO 8601) |
+| `frequency` | string | Yes | "WEEKLY", "FORTNIGHTLY", "MONTHLY", "QUARTERLY", "YEARLY" |
+| `description` | string | No | Bill description |
+| `categoryId` | string | No | Category ID |
+| `isTaxDeductible` | boolean | No | Tax deductible status |
+| `businessUsePercentage` | number | No | Business use % (0-100) |
+| `notes` | string | No | Additional notes |
+
+<Note>Custom rules will automatically apply to the created bill pattern.</Note>
+
+---
+
+## update_bill_pattern
+
+<Note>NEW - Bill Management</Note>
+
+Update an existing bill pattern.
+
+### Parameters
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `billPatternId` | string | Yes | Pattern ID to update |
+| `merchantName` | string | No | Updated merchant name |
+| `amount` | number | No | Updated amount |
+| `frequency` | string | No | Updated frequency |
+| `categoryId` | string | No | Updated category |
+| `isTaxDeductible` | boolean | No | Updated tax status |
+| `isActive` | boolean | No | Active status |
+
+---
+
 ## Real-World Examples
 
 ### View All Bills
@@ -286,6 +523,95 @@ None required.
 ```
 
 **AI responds**: "Your monthly bill total is approximately $3,845.50. This includes 3 monthly bills, 1 quarterly bill (prorated), and 1 yearly bill (prorated)."
+
+### Check Overdue Bills
+
+**User**: "What are my overdue bills?"
+
+**AI calls**:
+```json
+{
+  "tool": "get_overdue_bills",
+  "params": {}
+}
+```
+
+**AI responds**: "You have 2 overdue bills: Netflix ($15.99, due Oct 15) and Spotify ($12.99, due Oct 20). Total overdue: $28.98."
+
+### Financial Year Summary
+
+**User**: "How much have I paid for Netflix this financial year?"
+
+**AI calls**:
+```json
+{
+  "tool": "get_bill_pattern_financial_summary",
+  "params": {
+    "merchantName": "Netflix",
+    "period": "financial_year",
+    "includeProjections": false
+  }
+}
+```
+
+**AI responds**: "Netflix FY2024-2025 (AU): You've paid $63.96 so far (4 payments). Projected remaining FY cost: $127.92."
+
+### Mark Bill as Paid
+
+**User**: "Mark my Netflix bill as paid"
+
+**AI calls**:
+```json
+{
+  "tool": "mark_bill_as_paid",
+  "params": {
+    "occurrenceId": "occ_123",
+    "paidDate": "2024-11-03"
+  }
+}
+```
+
+### Query Historical Payments
+
+**User**: "Show me all Woolworths bills I paid in March"
+
+**AI calls**:
+```json
+{
+  "tool": "get_bill_occurrences",
+  "params": {
+    "merchantName": "Woolworths",
+    "isPaid": true,
+    "startDate": "2024-03-01",
+    "endDate": "2024-03-31"
+  }
+}
+```
+
+---
+
+## 🌍 Financial Year Support
+
+<Note>Country-Aware FY Calculations</Note>
+
+The `get_bill_pattern_financial_summary` tool automatically detects your country and uses the correct financial year dates:
+
+| Country | FY Start | FY End | Example |
+|---------|----------|--------|---------|
+| Australia (AU) | July 1 | June 30 | FY2024-2025 = Jul 1, 2024 - Jun 30, 2025 |
+| New Zealand (NZ) | July 1 | June 30 | Same as AU |
+| United Kingdom (UK) | April 1 | March 31 | FY2024-2025 = Apr 1, 2024 - Mar 31, 2025 |
+| United States (US) | October 1 | September 30 | FY2025 = Oct 1, 2024 - Sep 30, 2025 |
+| India (IN) | April 1 | March 31 | Same as UK |
+| Canada (CA) | April 1 | March 31 | Same as UK |
+| Singapore (SG) | April 1 | March 31 | Same as UK |
+| Others | January 1 | December 31 | Calendar year |
+
+**Automatic Detection:**
+- Reads `countryCode` from user profile
+- Calculates correct FY start/end dates
+- Supports YTD (Year-to-Date) calculations
+- Distinguishes actual paid vs projected amounts
 
 ---
 
