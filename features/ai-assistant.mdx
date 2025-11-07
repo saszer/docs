@@ -33,6 +33,63 @@ The AI Assistant provides a secure, conversational chat experience to query fina
   </Step>
 </Steps>
 
+## What the AI Assistant Can Do
+
+<Columns cols={2}>
+  <Card title="Transaction Intelligence" icon="search">
+    - Ask natural-language questions about any transaction, category, merchant, or amount range
+    - Filter by GST inclusion, business use %, missing receipts, or bill pattern status on demand
+    - Run spending analytics (totals, trends, comparisons) with a single prompt
+  </Card>
+  <Card title="Receipt Control" icon="camera">
+    - Upload a photo or PDF and let the assistant extract merchant, date, total, and GST automatically
+    - Match the file to existing transactions or create a new expense instantly
+    - Attach receipts to recurring bill occurrences so every payment stays audit ready
+  </Card>
+</Columns>
+
+<Columns cols={2}>
+  <Card title="GST & Tax Guidance" icon="calculator">
+    - Query "What is my GST liability this quarter?" for live breakdowns using stored `gstRateUsed` and `gstAmount` values
+    - Validate deductible status, business-use percentages, and required documentation per locale
+    - Generate summaries for tax exports, BAS, or VAT filings without leaving chat
+  </Card>
+  <Card title="Bulk Automation" icon="layers">
+    - Commands like "Categorize every Uber ride as Transport" trigger bulk update tools securely
+    - Run pattern maintenance (link/unlink bills, mark occurrences paid) while the assistant handles ids
+    - Request budgeting insights or forecast renewals and receive structured, exportable answers
+  </Card>
+</Columns>
+
+## Receipt Capture Workflow
+
+<Steps>
+  <Step title="Capture the Receipt">
+    Tap the camera icon on mobile or attach a PDF/image from desktop. Supported formats include JPG, PNG, PDF, HEIC.
+  </Step>
+  <Step title="AI Extraction">
+    The assistant invokes `analyze_receipt` to pull merchant, amount, date, GST, and line items with ±7 day/±1% matching tolerance.
+  </Step>
+  <Step title="Confirm Action">
+    Choose to link the receipt to a suggested transaction or create a new expense. You can also request a bill pattern link in the same message.
+  </Step>
+  <Step title="Audit Trail">
+    The assistant stores the attachment reference so tax exports, deduction reports, and missing-receipt filters stay accurate.
+  </Step>
+</Steps>
+
+## Conversational Patterns & Bills
+
+- "Show bills missing receipts" lists recurring occurrences lacking documentation.
+- "Mark my electricity bill as paid" updates the occurrence and logs the action.
+- "Forecast my SaaS renewals with GST" combines pattern data and tax rates for forward planning.
+
+## GST & Tax Expertise
+
+- Country-specific rates from the `CountryTaxRate` service answer GST/VAT queries with local terminology.
+- Commands like "Is this expense deductible in Canada?" trigger intelligent tax analysis with reasoning, warnings, and documentation checklists.
+- The assistant can refresh `gstIncluded`, `gstRateUsed`, and `gstAmount` fields when you provide corrected totals.
+
 ## API Endpoints
 
 All endpoints require a valid `Authorization: Bearer <token>` header. Errors include an `X-Error-ID` header for support tracing.

@@ -1,6 +1,6 @@
 ---
 title: "User Preferences & Settings"
-description: "Configure your country, currency, business type, and AI personalization settings"
+description: "Control country-specific GST rates, currencies, business rules, and AI personalization for AI2Fin"
 ---
 
 ## User Preferences Overview
@@ -79,6 +79,7 @@ Configure your location, currency, and tax preferences for accurate financial ca
     - Tax rate defaults
     - Date and number formatting
     - Regulatory compliance rules
+    - CountryTaxRate lookup powering GST/VAT/Sales Tax rates per locale
     
     **How to Change:**
     1. Select country from dropdown
@@ -140,6 +141,12 @@ Configure your location, currency, and tax preferences for accurate financial ca
     - Tax-inclusive vs tax-exclusive amounts
     - Export calculations for tax filing
     - Business expense reporting
+    - AI assistant responses when you ask about GST/tax exposure
+
+    **What updates automatically:**
+    - Every income, expense, and bill stores `gstIncluded`, `gstRateUsed`, `gstAmount`, and base amounts for the selected country
+    - Bill patterns inherit the rate for new occurrences, so recurring invoices always stay compliant
+    - Receipt reminders surface when an expense should include documentation for your jurisdiction
   </Accordion>
 </AccordionGroup>
 

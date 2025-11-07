@@ -1,6 +1,6 @@
 ---
 title: "Platform Overview"
-description: "Complete overview of the AI2Fin ecosystem and architecture"
+description: "Enterprise AI finance platform overview with GST compliance engine, receipt automation, and conversational assistant"
 ---
 
 ## AI2Fin Platform Ecosystem
@@ -183,6 +183,12 @@ Access the AI2Fin platform and start managing your finances with AI today.
     - Pattern linking
     - Anomaly detection
     - Intelligent suggestions
+
+    **Compliance Automation:**
+    - Receipt coverage insights with `hasReceipt` and missing-document flags
+    - Automatic GST/VAT field population (`gstIncluded`, `gstRateUsed`, `gstAmount`, base amounts)
+    - Bill pattern occurrence alerts that inherit categories and tax settings
+    - Mobile photo/PDF ingestion that can create new expenses directly from chat
   </Accordion>
   
   <Accordion title="Reporting & Exports">
@@ -274,6 +280,17 @@ Complete REST API for building custom integrations and third-party applications.
   </Accordion>
 </AccordionGroup>
 
+## Conversational Control Center
+
+The AI2Fin assistant provides an AI accounting assistant layer across the platform:
+
+- Execute bulk categorisation, GST updates, and receipt uploads through natural language commands.
+- Query any transaction with filters for GST inclusion, business use %, or missing documentation.
+- Capture receipts by snapping a photo inside chat or uploading PDFs for vision-based extraction and matching.
+- Ask follow-up questions on budgeting, GST liability, or bill pattern forecasts and receive actionable steps.
+
+Every chat is authenticated, tool-invoking, and logged with attachments for audit trails.
+
 ## Security & Compliance
 
 ### Data Protection
@@ -325,6 +342,7 @@ AI2Fin is designed for businesses worldwide, supporting global tax requirements 
     - Business use percentage tracking
     - Receipt and document retention
     - Audit trail maintenance
+    - CountryTaxRate dataset with 30+ locale-specific GST/VAT/Sales Tax rules
     
     **Tax Reporting:**
     - Tax-ready exports

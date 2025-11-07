@@ -100,7 +100,7 @@ class FinancialAgent:
         
         # 3. Call your custom AI
         response = self.openai.chat.completions.create(
-            model="gpt-4",
+            model="enterprise-vision",
             messages=[
                 {"role": "system", "content": "Financial advisor AI"},
                 {"role": "user", "content": f"{question}\n\nContext: {context}"}

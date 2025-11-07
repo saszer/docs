@@ -89,6 +89,7 @@ Navigate to the main transaction management interface to view, edit, and categor
     - **Action Buttons**: Edit, categorize, delete for each row
     - **Status Indicators**: AI categorization status
     - **GST/Tax Display**: View GST amounts and rates for each transaction
+    - **Receipt Indicators**: Instantly see which rows have attachments or missing receipts
     - **Pagination**: Navigate through large transaction lists
     - **Sort Options**: Sort by date, amount, category, etc.
     - **Inline Editing**: Click any field to edit directly
@@ -197,6 +198,7 @@ The All Transactions page features powerful filtering and AI analysis capabiliti
     - Search and text filters
     - Amount and value filters
     - Category classification
+    - Receipt status (has receipt vs missing)
     - Quick filter combinations
     - Session persistence
     
@@ -220,6 +222,47 @@ The All Transactions page features powerful filtering and AI analysis capabiliti
 
 Smart Filters and AI Analysis Tools work seamlessly together. Apply filters first, then run AI analysis on the filtered transaction set for focused, efficient processing.
 </Info>
+
+## Receipt Capture & Attachments
+
+AI2Fin provides end-to-end digital receipt management so every deductible stays audit-ready.
+
+<Columns cols={2}>
+  <Card title="Capture Options" icon="camera">
+    - Tap the camera icon in chat to snap a photo on mobile
+    - Upload PDFs or images with the chat attachment button (supporting JPG, PNG, PDF, HEIC)
+    - Reuse assets already uploaded to chat when linking receipts later
+    - Forward receipts into the upcoming email processing pipeline (Coming Soon)
+  </Card>
+  
+  <Card title="AI Extraction" icon="robot">
+    - Receipts run through vision OCR for merchant, date, total, GST, and line items
+    - Candidates are matched against recent transactions within ±7 days and ±1% amount tolerance
+    - Chat surfaces suggested matches so you can confirm or pick another transaction
+    - If no match exists, create a new expense from the extracted data in one tap
+  </Card>
+</Columns>
+
+<AccordionGroup>
+  <Accordion title="Linking Receipts in Chat">
+    1. Ask the AI assistant to "attach this receipt" or "make a transaction from this photo".
+    2. The assistant runs `analyze_receipt` and shows the extracted summary.
+    3. Choose **Link to Transaction** to connect the file or **Create Expense** for a brand new record.
+    4. The assistant confirms the attachment and updates recurring bill patterns if the merchant matches an existing schedule.
+  </Accordion>
+  
+  <Accordion title="Bill Pattern Attachment Tracking">
+    - Recurring bills inherit GST/VAT settings so every occurrence carries the correct tax rate and receipt expectation.
+    - Use the receipt status filter (has receipt vs missing) to surface bills that need documentation before filing.
+    - Upload once and the system records the receipt URL alongside the bill occurrence notes for future reference.
+  </Accordion>
+  
+  <Accordion title="Audit Trail & Reporting">
+    - Each attachment is logged with file name, upload source (chat, web, CSV), and timestamp.
+    - Receipt links flow into tax exports, deduction reports, and AI assistant summaries.
+    - You can query "Show expenses without receipts" in chat to generate a ready-to-act checklist.
+  </Accordion>
+</AccordionGroup>
 
 ## Transaction Management Features
 
