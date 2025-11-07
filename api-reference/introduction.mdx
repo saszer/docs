@@ -76,6 +76,79 @@ curl -X GET https://api.ai2fin.com/api/bank/transactions \
   </Card>
 </CardGroup>
 
+## AI Assistant Chat APIs
+
+Use the chat endpoints to power the in-app assistant, automate financial workflows, and ingest receipts securely. See the [AI Assistant guide](/features/ai-assistant) for user experience details.
+
+| Method | Endpoint | Purpose |
+| --- | --- | --- |
+| `POST` | `/api/chat/message` | Send a message and receive an AI response with tool usage metadata |
+| `GET` | `/api/chat/conversations` | List conversations for the authenticated user |
+| `POST` | `/api/chat/conversations` | Create a new conversation thread |
+| `GET` | `/api/chat/conversations/:id` | Fetch the full message history and tool calls |
+| `POST` | `/api/chat/upload` | Upload files (receipts, invoices, spreadsheets) for analysis |
+| `GET` | `/api/chat/files/:userId/:fileName` | Retrieve stored attachments with access control |
+
+```bash
+curl -X POST https://api.ai2fin.com/api/chat/message \
+  -H "Authorization: Bearer ${AI2FIN_TOKEN}" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "conversationId": "conv_123",
+    "message": "Show expenses missing receipts for September"
+  }'
+```
+
+<Tip>
+  Use `/api/chat/upload` before calling `/api/chat/message` when attaching a receipt image or PDF; include the returned `assetUrl` in the message payload so the assistant can analyze it.
+</Tip>
+
+## GST & Tax APIs
+
+The tax service exposes endpoints for localized GST/VAT rate discovery and precise calculations. These power the [User Preferences](/features/user-preferences) and [Transaction Management](/guides/transaction-management) experiences.
+
+| Method | Endpoint | Purpose |
+| --- | --- | --- |
+| `GET` | `/api/tax/country-rates` | Fetch all active tax rates grouped by country |
+| `GET` | `/api/tax/rates/:countryCode` | Retrieve tax profiles for a specific country code (e.g. `AU`, `GB`) |
+| `POST` | `/api/tax/calculate` | Calculate GST/VAT amounts for tax-inclusive or tax-exclusive scenarios |
+
+```bash
+curl -X POST https://api.ai2fin.com/api/tax/calculate \
+  -H "Authorization: Bearer ${AI2FIN_TOKEN}" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "amount": 220.0,
+    "gstIncluded": true,
+    "countryCode": "AU",
+    "taxType": "GST"
+  }'
+```
+
+```json
+{
+  "success": true,
+  "data": {
+    "amount": 220,
+    "baseAmount": 200,
+    "gstAmount": 20,
+    "gstIncluded": true,
+    "gstRate": 0.1,
+    "input": {
+      "amount": 220,
+      "gstIncluded": true,
+      "gstRate": 0.1,
+      "countryCode": "AU",
+      "taxType": "GST"
+    }
+  }
+}
+```
+
+<Note>
+  `/api/tax/seed-rates` is reserved for provisioning environments. Use the country rate endpoints for read-only access in production clients.
+</Note>
+
 ## Core Concepts
 
 ### Multi-Tenant Architecture
