@@ -984,6 +984,561 @@
           }
         }
       }
+    },
+    "/api/chat/conversations": {
+      "get": {
+        "tags": ["AI Assistant"],
+        "summary": "List conversations",
+        "description": "Retrieve chat conversations for the authenticated user",
+        "responses": {
+          "200": {
+            "description": "Conversations retrieved",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean"
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/ChatConversation"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": ["AI Assistant"],
+        "summary": "Create conversation",
+        "description": "Create a new chat conversation thread",
+        "requestBody": {
+          "required": false,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "title": {
+                    "type": "string",
+                    "description": "Optional title for the conversation"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Conversation created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean"
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/ChatConversation"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/chat/conversations/{id}": {
+      "get": {
+        "tags": ["AI Assistant"],
+        "summary": "Get conversation",
+        "description": "Fetch a conversation with full message history",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Conversation retrieved",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "conversation": {
+                          "$ref": "#/components/schemas/ChatConversation"
+                        },
+                        "messages": {
+                          "type": "array",
+                          "items": {
+                            "$ref": "#/components/schemas/ChatMessage"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Conversation not found"
+          }
+        }
+      }
+    },
+    "/api/chat/message": {
+      "post": {
+        "tags": ["AI Assistant"],
+        "summary": "Send chat message",
+        "description": "Send a user message and receive the AI assistant response",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["message"],
+                "properties": {
+                  "conversationId": {
+                    "type": "string",
+                    "description": "Existing conversation identifier"
+                  },
+                  "message": {
+                    "type": "string",
+                    "description": "User message content"
+                  },
+                  "assetUrls": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "description": "Optional uploaded asset URLs for the assistant to analyze"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Assistant response returned",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "conversationId": {
+                          "type": "string"
+                        },
+                        "message": {
+                          "$ref": "#/components/schemas/ChatMessage"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/chat/upload": {
+      "post": {
+        "tags": ["AI Assistant"],
+        "summary": "Upload chat files",
+        "description": "Upload one or more files (receipts, invoices, documents) for assistant processing",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "required": ["files"],
+                "properties": {
+                  "files": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "format": "binary"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Files uploaded",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "files": {
+                          "type": "array",
+                          "items": {
+                            "$ref": "#/components/schemas/ChatFile"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/chat/files/{userId}/{fileName}": {
+      "get": {
+        "tags": ["AI Assistant"],
+        "summary": "Download chat file",
+        "description": "Retrieve a previously uploaded file if the user is authorized",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "fileName",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "File stream",
+            "content": {
+              "application/octet-stream": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "File not found"
+          }
+        }
+      }
+    },
+    "/api/receipts/analyze": {
+      "post": {
+        "tags": ["Receipts & Attachments"],
+        "summary": "Analyze receipt asset",
+        "description": "Extract structured data from an uploaded receipt or invoice",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["assetUrl", "mimeType", "size"],
+                "properties": {
+                  "assetUrl": {
+                    "type": "string"
+                  },
+                  "mimeType": {
+                    "type": "string"
+                  },
+                  "size": {
+                    "type": "integer"
+                  },
+                  "sha256": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Receipt analyzed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean"
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/ReceiptAnalysis"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/receipts/commit": {
+      "post": {
+        "tags": ["Receipts & Attachments"],
+        "summary": "Commit receipt",
+        "description": "Link an analyzed receipt to an existing entity or create a new expense",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["assetUrl", "mimeType", "size", "action"],
+                "properties": {
+                  "assetUrl": {
+                    "type": "string"
+                  },
+                  "mimeType": {
+                    "type": "string"
+                  },
+                  "size": {
+                    "type": "integer"
+                  },
+                  "extracted": {
+                    "$ref": "#/components/schemas/ReceiptExtractedData"
+                  },
+                  "action": {
+                    "type": "object",
+                    "required": ["type"],
+                    "properties": {
+                      "type": {
+                        "type": "string",
+                        "enum": ["link", "create_expense"]
+                      },
+                      "transactionId": {
+                        "type": "string"
+                      },
+                      "updateFields": {
+                        "type": "object"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Receipt committed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "entityType": {
+                          "type": "string"
+                        },
+                        "entityId": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/tax/country-rates": {
+      "get": {
+        "tags": ["GST & Tax"],
+        "summary": "List country tax rates",
+        "description": "Fetch all active tax rates grouped by country",
+        "responses": {
+          "200": {
+            "description": "Tax rates retrieved",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "rates": {
+                          "type": "array",
+                          "items": {
+                            "$ref": "#/components/schemas/TaxRate"
+                          }
+                        },
+                        "ratesByCountry": {
+                          "type": "object",
+                          "additionalProperties": {
+                            "type": "array",
+                            "items": {
+                              "$ref": "#/components/schemas/TaxRate"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/tax/rates/{countryCode}": {
+      "get": {
+        "tags": ["GST & Tax"],
+        "summary": "Get country tax rates",
+        "description": "Retrieve active tax rates for a specific country",
+        "parameters": [
+          {
+            "name": "countryCode",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "AU"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Rates retrieved",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean"
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/TaxRate"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Rates not found"
+          }
+        }
+      }
+    },
+    "/api/tax/calculate": {
+      "post": {
+        "tags": ["GST & Tax"],
+        "summary": "Calculate GST/VAT",
+        "description": "Calculate GST/VAT amounts for tax-inclusive or tax-exclusive inputs",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["amount", "gstIncluded"],
+                "properties": {
+                  "amount": {
+                    "type": "number"
+                  },
+                  "gstIncluded": {
+                    "type": "boolean"
+                  },
+                  "gstRate": {
+                    "type": "number",
+                    "description": "Optional rate override"
+                  },
+                  "countryCode": {
+                    "type": "string",
+                    "description": "Fallback to lookup rate when provided"
+                  },
+                  "taxType": {
+                    "type": "string",
+                    "description": "Tax type (GST, VAT, SALES_TAX, etc.)"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Calculation complete",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean"
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/TaxCalculationResult"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -1115,6 +1670,229 @@
           },
           "gstIncluded": {
             "type": "boolean"
+          }
+        }
+      },
+      "ChatConversation": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "title": {
+            "type": ["string", "null"]
+          },
+          "messageCount": {
+            "type": "integer"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "ChatMessage": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "conversationId": {
+            "type": "string"
+          },
+          "role": {
+            "type": "string",
+            "enum": ["user", "assistant", "system"]
+          },
+          "content": {
+            "type": "string"
+          },
+          "toolsUsed": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "ChatFile": {
+        "type": "object",
+        "properties": {
+          "assetUrl": {
+            "type": "string"
+          },
+          "fileName": {
+            "type": "string"
+          },
+          "mimeType": {
+            "type": "string"
+          },
+          "size": {
+            "type": "integer"
+          }
+        }
+      },
+      "ReceiptExtractedData": {
+        "type": "object",
+        "properties": {
+          "merchant": {
+            "type": "string"
+          },
+          "dateISO": {
+            "type": "string",
+            "format": "date"
+          },
+          "currency": {
+            "type": "string"
+          },
+          "total": {
+            "type": "number"
+          },
+          "tax": {
+            "type": "number"
+          },
+          "tip": {
+            "type": "number"
+          },
+          "lineItems": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "description": {
+                  "type": "string"
+                },
+                "quantity": {
+                  "type": "number"
+                },
+                "unitPrice": {
+                  "type": "number"
+                },
+                "amount": {
+                  "type": "number"
+                }
+              }
+            }
+          }
+        }
+      },
+      "ReceiptAnalysis": {
+        "type": "object",
+        "properties": {
+          "extracted": {
+            "$ref": "#/components/schemas/ReceiptExtractedData"
+          },
+          "candidates": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string"
+                },
+                "date": {
+                  "type": "string",
+                  "format": "date"
+                },
+                "amount": {
+                  "type": "number"
+                }
+              }
+            }
+          },
+          "asset": {
+            "type": "object",
+            "properties": {
+              "assetUrl": {
+                "type": "string"
+              },
+              "mimeType": {
+                "type": "string"
+              },
+              "size": {
+                "type": "integer"
+              }
+            }
+          }
+        }
+      },
+      "TaxRate": {
+        "type": "object",
+        "properties": {
+          "countryCode": {
+            "type": "string"
+          },
+          "taxType": {
+            "type": "string"
+          },
+          "taxName": {
+            "type": "string"
+          },
+          "standardRate": {
+            "type": "number"
+          },
+          "reducedRate": {
+            "type": ["number", "null"]
+          },
+          "zeroRate": {
+            "type": "number"
+          },
+          "combinedRate": {
+            "type": ["number", "null"]
+          },
+          "stateProvince": {
+            "type": ["string", "null"]
+          },
+          "description": {
+            "type": ["string", "null"]
+          }
+        }
+      },
+      "TaxCalculationResult": {
+        "type": "object",
+        "properties": {
+          "amount": {
+            "type": "number"
+          },
+          "baseAmount": {
+            "type": "number"
+          },
+          "gstAmount": {
+            "type": "number"
+          },
+          "gstIncluded": {
+            "type": "boolean"
+          },
+          "gstRate": {
+            "type": "number"
+          },
+          "input": {
+            "type": "object",
+            "properties": {
+              "amount": {
+                "type": "number"
+              },
+              "gstIncluded": {
+                "type": "boolean"
+              },
+              "gstRate": {
+                "type": "number"
+              },
+              "countryCode": {
+                "type": "string"
+              },
+              "taxType": {
+                "type": "string"
+              }
+            }
           }
         }
       },
@@ -1622,6 +2400,18 @@
     {
       "name": "Subscription",
       "description": "Subscription and quota management"
+    },
+    {
+      "name": "AI Assistant",
+      "description": "Chat conversations, messaging, and assistant file handling"
+    },
+    {
+      "name": "GST & Tax",
+      "description": "Global GST/VAT rate lookup and calculations"
+    },
+    {
+      "name": "Receipts & Attachments",
+      "description": "Receipt ingestion, AI analysis, and linkage APIs"
     }
   ]
 }

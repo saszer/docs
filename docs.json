@@ -93,24 +93,6 @@
             "pages": [
               "api-reference/introduction"
             ]
-          },
-          {
-            "group": "AI Assistant",
-            "pages": [
-              "api-reference/chat-apis"
-            ]
-          },
-          {
-            "group": "GST & Tax",
-            "pages": [
-              "api-reference/gst-apis"
-            ]
-          },
-          {
-            "group": "Receipts & Attachments",
-            "pages": [
-              "api-reference/receipt-apis"
-            ]
           }
         ]
       },
