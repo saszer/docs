@@ -80,6 +80,74 @@ Parameters: `{ startDate, endDate, toleranceHours?, amountTolerance? }`
 
 Returns: `{ success, data: { duplicateGroupsCount, duplicateGroups[], potentialSavings } }`
 
+## AI Analysis Tools (3)
+
+AI2Fin’s assistant mirrors the production AI services. These tools deliver categorization recommendations, tax deductions, and a helper to persist approved results.
+
+### `analyze_transaction_categorization`
+
+- **Parameters**: `{ transactionId, merchant?, description?, amount? }`
+- **Returns**:
+  ```json
+  {
+    "success": true,
+    "data": {
+      "transactionId": "txn_123",
+      "analysis": {
+        "suggestedCategory": "Office Expenses",
+        "confidence": 0.92,
+        "reasoning": "Matches previous office supply purchases",
+        "alternativeCategories": ["Supplies", "Stationery"]
+      },
+      "message": "AI suggests Office Expenses (92% confidence)..."
+    }
+  }
+  ```
+- **When to use**: “How should I categorize this transaction?”, “Explain why you picked that category.”
+
+### `analyze_transaction_tax_deductibility`
+
+- **Parameters**: `{ transactionId }`
+- **Returns**:
+  ```json
+  {
+    "success": true,
+    "data": {
+      "analysis": {
+        "isTaxDeductible": true,
+        "businessUsePercentage": 80,
+        "taxCategory": "Office Expenses",
+        "documentationRequired": ["Receipt", "Business purpose"],
+        "warnings": [],
+        "suggestions": ["Capture business mileage if applicable"]
+      },
+      "message": "Tax Analysis: ✓ Tax Deductible (95% confidence)..."
+    }
+  }
+  ```
+- **When to use**: “Is this deductible?”, “What documentation do I need for GST?” Results include GST/VAT breakdown consistent with user preferences.
+
+### `apply_analysis_to_transaction`
+
+- **Parameters**: `{ transactionId, categoryId?, categoryName?, isTaxDeductible?, businessUsePercentage?, gstIncluded?, gstAmount? }`
+- **Returns**:
+  ```json
+  {
+    "success": true,
+    "data": {
+      "transactionId": "txn_123",
+      "category": "Office Expenses",
+      "isTaxDeductible": true,
+      "businessUsePercentage": 80,
+      "gstAmount": 10.0,
+      "message": "✅ Updated transaction..."
+    }
+  }
+  ```
+- **When to use**: After presenting AI results, apply the approved category/tax/GST updates in one call.
+
+---
+
 ## User Profile & Preferences
 
 `get_user_profile`
@@ -316,6 +384,39 @@ Parameters (limited evaluator for transactions):
 
 Returns: `{ success, data: { tested, matchedCount, sampleIds } }`
 
+## Receipt Tools (2)
+
+`analyze_receipt`
+
+- **Parameters**: `{ assetUrl, mimeType, size, sha256? }`
+- **Returns**: `{ success, data: { extracted, candidates[], asset } }`
+- **Usage**: Run after uploading a receipt to extract merchant, totals, GST, and potential matching transactions. The assistant uses this before suggesting a commit.
+
+`commit_receipt`
+
+- **Parameters**: `{ assetUrl, mimeType, size, sha256?, extracted?, action: { type: "link" | "create_expense", transactionId?, updateFields? } }`
+- **Returns**: `{ success, data: { entityType, entityId } }`
+- **Usage**: Link the analyzed receipt to an existing transaction (type `link`) or create a new expense (`create_expense`). Include `updateFields` to adjust merchant/date/amount during linking.
+
+## Spending Outlook (1 tool)
+
+`get_spending_outlook`
+
+- **Parameters**: `{ startDate?, endDate?, includeActual?, includeProjected?, includeOverdue?, includePaidProjected?, limit? }`
+- **Returns**:
+  ```json
+  {
+    "success": true,
+    "data": {
+      "window": { "startDate": "...", "endDate": "...", "days": 60 },
+      "totals": { "actual": 2450.15, "projected": 3120.00, "combined": 5570.15 },
+      "actual": { "count": 42, "total": 2450.15, "records": [...] },
+      "projected": { "count": 18, "total": 3120.00, "overdueCount": 2, "records": [...] }
+    }
+  }
+  ```
+- **Usage**: Answer “What will I owe in the next 60 days?” by blending settled expenses with upcoming bill occurrences while avoiding double counting linked transactions.
+
 ## Budgets (5 tools) <Badge text="Coming Soon" variant="warning" />
 
 `create_budget`, `get_budgets`, `get_budget_status`, `update_budget`, `delete_budget`
@@ -337,7 +438,9 @@ Framework ready for Phase 2 implementation.
 | **User Profile** | 2 | ✅ Live |
 | **Subscription** | 2 | ✅ Live |
 | **Expenses** | 1 | ✅ Live |
-| **Receipts** | 1 | ✅ Live |
+| **Receipts** | 2 | ✅ Live |
+| **AI Analysis** | 3 | ✅ Live |
+| **Spending Outlook** | 1 | ✅ Live |
 | **Budgets** | 5 | ⏳ Coming Soon |
-| **TOTAL** | **45** | **40 Live** |
+| **TOTAL** | **47** | **42 Live** |
 

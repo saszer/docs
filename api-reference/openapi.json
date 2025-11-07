@@ -1602,6 +1602,210 @@
           }
         }
       }
+    },
+    "/api/intelligent-categorization/unified/categorize": {
+      "post": {
+        "tags": ["AI Analysis"],
+        "summary": "Categorize transactions with AI",
+        "description": "Analyze one or more transactions and return suggested categories with confidence and reasoning.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["transactions"],
+                "properties": {
+                  "transactions": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "description": "Transaction payload matching bank transaction shape"
+                    }
+                  },
+                  "userProfile": {
+                    "type": "object",
+                    "description": "Optional user profile overrides (businessType, profession, etc.)"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Categorization results returned",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": { "type": "boolean" },
+                    "data": { "type": "object" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/intelligent-categorization/unified/tax": {
+      "post": {
+        "tags": ["AI Analysis"],
+        "summary": "Analyze transactions for tax deductions",
+        "description": "Return tax deductibility analysis, documentation requirements, and GST considerations for each transaction.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["transactions"],
+                "properties": {
+                  "transactions": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "description": "Transaction payload matching bank transaction shape"
+                    }
+                  },
+                  "userProfile": {
+                    "type": "object",
+                    "description": "Optional user profile overrides (businessType, profession, etc.)"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Tax analysis results returned",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": { "type": "boolean" },
+                    "data": { "type": "object" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/intelligent-tax-deduction/analyze-transaction": {
+      "post": {
+        "tags": ["AI Analysis"],
+        "summary": "Analyze single transaction for tax deductibility",
+        "description": "Evaluate a single transaction using the intelligent tax deduction engine.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["transactionId"],
+                "properties": {
+                  "transactionId": { "type": "string" },
+                  "description": { "type": "string" },
+                  "amount": { "type": "number" },
+                  "date": { "type": "string", "format": "date-time" },
+                  "merchant": { "type": "string" },
+                  "category": { "type": "string" },
+                  "primaryType": { "type": "string" },
+                  "secondaryType": { "type": "string" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Tax deductibility analysis returned",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": { "type": "boolean" },
+                    "result": { "type": "object" },
+                    "message": { "type": "string" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/intelligent-tax-deduction/apply-results": {
+      "post": {
+        "tags": ["AI Analysis"],
+        "summary": "Apply tax analysis results",
+        "description": "Persist AI tax analysis decisions (deductibility, business use, GST metadata) back to transactions.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["results"],
+                "properties": {
+                  "results": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "required": ["id", "isTaxDeductible"],
+                      "properties": {
+                        "id": { "type": "string" },
+                        "isTaxDeductible": { "type": "boolean" },
+                        "businessUsePercentage": { "type": "number" },
+                        "confidence": { "type": "number" },
+                        "reasoning": { "type": "string" },
+                        "taxCategory": { "type": "string" },
+                        "documentationRequired": {
+                          "type": "array",
+                          "items": { "type": "string" }
+                        },
+                        "warnings": {
+                          "type": "array",
+                          "items": { "type": "string" }
+                        },
+                        "suggestions": {
+                          "type": "array",
+                          "items": { "type": "string" }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Results applied",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": { "type": "boolean" },
+                    "results": { "type": "array", "items": { "type": "object" } },
+                    "summary": { "type": "object" },
+                    "message": { "type": "string" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -2463,6 +2667,10 @@
     {
       "name": "Subscription",
       "description": "Subscription and quota management"
+    },
+    {
+      "name": "AI Analysis",
+      "description": "AI-driven categorization and tax analysis endpoints"
     },
     {
       "name": "AI Assistant",

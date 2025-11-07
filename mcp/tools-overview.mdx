@@ -5,7 +5,7 @@ description: 'Complete list of AI2Fin MCP tools'
 
 # MCP Tools Overview
 
-AI2Fin MCP provides **45 tools** across 9 categories for comprehensive financial management.
+AI2Fin MCP provides **47 tools** across 11 categories for comprehensive financial management.
 
 <Note>
 All tools enforce **user-isolation** - you can only access your own data.
@@ -19,55 +19,67 @@ All tools enforce **user-isolation** - you can only access your own data.
   <Card title="Transactions" icon="list" iconType="solid">
     **10 tools**
     
-    Query, create, analyze spending
+    Query, create, and analyze spending activity
   </Card>
   
   <Card title="Bills" icon="calendar" iconType="solid">
     **10 tools**
     
-    Recurring bills, payments, FY analysis
+    Recurring bill patterns, payments, and FY analysis
   </Card>
   
   <Card title="Custom Rules" icon="wand-magic-sparkles" iconType="solid">
     **6 tools**
     
-    Automation rules for categorization
+    Low-code automation for categorization and compliance
   </Card>
   
   <Card title="Expenses" icon="receipt" iconType="solid">
     **1 tool**
     
-    Manual expense tracking
+    Manual expense entry with rule execution
   </Card>
   
   <Card title="Travel" icon="car" iconType="solid">
     **5 tools**
     
-    Vehicle expenses, trip logging
+    Vehicle registry, trip logging, deduction summaries
   </Card>
   
   <Card title="User Profile" icon="user" iconType="solid">
     **2 tools**
     
-    Preferences, country settings
+    Preferences, locale, and AI context updates
   </Card>
   
   <Card title="Subscription" icon="credit-card" iconType="solid">
     **2 tools**
     
-    Plan status, feature access
+    Plan status checks and feature gates
   </Card>
   
   <Card title="Receipts" icon="file-image" iconType="solid">
+    **2 tools**
+    
+    Receipt ingestion, AI extraction, and linking
+  </Card>
+  
+  <Card title="AI Analysis" icon="brain" iconType="solid">
+    **3 tools**
+    
+    Categorization, tax analysis, and update helpers
+  </Card>
+  
+  <Card title="Spending Outlook" icon="chart-line" iconType="solid">
     **1 tool**
     
-    Receipt management
+    Blend actual spend with projected bills
   </Card>
   
   <Card title="Budgets" icon="piggy-bank" iconType="solid">
     **5 tools** (Coming Soon)
     
-    Budget tracking and alerts
+    Budget creation, tracking, and alerts
   </Card>
 </CardGroup>
 
@@ -126,21 +138,60 @@ All tools enforce **user-isolation** - you can only access your own data.
 | `create_trip` | Log trip | ✅ |
 | `get_travel_deduction_summary` | Tax deductions | ✅ |
 
-### Other Tools (14)
+### User Profile Tools (2)
 
-| Tool | Category | Purpose |
-|------|----------|---------|
-| `create_expense` | Expenses | Manual expense entry |
-| `get_user_profile` | User | Get preferences |
-| `set_user_preferences` | User | Update settings |
-| `get_user_subscription` | Subscription | Check plan |
-| `check_feature_access` | Subscription | Feature gates |
-| `get_receipts` | Receipts | Receipt management |
-| **Budgets (5)** | Budgets | ⏳ Coming Soon |
+| Tool | Purpose | Status |
+|------|---------|--------|
+| `get_user_profile` | Fetch preferences, locale, and AI context | ✅ |
+| `set_user_preferences` | Update country, business type, industry, AI context | ✅ |
+
+### Subscription Tools (2)
+
+| Tool | Purpose | Status |
+|------|---------|--------|
+| `get_user_subscription` | Retrieve plan tier and quotas | ✅ |
+| `check_feature_access` | Verify gated features (e.g., AI analysis) | ✅ |
+
+### Expense Tools (1)
+
+| Tool | Purpose | Status |
+|------|---------|--------|
+| `create_expense` | Create expense and apply custom rules | ✅ |
+
+### Receipt Tools (2)
+
+| Tool | Purpose | Status |
+|------|---------|--------|
+| `analyze_receipt` | Run AI extraction on uploaded receipt | ✅ |
+| `commit_receipt` | Link receipt to transaction or create expense | ✅ |
+
+### AI Analysis Tools (3)
+
+| Tool | Purpose | Status |
+|------|---------|--------|
+| `analyze_transaction_categorization` | Suggest category with AI reasoning | ✅ |
+| `analyze_transaction_tax_deductibility` | Evaluate deductibility, business %, GST | ✅ |
+| `apply_analysis_to_transaction` | Persist AI results (category, tax, GST) | ✅ |
+
+### Spending Outlook (1)
+
+| Tool | Purpose | Status |
+|------|---------|--------|
+| `get_spending_outlook` | Blend actual spend with upcoming bill projections | ✅ |
+
+### Budgets (5) <Badge text="Coming Soon" variant="warning" />
+
+| Tool | Purpose | Status |
+|------|---------|--------|
+| `create_budget` | Budget creation | ⏳ |
+| `get_budgets` | Retrieve budgets | ⏳ |
+| `get_budget_status` | Budget vs actual | ⏳ |
+| `update_budget` | Modify budget | ⏳ |
+| `delete_budget` | Remove budget | ⏳ |
 
 ---
 
-## 🆕 Recent Additions (Nov 2024)
+## 🆕 Recent Additions (Nov 2025)
 
 <AccordionGroup>
   <Accordion title="Analytics Tools (3)" icon="chart-line">
@@ -186,6 +237,30 @@ All tools enforce **user-isolation** - you can only access your own data.
     
     **`update_bill_pattern`**  
     Pattern management
+  </Accordion>
+  
+  <Accordion title="AI Analysis (3)" icon="brain">
+    **`analyze_transaction_categorization`**  
+    AI category suggestions with reasoning
+    
+    **`analyze_transaction_tax_deductibility`**  
+    Tax analysis with documentation guidance
+    
+    **`apply_analysis_to_transaction`**  
+    Persist accepted AI results (category, tax, GST)
+  </Accordion>
+  
+  <Accordion title="Receipt Automation (2)" icon="file-image">
+    **`analyze_receipt`**  
+    Extract totals, GST, merchants, and candidates
+    
+    **`commit_receipt`**  
+    Link receipts to transactions or create expenses
+  </Accordion>
+  
+  <Accordion title="Spending Outlook (1)" icon="chart-line">
+    **`get_spending_outlook`**  
+    Combine actual spend with projected bills
   </Accordion>
 </AccordionGroup>
 

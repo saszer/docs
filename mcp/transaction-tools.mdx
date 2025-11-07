@@ -545,6 +545,142 @@ Detects potential duplicate payments based on merchant, amount, and date proximi
 
 ---
 
+## analyze_transaction_categorization
+
+<Note>AI Analysis Tool</Note>
+
+Uses the intelligent categorization service to suggest the best category for a transaction with confidence and reasoning.
+
+### Parameters
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `transactionId` | string | Yes | Transaction to analyze |
+| `merchant` | string | No | Merchant override (defaults to stored merchant) |
+| `description` | string | No | Description override |
+| `amount` | number | No | Amount override |
+
+### Example Response
+
+```json
+{
+  "success": true,
+  "data": {
+    "transactionId": "txn_123",
+    "analysis": {
+      "suggestedCategory": "Office Expenses",
+      "confidence": 0.92,
+      "reasoning": "Matches previous office supply purchases",
+      "alternativeCategories": ["Supplies", "Stationery"]
+    }
+  }
+}
+```
+
+---
+
+## analyze_transaction_tax_deductibility
+
+<Note>AI Analysis Tool</Note>
+
+Runs the Intelligent Tax Deduction Service to determine tax deductibility, business use percentage, documentation requirements, and GST implications.
+
+### Parameters
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `transactionId` | string | Yes | Transaction to analyse |
+
+### Example Response
+
+```json
+{
+  "success": true,
+  "data": {
+    "analysis": {
+      "isTaxDeductible": true,
+      "businessUsePercentage": 80,
+      "taxCategory": "Office Expenses",
+      "documentationRequired": ["Receipt", "Business purpose"],
+      "warnings": [],
+      "suggestions": []
+    }
+  }
+}
+```
+
+---
+
+## apply_analysis_to_transaction
+
+<Tip>AI Helper</Tip>
+
+Applies the approved AI recommendations to the transaction: category, tax flags, business use percentage, and GST metadata.
+
+### Parameters
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `transactionId` | string | Yes | Transaction to update |
+| `categoryId` | string | No | Category ID |
+| `categoryName` | string | No | Category name (lookup if ID missing) |
+| `isTaxDeductible` | boolean | No | Mark as deductible |
+| `businessUsePercentage` | number | No | Business use (0-100) |
+| `gstIncluded` | boolean | No | Whether GST is included |
+| `gstAmount` | number | No | GST amount |
+
+### Example Response
+
+```json
+{
+  "success": true,
+  "data": {
+    "transactionId": "txn_123",
+    "category": "Office Expenses",
+    "isTaxDeductible": true,
+    "businessUsePercentage": 80,
+    "gstAmount": 10,
+    "message": "✅ Updated transaction..."
+  }
+}
+```
+
+---
+
+## get_spending_outlook
+
+<Note>Hybrid Analytics Tool</Note>
+
+Combines settled transactions and future bill occurrences to answer “What will I spend in the next X days?”
+
+### Parameters
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `startDate` | string | No | Defaults to today |
+| `endDate` | string | No | Defaults to +60 days |
+| `includeActual` | boolean | No | Include processed transactions (default: true) |
+| `includeProjected` | boolean | No | Include bill projections (default: true) |
+| `includeOverdue` | boolean | No | Include overdue occurrences (default: true) |
+| `includePaidProjected` | boolean | No | Include already-paid occurrences (default: false) |
+| `limit` | number | No | Max records per section (default: 250, max 500) |
+
+### Example Response (trimmed)
+
+```json
+{
+  "success": true,
+  "data": {
+    "window": { "startDate": "2025-11-01", "endDate": "2026-01-01", "days": 62 },
+    "totals": { "actual": 2450.15, "projected": 3120.00, "combined": 5570.15 },
+    "actual": { "count": 42, "records": [...] },
+    "projected": { "count": 18, "overdueCount": 2, "records": [...] }
+  }
+}
+```
+
+---
+
 ## Real-World Examples
 
 ### Get Recent Expenses
@@ -689,6 +825,47 @@ Detects potential duplicate payments based on merchant, amount, and date proximi
   "params": {
     "startDate": "2024-10-01",
     "endDate": "2024-10-31"
+  }
+}
+```
+
+### Explain a Categorization
+
+**AI calls**:
+```json
+{
+  "tool": "analyze_transaction_categorization",
+  "params": {
+    "transactionId": "txn_123"
+  }
+}
+```
+
+### Apply the Suggestion
+
+**AI calls**:
+```json
+{
+  "tool": "apply_analysis_to_transaction",
+  "params": {
+    "transactionId": "txn_123",
+    "categoryId": "cat_office",
+    "isTaxDeductible": true,
+    "businessUsePercentage": 80,
+    "gstAmount": 10
+  }
+}
+```
+
+### Forecast the Next 60 Days
+
+**AI calls**:
+```json
+{
+  "tool": "get_spending_outlook",
+  "params": {
+    "startDate": "2025-11-01",
+    "endDate": "2026-01-01"
   }
 }
 ```
