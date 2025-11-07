@@ -11,6 +11,8 @@ User Preferences allow you to personalize AI2Fin to match your business type, lo
 Click your avatar/profile icon in the top-right corner, then select "Preferences" from the dropdown menu.
 </Card>
 
+If you're configuring AI2Fin for the first time, pair this guide with the [Quick Start walkthrough](/quickstart) and the [Transaction Management guide](/guides/transaction-management) to see how preferences drive downstream automation.
+
 ## Accessing User Preferences
 
 ### Navigation Path
@@ -418,6 +420,50 @@ Personalize AI behavior with custom context for enhanced categorization.
     - Compliance checks with new rules
   </Card>
 </Columns>
+
+## FAQs
+
+### How do country settings influence GST automation?
+Country selection syncs localized tax types and rates so every transaction stores accurate `gstIncluded`, `gstRateUsed`, and `gstAmount` values for reporting.
+
+### Can each user customize AI behavior independently?
+Yes. Preferences capture business type, profession, industry, and AI context per user, allowing tailored categorization and tax logic without affecting teammates.
+
+### What if our tax rate changes mid-year?
+Updating the rate preserves historical snapshots while applying the new percentage to future transactions, keeping audits and filings consistent.
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "How do country settings influence GST automation?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Country selection syncs localized tax types and rates so every transaction stores accurate gstIncluded, gstRateUsed, and gstAmount values for reporting."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can each user customize AI behavior independently?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "User profiles capture business type, profession, industry, and AI context per person, enabling tailored categorization and tax logic without affecting teammates."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What if our tax rate changes mid-year?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Updating the rate preserves historical snapshots while applying the new percentage to future transactions, keeping audits and filings consistent."
+      }
+    }
+  ]
+}
+</script>
 
 ## Common Use Cases
 

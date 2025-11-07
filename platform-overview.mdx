@@ -291,6 +291,52 @@ The AI2Fin assistant provides an AI accounting assistant layer across the platfo
 
 Every chat is authenticated, tool-invoking, and logged with attachments for audit trails.
 
+Dive deeper into guided usage with the [AI Assistant documentation](/features/ai-assistant) and connect it to workflows described in [Transaction Management](/guides/transaction-management).
+
+## FAQs
+
+### How does AI2Fin scale for multinational finance teams?
+AI2Fin’s microservice architecture separates connectors, AI modules, analytics, and subscription services so teams can onboard new regions, banks, and tax rules without rewriting the core platform.
+
+### Where are GST/VAT rates managed in the platform?
+The `CountryTaxRate` service stores localized standard, reduced, and combined rates. User preferences pull from this dataset to enforce correct `gstRateUsed` and reporting terminology across expenses, bills, and exports.
+
+### How is receipt compliance enforced?
+Receipt analysis routes through secure APIs that extract key data, suggest matching transactions, and attach URLs to expenses or bill occurrences. Missing receipt filters and AI assistant prompts help close documentation gaps before audits.
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "How does AI2Fin scale for multinational finance teams?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "AI2Fin’s microservice architecture separates connectors, AI modules, analytics, and subscription services so teams can onboard new regions, banks, and tax rules without rewriting the core platform."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Where are GST/VAT rates managed in the platform?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The CountryTaxRate service stores localized standard, reduced, and combined rates. User preferences pull from this dataset to enforce correct gstRateUsed and reporting terminology across expenses, bills, and exports."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How is receipt compliance enforced?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Receipt analysis routes through secure APIs that extract key data, suggest matching transactions, and attach URLs to expenses or bill occurrences. Missing receipt filters and AI assistant prompts help close documentation gaps before audits."
+      }
+    }
+  ]
+}
+</script>
+
 ## Security & Compliance
 
 ### Data Protection

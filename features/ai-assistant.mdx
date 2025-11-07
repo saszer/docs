@@ -1,6 +1,6 @@
 ---
 title: "AI Assistant (Chat)"
-description: "Conversational AI assistant for financial insights, actions, and guidance"
+description: "AI accounting assistant for GST insights, receipt automation, budgeting, and bulk transaction actions"
 ---
 
 ## Overview
@@ -18,6 +18,8 @@ The AI Assistant provides a secure, conversational chat experience to query fina
     All endpoints require auth and are isolated per user.
   </Card>
 </CardGroup>
+
+Connect the assistant to the workflows outlined in [Transaction Management](/guides/transaction-management), [Pattern Analysis](/features/pattern-analysis), and [User Preferences](/features/user-preferences) for end-to-end automation.
 
 ## Quick Start (App UI)
 
@@ -89,6 +91,50 @@ The AI Assistant provides a secure, conversational chat experience to query fina
 - Country-specific rates from the `CountryTaxRate` service answer GST/VAT queries with local terminology.
 - Commands like "Is this expense deductible in Canada?" trigger intelligent tax analysis with reasoning, warnings, and documentation checklists.
 - The assistant can refresh `gstIncluded`, `gstRateUsed`, and `gstAmount` fields when you provide corrected totals.
+
+## FAQs
+
+### Does the assistant run actions or just answer questions?
+It executes secure MCP tools for categorisation, receipt linking, GST updates, budgeting calculations, and more—every action is authenticated and audit logged.
+
+### How does the assistant stay compliant with regional tax rules?
+The assistant references user preferences, stored tax rates, and prior analyses to surface region-specific GST/VAT terminology, documentation requirements, and deduction guidance.
+
+### Can I upload receipts directly through chat?
+Yes. Attach an image or PDF, and the assistant will extract the data, propose matches, and attach the receipt to the correct transaction or bill occurrence.
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Does the assistant run actions or just answer questions?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The AI assistant executes secure tools for categorisation, receipt linking, GST updates, budgeting calculations, and more—every action is authenticated and audit logged."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How does the assistant stay compliant with regional tax rules?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "It references user preferences, stored tax rates, and prior analyses to surface region-specific GST/VAT terminology, documentation requirements, and deduction guidance."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I upload receipts directly through chat?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Attach an image or PDF and the assistant will extract the data, propose matches, and attach the receipt to the correct transaction or bill occurrence."
+      }
+    }
+  ]
+}
+</script>
 
 ## API Endpoints
 

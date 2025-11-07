@@ -1,6 +1,6 @@
 ---
 title: "Patterns Navigation"
-description: "Navigate AI-powered pattern detection and recurring transaction analysis"
+description: "Manage recurring bills with AI pattern detection, GST-ready schedules, and receipt compliance tracking"
 ---
 
 ## Navigating Pattern Analysis
@@ -10,6 +10,8 @@ AI2Fin's Pattern Analysis feature uses advanced machine learning to identify rec
 <Card title="Access Pattern Analysis" icon="repeat" href="https://app.ai2fin.com/#/bills" horizontal>
 Navigate to the Patterns (Recurring) section to access AI pattern detection features.
 </Card>
+
+For best results, configure tax preferences first in [User Preferences](/features/user-preferences) and review the [Transaction Management guide](/guides/transaction-management) to see how patterns surface inside day-to-day workflows.
 
 ## How to Access Pattern Analysis
 
@@ -194,6 +196,50 @@ The AI2Fin assistant can act as your recurring bill concierge:
 - Say "Link this transaction to my electricity bill" and the assistant uses secure tools to bind the payment to the right pattern.
 - Upload a photo of a utility invoice in chat and follow the prompt to attach it to the latest occurrence with `upload_receipt_for_bill`.
 - Request "Forecast my SaaS renewals with GST" to combine pattern data and tax rates for upcoming cash flow planning.
+
+## FAQs
+
+### How does AI2Fin detect new recurring bills?
+The system analyses merchant, amount, and frequency trends across transactions, proposing bill patterns when confidence passes internal thresholds. You can approve, modify, or dismiss suggestions.
+
+### Can patterns carry GST information?
+Yes. Once confirmed, each pattern stores GST metadata so future occurrences inherit the correct `gstRateUsed`, `gstAmount`, and receipt expectations.
+
+### What if a bill amount changes unexpectedly?
+Pattern deviation alerts trigger when an occurrence exceeds configured tolerances, prompting you to confirm the change, attach a receipt, or investigate potential anomalies.
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "How does AI2Fin detect new recurring bills?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The system analyses merchant, amount, and frequency trends across transactions, proposing bill patterns when confidence passes internal thresholds."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can patterns carry GST information?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Once confirmed, each pattern stores GST metadata so future occurrences inherit the correct gstRateUsed, gstAmount, and receipt expectations."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What if a bill amount changes unexpectedly?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Pattern deviation alerts trigger when an occurrence exceeds configured tolerances, prompting you to confirm the change, attach a receipt, or investigate potential anomalies."
+      }
+    }
+  ]
+}
+</script>
 
 ### Pattern-Based Insights
 
