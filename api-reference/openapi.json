@@ -1225,6 +1225,69 @@
         }
       }
     },
+    "/api/chat/stream": {
+      "post": {
+        "tags": ["AI Assistant"],
+        "summary": "Stream assistant response",
+        "description": "Initiate a streaming assistant response using Server-Sent Events (SSE)",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["message"],
+                "properties": {
+                  "conversationId": {
+                    "type": "string"
+                  },
+                  "message": {
+                    "type": "string"
+                  },
+                  "assetUrls": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "SSE stream started",
+            "content": {
+              "text/event-stream": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/chat/stream-test": {
+      "get": {
+        "tags": ["AI Assistant"],
+        "summary": "Test streaming endpoint",
+        "description": "Verify SSE streaming connectivity",
+        "responses": {
+          "200": {
+            "description": "Stream test succeeded",
+            "content": {
+              "text/event-stream": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/chat/files/{userId}/{fileName}": {
       "get": {
         "tags": ["AI Assistant"],
