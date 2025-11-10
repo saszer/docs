@@ -133,6 +133,11 @@
     "global": {
       "anchors": [
         {
+          "anchor": "AI2Fin",
+          "href": "https://ai2fin.com",
+          "icon": "link"
+        },
+        {
           "anchor": "Platform",
           "href": "https://app.ai2fin.com",
           "icon": "rocket"
