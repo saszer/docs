@@ -1806,6 +1806,773 @@
           }
         }
       }
+    },
+    "/api/category-sets": {
+      "get": {
+        "tags": ["Smart Categories"],
+        "summary": "List category sets",
+        "description": "Get all category sets for the authenticated user. Elite+ subscription required.",
+        "responses": {
+          "200": {
+            "description": "Category sets retrieved",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": { "type": "boolean" },
+                    "sets": {
+                      "type": "array",
+                      "items": { "$ref": "#/components/schemas/CategorySet" }
+                    },
+                    "count": { "type": "integer" }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Elite+ subscription required"
+          }
+        }
+      },
+      "post": {
+        "tags": ["Smart Categories"],
+        "summary": "Create category set",
+        "description": "Create a new category set. Elite+ subscription required.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["name"],
+                "properties": {
+                  "name": { "type": "string", "example": "Business Expenses" },
+                  "description": { "type": "string", "example": "All business-related expense categories" },
+                  "color": { "type": "string", "example": "#3B82F6" },
+                  "icon": { "type": "string", "example": "Briefcase" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Category set created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": { "type": "boolean" },
+                    "set": { "$ref": "#/components/schemas/CategorySet" },
+                    "message": { "type": "string" }
+                  }
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Category set with this name already exists"
+          }
+        }
+      }
+    },
+    "/api/category-sets/active": {
+      "get": {
+        "tags": ["Smart Categories"],
+        "summary": "Get active category set",
+        "description": "Get the currently active category set for the user.",
+        "responses": {
+          "200": {
+            "description": "Active category set retrieved",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": { "type": "boolean" },
+                    "set": { "$ref": "#/components/schemas/CategorySet" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/category-sets/{id}": {
+      "get": {
+        "tags": ["Smart Categories"],
+        "summary": "Get category set by ID",
+        "description": "Get a specific category set with its categories.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Category set retrieved",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": { "type": "boolean" },
+                    "set": { "$ref": "#/components/schemas/CategorySet" }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Category set not found"
+          }
+        }
+      },
+      "put": {
+        "tags": ["Smart Categories"],
+        "summary": "Update category set",
+        "description": "Update an existing category set.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string" }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": { "type": "string" },
+                  "description": { "type": "string" },
+                  "color": { "type": "string" },
+                  "icon": { "type": "string" },
+                  "isActive": { "type": "boolean" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Category set updated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": { "type": "boolean" },
+                    "set": { "$ref": "#/components/schemas/CategorySet" },
+                    "message": { "type": "string" }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Category set not found"
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Smart Categories"],
+        "summary": "Delete category set",
+        "description": "Delete a category set. Categories will be moved to the default set. Default sets cannot be deleted.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Category set deleted",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": { "type": "boolean" },
+                    "movedCategories": { "type": "integer" },
+                    "message": { "type": "string" }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Cannot delete default category set"
+          },
+          "404": {
+            "description": "Category set not found"
+          }
+        }
+      }
+    },
+    "/api/category-sets/{id}/activate": {
+      "post": {
+        "tags": ["Smart Categories"],
+        "summary": "Activate category set",
+        "description": "Set a category set as the active set for the user.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Category set activated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": { "type": "boolean" },
+                    "previousActiveSetId": { "type": "string" },
+                    "newActiveSetId": { "type": "string" },
+                    "message": { "type": "string" }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Category set not found"
+          }
+        }
+      }
+    },
+    "/api/category-sets/{id}/duplicate": {
+      "post": {
+        "tags": ["Smart Categories"],
+        "summary": "Duplicate category set",
+        "description": "Create a copy of a category set with all its categories.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string" }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["name"],
+                "properties": {
+                  "name": { "type": "string", "example": "Business Expenses Copy" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Category set duplicated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": { "type": "boolean" },
+                    "set": { "$ref": "#/components/schemas/CategorySet" },
+                    "message": { "type": "string" }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Category set not found"
+          },
+          "409": {
+            "description": "Category set with this name already exists"
+          }
+        }
+      }
+    },
+    "/api/category-sets/move-category": {
+      "post": {
+        "tags": ["Smart Categories"],
+        "summary": "Move category to set",
+        "description": "Move a category from one set to another.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["categoryId", "targetSetId"],
+                "properties": {
+                  "categoryId": { "type": "string" },
+                  "targetSetId": { "type": "string" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Category moved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": { "type": "boolean" },
+                    "category": { "$ref": "#/components/schemas/Category" },
+                    "message": { "type": "string" }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Category or target set not found"
+          }
+        }
+      }
+    },
+    "/api/category-sets/categories/from-sets": {
+      "get": {
+        "tags": ["Smart Categories"],
+        "summary": "Get categories from sets",
+        "description": "Get categories from specific sets, grouped by set ID. Useful for dropdowns and filtering.",
+        "parameters": [
+          {
+            "name": "setIds",
+            "in": "query",
+            "description": "Comma-separated list of set IDs",
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Categories retrieved",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": { "type": "boolean" },
+                    "categories": {
+                      "type": "array",
+                      "items": { "$ref": "#/components/schemas/Category" }
+                    },
+                    "grouped": {
+                      "type": "object",
+                      "additionalProperties": {
+                        "type": "array",
+                        "items": { "$ref": "#/components/schemas/Category" }
+                      }
+                    },
+                    "count": { "type": "integer" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/transaction-categories/{transactionId}": {
+      "get": {
+        "tags": ["Smart Categories"],
+        "summary": "Get transaction categories",
+        "description": "Get all categories assigned to a transaction.",
+        "parameters": [
+          {
+            "name": "transactionId",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Categories retrieved",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": { "type": "boolean" },
+                    "categories": {
+                      "type": "array",
+                      "items": { "$ref": "#/components/schemas/TransactionCategory" }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": ["Smart Categories"],
+        "summary": "Assign category to transaction",
+        "description": "Assign a category to a transaction. Transactions can have multiple categories.",
+        "parameters": [
+          {
+            "name": "transactionId",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string" }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["categoryId"],
+                "properties": {
+                  "categoryId": { "type": "string" },
+                  "categorySetId": { "type": "string" },
+                  "isPrimary": { "type": "boolean", "default": false },
+                  "confidence": { "type": "number", "minimum": 0, "maximum": 1 },
+                  "assignedBy": { "type": "string", "enum": ["user", "ai", "import", "rule", "bulk"] },
+                  "notes": { "type": "string" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Category assigned",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": { "type": "boolean" },
+                    "category": { "$ref": "#/components/schemas/TransactionCategory" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": ["Smart Categories"],
+        "summary": "Replace transaction categories",
+        "description": "Replace all categories on a transaction with a new set of categories.",
+        "parameters": [
+          {
+            "name": "transactionId",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string" }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["categories"],
+                "properties": {
+                  "categories": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "required": ["categoryId"],
+                      "properties": {
+                        "categoryId": { "type": "string" },
+                        "categorySetId": { "type": "string" },
+                        "isPrimary": { "type": "boolean" },
+                        "confidence": { "type": "number" },
+                        "assignedBy": { "type": "string" }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Categories replaced",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": { "type": "boolean" },
+                    "categories": {
+                      "type": "array",
+                      "items": { "$ref": "#/components/schemas/TransactionCategory" }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/transaction-categories/{transactionId}/multiple": {
+      "post": {
+        "tags": ["Smart Categories"],
+        "summary": "Assign multiple categories",
+        "description": "Assign multiple categories to a transaction at once.",
+        "parameters": [
+          {
+            "name": "transactionId",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string" }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["categories"],
+                "properties": {
+                  "categories": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "required": ["categoryId"],
+                      "properties": {
+                        "categoryId": { "type": "string" },
+                        "categorySetId": { "type": "string" },
+                        "isPrimary": { "type": "boolean" },
+                        "confidence": { "type": "number" },
+                        "assignedBy": { "type": "string" }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Categories assigned",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": { "type": "boolean" },
+                    "categories": {
+                      "type": "array",
+                      "items": { "$ref": "#/components/schemas/TransactionCategory" }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/transaction-categories/{transactionId}/{categoryId}": {
+      "delete": {
+        "tags": ["Smart Categories"],
+        "summary": "Remove category from transaction",
+        "description": "Remove a specific category assignment from a transaction.",
+        "parameters": [
+          {
+            "name": "transactionId",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string" }
+          },
+          {
+            "name": "categoryId",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Category removed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": { "type": "boolean" },
+                    "message": { "type": "string" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/transaction-history/{entityType}/{entityId}": {
+      "get": {
+        "tags": ["Smart Categories"],
+        "summary": "Get entity history",
+        "description": "Get full change history for a transaction, expense, bill, or bill pattern.",
+        "parameters": [
+          {
+            "name": "entityType",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string", "enum": ["transaction", "expense", "bill", "billPattern"] }
+          },
+          {
+            "name": "entityId",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "History retrieved",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": { "type": "boolean" },
+                    "history": {
+                      "type": "array",
+                      "items": { "$ref": "#/components/schemas/TransactionFieldHistory" }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid entity type"
+          }
+        }
+      }
+    },
+    "/api/transaction-history/{entityType}/{entityId}/{fieldName}": {
+      "get": {
+        "tags": ["Smart Categories"],
+        "summary": "Get field history",
+        "description": "Get change history for a specific field of an entity. Maximum 11 changes are retained.",
+        "parameters": [
+          {
+            "name": "entityType",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string", "enum": ["transaction", "expense", "bill", "billPattern"] }
+          },
+          {
+            "name": "entityId",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string" }
+          },
+          {
+            "name": "fieldName",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Field history retrieved",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": { "type": "boolean" },
+                    "fieldName": { "type": "string" },
+                    "changes": {
+                      "type": "array",
+                      "items": { "$ref": "#/components/schemas/TransactionFieldHistory" }
+                    },
+                    "count": { "type": "integer" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/transaction-history/recent": {
+      "get": {
+        "tags": ["Smart Categories"],
+        "summary": "Get recent changes",
+        "description": "Get recent field changes for the authenticated user.",
+        "parameters": [
+          {
+            "name": "limit",
+            "in": "query",
+            "schema": { "type": "integer", "default": 50, "maximum": 200 }
+          },
+          {
+            "name": "entityType",
+            "in": "query",
+            "schema": { "type": "string", "enum": ["transaction", "expense", "bill", "billPattern"] }
+          },
+          {
+            "name": "fieldName",
+            "in": "query",
+            "schema": { "type": "string" }
+          },
+          {
+            "name": "since",
+            "in": "query",
+            "description": "ISO date string",
+            "schema": { "type": "string", "format": "date-time" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Recent changes retrieved",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": { "type": "boolean" },
+                    "changes": {
+                      "type": "array",
+                      "items": { "$ref": "#/components/schemas/TransactionFieldHistory" }
+                    },
+                    "count": { "type": "integer" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -2365,6 +3132,154 @@
           }
         }
       },
+      "CategorySet": {
+        "type": "object",
+        "description": "A category set for organizing categories into groups (e.g., Business Expenses, Tax Deductible, Personal). Elite+ feature.",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string",
+            "example": "Business Expenses"
+          },
+          "description": {
+            "type": "string",
+            "example": "All business-related expense categories"
+          },
+          "color": {
+            "type": "string",
+            "example": "#3B82F6"
+          },
+          "icon": {
+            "type": "string",
+            "example": "Briefcase"
+          },
+          "userId": {
+            "type": "string"
+          },
+          "isDefault": {
+            "type": "boolean",
+            "description": "Whether this is the default category set (cannot be deleted)"
+          },
+          "isActive": {
+            "type": "boolean",
+            "description": "Whether this is the currently active category set"
+          },
+          "categoryCount": {
+            "type": "integer",
+            "description": "Number of categories in this set"
+          },
+          "categories": {
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/Category" }
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "TransactionCategory": {
+        "type": "object",
+        "description": "A category assignment for a transaction. Transactions can have multiple categories from different sets.",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "transactionId": {
+            "type": "string"
+          },
+          "categoryId": {
+            "type": "string"
+          },
+          "categorySetId": {
+            "type": "string"
+          },
+          "userId": {
+            "type": "string"
+          },
+          "isPrimary": {
+            "type": "boolean",
+            "description": "Whether this is the primary category for the transaction"
+          },
+          "confidence": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1,
+            "description": "AI confidence score for the assignment"
+          },
+          "assignedBy": {
+            "type": "string",
+            "enum": ["user", "ai", "import", "rule", "bulk"],
+            "description": "Source of the category assignment"
+          },
+          "assignedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "notes": {
+            "type": "string"
+          },
+          "category": {
+            "$ref": "#/components/schemas/Category"
+          }
+        }
+      },
+      "TransactionFieldHistory": {
+        "type": "object",
+        "description": "A history entry tracking a field change on a transaction, expense, bill, or bill pattern. Maximum 11 entries per field.",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "userId": {
+            "type": "string"
+          },
+          "entityType": {
+            "type": "string",
+            "enum": ["transaction", "expense", "bill", "billPattern"],
+            "description": "Type of entity being tracked"
+          },
+          "entityId": {
+            "type": "string",
+            "description": "ID of the entity"
+          },
+          "fieldName": {
+            "type": "string",
+            "description": "Name of the field that was changed (e.g., categoryId, amount, description)"
+          },
+          "oldValue": {
+            "type": "string",
+            "description": "Previous value (JSON string)"
+          },
+          "newValue": {
+            "type": "string",
+            "description": "New value (JSON string)"
+          },
+          "changeReason": {
+            "type": "string",
+            "description": "Optional reason for the change"
+          },
+          "changedBy": {
+            "type": "string",
+            "enum": ["user", "ai", "rule", "system", "import", "bulk"],
+            "description": "Source of the change"
+          },
+          "changeSource": {
+            "type": "string",
+            "description": "Additional context about the change source"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
       "CustomRule": {
         "type": "object",
         "properties": {
@@ -2651,6 +3566,10 @@
     {
       "name": "Categories",
       "description": "Transaction and expense category management"
+    },
+    {
+      "name": "Smart Categories",
+      "description": "Category sets, multi-category assignments, and transaction history (Elite+ only)"
     },
     {
       "name": "Analytics & Reports",

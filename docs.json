@@ -52,6 +52,7 @@
             "pages": [
               "features/user-preferences",
               "features/categories",
+              "features/smart-category-sets",
               "features/custom-rules",
               "features/auto-type-detection",
               "features/allocations"
@@ -182,6 +183,9 @@
       "expense management software",
       "AI-powered bookkeeping",
       "smart categorization",
+      "smart category sets",
+      "multiple categories per transaction",
+      "category organization",
       "intelligent tax deductions",
       "financial data analysis",
       "automated financial reporting",
