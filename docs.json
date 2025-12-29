@@ -43,7 +43,6 @@
             "pages": [
               "data-sources/csv-imports",
               "data-sources/bank-connectors",
-              "data-sources/ipaas-middlewares",
               "data-sources/email-processing"
             ]
           },
