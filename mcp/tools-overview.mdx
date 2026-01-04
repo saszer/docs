@@ -5,7 +5,7 @@ description: 'Complete list of AI2Fin MCP tools'
 
 # MCP Tools Overview
 
-AI2Fin MCP provides **47 tools** across 11 categories for comprehensive financial management.
+AI2Fin MCP provides **65+ tools** across 18 categories for comprehensive financial management.
 
 <Note>
 All tools enforce **user-isolation** - you can only access your own data.
@@ -17,7 +17,7 @@ All tools enforce **user-isolation** - you can only access your own data.
 
 <CardGroup cols={3}>
   <Card title="Transactions" icon="list" iconType="solid">
-    **10 tools**
+    **9 tools**
     
     Query, create, and analyze spending activity
   </Card>
@@ -41,7 +41,7 @@ All tools enforce **user-isolation** - you can only access your own data.
   </Card>
   
   <Card title="Travel" icon="car" iconType="solid">
-    **5 tools**
+    **6 tools**
     
     Vehicle registry, trip logging, deduction summaries
   </Card>
@@ -81,26 +81,67 @@ All tools enforce **user-isolation** - you can only access your own data.
     
     Budget creation, tracking, and alerts
   </Card>
+  
+  <Card title="Enhanced Workflows" icon="sitemap" iconType="solid">
+    **4 tools**
+    
+    Link transactions to bills, suggest patterns, auto-linking
+  </Card>
+  
+  <Card title="Bulk Operations Enhanced" icon="layer-group" iconType="solid">
+    **3 tools**
+    
+    Bulk tax analysis, bulk bill marking, bulk trip linking
+  </Card>
+  
+  <Card title="Smart Suggestions" icon="lightbulb" iconType="solid">
+    **3 tools**
+    
+    Budget suggestions, rule suggestions, tax deduction suggestions
+  </Card>
+  
+  <Card title="Relationships" icon="sitemap" iconType="solid">
+    **4 tools**
+    
+    Transaction relationships, bill transactions, trip transactions, receipts
+  </Card>
+  
+  <Card title="Smart Receipt Processor" icon="file-image" iconType="solid">
+    **1 tool**
+    
+    One-call receipt processing workflow
+  </Card>
+  
+  <Card title="File Upload" icon="upload" iconType="solid">
+    **1 tool**
+    
+    CSV/Excel file upload and processing
+  </Card>
+  
+  <Card title="Bulk Operations" icon="tasks" iconType="solid">
+    **3 tools**
+    
+    Bulk categorization, bulk updates, duplicate detection
+  </Card>
 </CardGroup>
 
 ---
 
 ## 🚀 Quick Tool Reference
 
-### Transaction Tools (10)
+### Transaction Tools (9)
 
 | Tool | Purpose | Status |
 |------|---------|--------|
 | `get_transactions` | Query with filters | ✅ |
 | `get_tax_deductible_summary` | Tax summary by category | ✅ |
+| `get_category_spending_summary` | Spending breakdown by category | ✅ |
+| `get_top_merchants` | Top vendors by spending | ✅ |
+| `compare_spending_periods` | Period comparison | ✅ |
+| `get_spending_analytics` | Comprehensive spending analytics | ✅ |
+| `search_transactions_by_intelligence` | AI-powered transaction search | ✅ |
 | `create_transaction` | Add transaction | ✅ |
 | `trigger_smart_categorization` | AI categorization | ✅ |
-| `get_category_spending_summary` | **NEW** Spending breakdown | ✅ |
-| `get_top_merchants` | **NEW** Top vendors | ✅ |
-| `compare_spending_periods` | **NEW** Period comparison | ✅ |
-| `bulk_categorize_transactions` | **NEW** Batch categorization | ✅ |
-| `bulk_update_transactions` | **NEW** Batch updates | ✅ |
-| `find_duplicate_transactions` | **NEW** Duplicate detection | ✅ |
 
 ### Bill Tools (10)
 
@@ -128,7 +169,7 @@ All tools enforce **user-isolation** - you can only access your own data.
 | `enable_rule` | Toggle rule | ✅ |
 | `test_rule` | Test before saving | ✅ |
 
-### Travel Tools (5)
+### Travel Tools (6)
 
 | Tool | Purpose | Status |
 |------|---------|--------|
@@ -136,6 +177,7 @@ All tools enforce **user-isolation** - you can only access your own data.
 | `get_vehicles` | Registered vehicles | ✅ |
 | `get_trips` | Trip history | ✅ |
 | `create_trip` | Log trip | ✅ |
+| `update_trip` | Update trip details | ✅ |
 | `get_travel_deduction_summary` | Tax deductions | ✅ |
 
 ### User Profile Tools (2)
@@ -178,6 +220,60 @@ All tools enforce **user-isolation** - you can only access your own data.
 | Tool | Purpose | Status |
 |------|---------|--------|
 | `get_spending_outlook` | Blend actual spend with upcoming bill projections | ✅ |
+
+### Bulk Operations (3)
+
+| Tool | Purpose | Status |
+|------|---------|--------|
+| `bulk_categorize_transactions` | Batch categorization by merchant | ✅ |
+| `bulk_update_transactions` | Update multiple fields at once | ✅ |
+| `find_duplicate_transactions` | Detect duplicate payments | ✅ |
+
+### Enhanced Workflows (4)
+
+| Tool | Purpose | Status |
+|------|---------|--------|
+| `link_transaction_to_bill` | Link transaction to bill pattern | ✅ |
+| `suggest_bill_patterns` | Suggest bill patterns from transactions | ✅ |
+| `auto_link_transactions_to_bills` | Automatically link transactions to bills | ✅ |
+| `mark_bill_as_paid_with_transaction` | Mark bill as paid and create transaction | ✅ |
+
+### Bulk Operations Enhanced (3)
+
+| Tool | Purpose | Status |
+|------|---------|--------|
+| `bulk_analyze_tax_deductibility` | Analyze multiple transactions for tax | ✅ |
+| `bulk_mark_bills_as_paid` | Mark multiple bills as paid | ✅ |
+| `bulk_link_transactions_to_trips` | Link multiple transactions to trips | ✅ |
+
+### Smart Suggestions (3)
+
+| Tool | Purpose | Status |
+|------|---------|--------|
+| `suggest_budgets` | Get budget recommendations | ✅ |
+| `suggest_rules` | Get custom rule suggestions | ✅ |
+| `suggest_tax_deductions` | Find tax deduction opportunities | ✅ |
+
+### Relationships (4)
+
+| Tool | Purpose | Status |
+|------|---------|--------|
+| `get_transaction_relationships` | Get related transactions | ✅ |
+| `get_bill_transactions` | Get transactions linked to bill | ✅ |
+| `get_trip_transactions` | Get transactions linked to trip | ✅ |
+| `get_transaction_receipts` | Get receipts linked to transaction | ✅ |
+
+### Smart Receipt Processor (1)
+
+| Tool | Purpose | Status |
+|------|---------|--------|
+| `smart_receipt_processor` | One-call receipt processing workflow | ✅ |
+
+### File Upload (1)
+
+| Tool | Purpose | Status |
+|------|---------|--------|
+| `upload_expense_file` | Upload CSV/Excel file for processing | ✅ |
 
 ### Budgets (5) <Badge text="Coming Soon" variant="warning" />
 

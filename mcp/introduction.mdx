@@ -1,65 +1,178 @@
 ---
-title: 'MCP Server'
-description: 'Connect AI models to AI2Fin financial data'
+title: 'Finance MCP Server | Financial Data MCP | Expense Tracking MCP'
+description: 'AI2Fin MCP Server - Connect ChatGPT, Claude, and AI assistants to your financial data. 65+ tools for expense tracking, tax deductions, bill management, and financial analysis. Full MCP protocol support with OAuth and API key authentication.'
 ---
 
-# AI2Fin MCP Server
+# AI2Fin Finance MCP Server
 
-## What is MCP?
+## What is MCP for Finance?
 
-The **Model Context Protocol (MCP)** allows AI models to interact with your AI2Fin financial data securely through standardized function calling.
+The **Model Context Protocol (MCP)** is a standardized protocol that enables AI assistants like ChatGPT, Claude, and custom agents to securely access and manage your financial data. AI2Fin provides a comprehensive **finance MCP server** with **65+ financial tools** for expense tracking, tax deduction analysis, bill management, transaction categorization, and financial reporting.
 
 <Note>
-Think of it as an API specifically designed for AI assistants like ChatGPT, Claude, or custom agents.
+**Finance MCP** enables AI assistants to answer questions like "What are my tax deductible expenses?" or "Show me my spending by category" by directly accessing your financial data through secure function calls.
 </Note>
 
-## Quick Overview
+<Note>
+MCP enables AI assistants like ChatGPT, Claude, or custom agents to access and manage your financial data through a secure, standardized interface.
+</Note>
+
+## Architecture Overview
 
 ```
-Your AI Model → MCP Server → Your AI2Fin Data
+AI Model (ChatGPT/Claude/Custom)
+    ↓
+MCP Protocol (JSON-RPC 2.0)
+    ↓
+AI2Fin MCP Server
+    ├─ /mcp (OAuth - ChatGPT Apps SDK)
+    └─ /mcp/inspector (API Key - MCP Inspector)
+    ↓
+Tool Registry (65+ Tools)
+    ↓
+Your Financial Data (User-Isolated)
 ```
-
-- **AI Model** asks question in natural language
-- **MCP Server** translates to function calls
-- **Your Data** returns (user-isolated, secure)
-- **AI Model** formats answer conversationally
 
 ## Key Features
 
 <CardGroup cols={2}>
-  <Card title="9 Powerful Tools" icon="wrench">
-    Access transactions, bills, subscriptions via simple function calls
+  <Card title="65+ Tools" icon="wrench">
+    Comprehensive toolset across 18 categories: transactions, bills, custom rules, travel, receipts, AI analysis, enhanced workflows, smart suggestions, and more
   </Card>
   
-  <Card title="User Isolated" icon="shield">
-    Each request scoped to authenticated user - zero data leakage
+  <Card title="Full MCP Protocol" icon="check-circle">
+    Complete implementation: tools, resources, prompts, resource templates, and JSON-RPC 2.0 compliance
   </Card>
   
-  <Card title="AI Powered" icon="sparkles">
-    Intelligent AI assistant for natural language financial queries
+  <Card title="Dual Authentication" icon="key">
+    OAuth for ChatGPT Apps SDK, API keys for MCP Inspector and custom integrations
   </Card>
   
-  <Card title="Conversation Memory" icon="brain">
-    Chat history retained - AI remembers context across messages
+  <Card title="User Isolation" icon="shield">
+    Every request scoped to authenticated user - zero data leakage between accounts
+  </Card>
+  
+  <Card title="Resources & Prompts" icon="file-code">
+    Schema resources, UI components, documentation, and reusable prompt templates
+  </Card>
+  
+  <Card title="Enterprise Security" icon="lock">
+    Rate limiting, input sanitization, two-step confirmation, audit logging, timeout protection
   </Card>
 </CardGroup>
 
-## Available Tools
+## Two Endpoints
 
-**Transaction Management**:
-- Get filtered transactions with AI analysis
-- Create new transactions
-- Get tax deduction summaries
-- Trigger AI categorization
+### `/mcp` - ChatGPT Apps SDK
+- **Authentication:** OAuth (JWT tokens)
+- **Use Case:** ChatGPT Apps SDK integration
+- **Rate Limit:** 200 requests per 15 minutes per user
+- **Features:** Full write access, two-step confirmation for destructive operations
+- **System Prompt:** Includes comprehensive AI assistant instructions
 
-**Bill Management**:
-- Get recurring bill patterns
-- View upcoming bill due dates
-- Calculate monthly bill totals
+### `/mcp/inspector` - MCP Inspector Tool
+- **Authentication:** API Key (X-API-Key header)
+- **Use Case:** MCP Inspector tool, custom integrations, testing
+- **Rate Limit:** 50 requests per 15 minutes per API key
+- **Features:** Read-only by default, stricter rate limiting, enhanced audit logging
+- **CORS:** Configured for MCP Inspector origins
 
-**Subscription**:
-- Check user's subscription plan
-- Verify feature access
+## Protocol Support
+
+AI2Fin MCP Server implements the full MCP protocol specification (version 2024-11-05):
+
+### Core Methods
+- ✅ `initialize` - Protocol handshake and capabilities
+- ✅ `tools/list` - List all available tools
+- ✅ `tools/call` - Execute tools with arguments
+- ✅ `resources/list` - List available resources
+- ✅ `resources/templates/list` - List resource templates
+- ✅ `resources/read` - Read resource content by URI
+- ✅ `prompts/list` - List reusable prompt templates
+- ✅ `ping` - Health check
+
+## Tool Categories
+
+<CardGroup cols={3}>
+  <Card title="Transactions" icon="list">
+    **9 tools** - Query, create, analyze spending
+  </Card>
+  
+  <Card title="Bills" icon="calendar">
+    **10 tools** - Recurring patterns, payments, FY analysis
+  </Card>
+  
+  <Card title="Custom Rules" icon="wand-magic-sparkles">
+    **6 tools** - Low-code automation
+  </Card>
+  
+  <Card title="Travel" icon="car">
+    **6 tools** - Vehicle registry, trip logging, deduction summaries
+  </Card>
+  
+  <Card title="AI Analysis" icon="brain">
+    **3 tools** - Categorization, tax analysis
+  </Card>
+  
+  <Card title="Receipts" icon="file-image">
+    **2 tools** - Receipt ingestion, AI extraction
+  </Card>
+  
+  <Card title="Expenses" icon="receipt">
+    **1 tool** - Manual expense entry
+  </Card>
+  
+  <Card title="User Profile" icon="user">
+    **2 tools** - Preferences, locale
+  </Card>
+  
+  <Card title="Subscription" icon="credit-card">
+    **2 tools** - Plan status, feature gates
+  </Card>
+  
+  <Card title="Spending Outlook" icon="chart-line">
+    **1 tool** - Blend actual + projected
+  </Card>
+  
+  <Card title="Budgets" icon="piggy-bank">
+    **5 tools** - Coming soon
+  </Card>
+  
+  <Card title="Enhanced Workflows" icon="sitemap">
+    **4 tools** - Link transactions to bills, suggest patterns, auto-linking
+  </Card>
+  
+  <Card title="Bulk Operations Enhanced" icon="layer-group">
+    **3 tools** - Bulk tax analysis, bulk bill marking, bulk trip linking
+  </Card>
+  
+  <Card title="Smart Suggestions" icon="lightbulb">
+    **3 tools** - Budget suggestions, rule suggestions, tax deduction suggestions
+  </Card>
+  
+  <Card title="Relationships" icon="sitemap">
+    **4 tools** - Transaction relationships, bill transactions, trip transactions, receipts
+  </Card>
+  
+  <Card title="Smart Receipt Processor" icon="file-image">
+    **1 tool** - One-call receipt processing workflow
+  </Card>
+  
+  <Card title="File Upload" icon="upload">
+    **1 tool** - CSV/Excel file upload and processing
+  </Card>
+  
+  <Card title="Bulk Operations" icon="tasks">
+    **3 tools** - Bulk categorization, bulk updates, duplicate detection
+  </Card>
+</CardGroup>
+
+## Resources & Prompts
+
+The MCP server provides:
+- **10 static resources** - Schemas, UI components, documentation
+- **6 resource templates** - Dynamic resources for transactions, bills, analytics
+- **5 reusable prompts** - Common workflow templates
 
 ## Use Cases
 
@@ -68,51 +181,29 @@ Your AI Model → MCP Server → Your AI2Fin Data
     AI2Fin's chat window (bottom-right) uses MCP internally to answer your questions about finances.
   </Tab>
   
+  <Tab title="ChatGPT Apps SDK">
+    Connect ChatGPT to your AI2Fin account via OAuth for full financial management.
+  </Tab>
+  
+  <Tab title="MCP Inspector">
+    Use MCP Inspector tool to explore and test all available tools, resources, and prompts.
+  </Tab>
+  
   <Tab title="Custom AI Agents">
     Build custom financial agents that access your AI2Fin data via MCP protocol.
   </Tab>
-  
-  <Tab title="AI Integrations">
-    Connect external AI models (ChatGPT, Claude) to your AI2Fin account.
-  </Tab>
 </Tabs>
 
-## Authentication Required
+## Authentication
 
-All MCP requests require **JWT authentication**. Each user's token only accesses their own data.
+AI2Fin MCP supports two authentication methods:
 
-```http
-POST /api/chat/message
-Authorization: Bearer eyJhbGciOiJIUzI1NiIs...
-```
+- **OAuth (JWT)** - For `/mcp` endpoint (ChatGPT Apps SDK)
+- **API Key** - For `/mcp/inspector` endpoint (MCP Inspector, custom integrations)
 
 <Warning>
-MCP is currently **private** - used only by AI2Fin's built-in assistant. External access requires enterprise authentication.
+All MCP requests require authentication. User data is strictly isolated per authenticated user or API key.
 </Warning>
-
-## Quick Example
-
-```bash
-curl -X POST https://app.ai2fin.com/api/chat/message \
-  -H "Authorization: Bearer YOUR_TOKEN" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "message": "Show my tax deductible transactions"
-  }'
-```
-
-Response:
-```json
-{
-  "success": true,
-  "data": {
-    "message": {
-      "content": "You have 23 tax deductible transactions totaling $4,532..."
-    },
-    "toolsUsed": ["get_transactions"]
-  }
-}
-```
 
 ## Next Steps
 
