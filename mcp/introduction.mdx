@@ -174,23 +174,182 @@ The MCP server provides:
 - **6 resource templates** - Dynamic resources for transactions, bills, analytics
 - **5 reusable prompts** - Common workflow templates
 
-## Use Cases
+## Real-World Use Cases & User Intent
+
+### Common User Questions (Solved by Finance MCP)
+
+<AccordionGroup>
+  <Accordion title="Tax & Deduction Queries" icon="file-invoice-dollar">
+    **User Intent:** "I need to know what expenses are tax deductible for my business"
+    
+    **MCP Solution:**
+    - `get_tax_deductible_summary` - Get all deductible transactions with category breakdown
+    - `analyze_transaction_tax_deductibility` - AI analysis of specific transactions
+    - `get_bill_pattern_financial_summary` - Financial year summaries for tax reporting
+    
+    **Example Queries:**
+    - "Show me all tax deductible expenses this financial year"
+    - "What percentage of my expenses are tax deductible?"
+    - "Which categories have the most tax deductions?"
+    - "Am I missing any potential tax deductions?"
+  </Accordion>
+  
+  <Accordion title="Expense Tracking & Analysis" icon="chart-line">
+    **User Intent:** "I want to understand where my money is going"
+    
+    **MCP Solution:**
+    - `get_category_spending_summary` - Spending breakdown by category
+    - `get_top_merchants` - Top vendors by spending amount
+    - `compare_spending_periods` - Month-over-month or year-over-year comparisons
+    - `get_spending_analytics` - Comprehensive spending insights
+    
+    **Example Queries:**
+    - "What's my biggest expense category this month?"
+    - "How much did I spend on groceries vs dining out?"
+    - "Did I spend more this month than last month?"
+    - "Where do I spend the most money?"
+  </Accordion>
+  
+  <Accordion title="Bill Management" icon="calendar-check">
+    **User Intent:** "I need to track and pay my recurring bills"
+    
+    **MCP Solution:**
+    - `get_upcoming_bills` - Bills due in the next period
+    - `get_overdue_bills` - Bills that are past due
+    - `mark_bill_as_paid` - Record bill payments
+    - `get_bill_pattern_financial_summary` - Annual bill totals and projections
+    
+    **Example Queries:**
+    - "What bills are due this week?"
+    - "Do I have any overdue bills?"
+    - "How much do I spend on bills monthly?"
+    - "Mark Netflix as paid for this month"
+  </Accordion>
+  
+  <Accordion title="Transaction Categorization" icon="tags">
+    **User Intent:** "I need to organize and categorize my transactions"
+    
+    **MCP Solution:**
+    - `trigger_smart_categorization` - AI-powered automatic categorization
+    - `bulk_categorize_transactions` - Batch categorize by merchant or pattern
+    - `analyze_transaction_categorization` - Get AI suggestions for categories
+    - `create_transaction` - Manually add transactions with categories
+    
+    **Example Queries:**
+    - "Categorize all my uncategorized transactions"
+    - "Categorize all Uber rides as Transport"
+    - "What category should this transaction be?"
+    - "Update all Woolworths transactions to Groceries"
+  </Accordion>
+  
+  <Accordion title="Receipt & Expense Management" icon="receipt">
+    **User Intent:** "I need to track receipts and expenses for tax purposes"
+    
+    **MCP Solution:**
+    - `analyze_receipt` - Extract data from receipt images (totals, GST, merchant)
+    - `commit_receipt` - Link receipts to transactions or create expenses
+    - `smart_receipt_processor` - One-call workflow for receipt processing
+    - `create_expense` - Create expense entries with automatic rule application
+    
+    **Example Queries:**
+    - "Upload this receipt and create an expense"
+    - "Link this receipt to my transaction"
+    - "Extract data from this receipt image"
+    - "Create an expense for office supplies $45.67"
+  </Accordion>
+  
+  <Accordion title="Financial Reporting & Analytics" icon="chart-bar">
+    **User Intent:** "I need financial reports and insights"
+    
+    **MCP Solution:**
+    - `get_spending_outlook` - Blend actual spending with projected bills
+    - `get_spending_analytics` - Comprehensive financial analytics
+    - `get_travel_deduction_summary` - Travel expense deductions
+    - `suggest_tax_deductions` - Find tax deduction opportunities
+    
+    **Example Queries:**
+    - "Give me a spending report for this quarter"
+    - "What's my financial outlook for next month?"
+    - "Show me my travel expense deductions"
+    - "What tax deductions am I eligible for?"
+  </Accordion>
+</AccordionGroup>
+
+### Integration Use Cases
 
 <Tabs>
-  <Tab title="Built-in Chat">
-    AI2Fin's chat window (bottom-right) uses MCP internally to answer your questions about finances.
+  <Tab title="ChatGPT Integration">
+    **Use Case:** Connect ChatGPT to your financial data
+    
+    **How It Works:**
+    1. Authenticate via OAuth in ChatGPT Apps SDK
+    2. ChatGPT can now answer questions about your finances
+    3. All data access is user-isolated and secure
+    
+    **Example:**
+    ```
+    User: "What are my tax deductible expenses this year?"
+    ChatGPT: [Calls get_tax_deductible_summary via MCP]
+    ChatGPT: "You have $12,450 in tax deductible expenses across 8 categories..."
+    ```
   </Tab>
   
-  <Tab title="ChatGPT Apps SDK">
-    Connect ChatGPT to your AI2Fin account via OAuth for full financial management.
+  <Tab title="Custom Financial AI Agent">
+    **Use Case:** Build a custom AI assistant for your business
+    
+    **How It Works:**
+    1. Generate API key via admin endpoint
+    2. Use API key to authenticate MCP requests
+    3. Build custom workflows and integrations
+    
+    **Example:**
+    ```python
+    # Custom expense approval bot
+    expenses = mcp.get_transactions(isTaxDeductible=True)
+    for expense in expenses:
+        if expense.amount > 1000:
+            send_approval_request(expense)
+    ```
   </Tab>
   
-  <Tab title="MCP Inspector">
-    Use MCP Inspector tool to explore and test all available tools, resources, and prompts.
+  <Tab title="Automated Financial Workflows">
+    **Use Case:** Automate recurring financial tasks
+    
+    **How It Works:**
+    1. Use MCP tools to query data
+    2. Apply business logic
+    3. Create/update transactions, bills, categories
+    
+    **Example:**
+    ```python
+    # Weekly spending report automation
+    weekly_summary = mcp.get_category_spending_summary(
+        startDate="2024-01-01",
+        endDate="2024-01-07"
+    )
+    send_email_report(weekly_summary)
+    ```
   </Tab>
   
-  <Tab title="Custom AI Agents">
-    Build custom financial agents that access your AI2Fin data via MCP protocol.
+  <Tab title="Receipt Processing Automation">
+    **Use Case:** Automatically process receipts from email or uploads
+    
+    **How It Works:**
+    1. Receive receipt image
+    2. Call `analyze_receipt` to extract data
+    3. Call `commit_receipt` to create transaction
+    4. Automatic categorization via custom rules
+    
+    **Example:**
+    ```python
+    # Email receipt processor
+    receipt_data = mcp.analyze_receipt(image_url)
+    transaction = mcp.commit_receipt(
+        receiptUrl=image_url,
+        merchant=receipt_data.merchant,
+        amount=receipt_data.total
+    )
+    ```
   </Tab>
 </Tabs>
 
@@ -205,22 +364,142 @@ AI2Fin MCP supports two authentication methods:
 All MCP requests require authentication. User data is strictly isolated per authenticated user or API key.
 </Warning>
 
+## Common Issues & Solutions
+
+<AccordionGroup>
+  <Accordion title="Authentication Errors" icon="key">
+    **Issue:** "401 Unauthorized" or "Invalid token"
+    
+    **Solutions:**
+    - ✅ Ensure token is included in `Authorization: Bearer <token>` header
+    - ✅ Check token hasn't expired (JWT tokens expire after set duration)
+    - ✅ For API keys, verify key hasn't been revoked
+    - ✅ Regenerate token/API key if needed
+    
+    **Prevention:**
+    - Implement token refresh logic
+    - Store tokens securely (environment variables, secret management)
+    - Monitor token expiration times
+  </Accordion>
+  
+  <Accordion title="Rate Limit Exceeded" icon="gauge">
+    **Issue:** "429 Too Many Requests"
+    
+    **Solutions:**
+    - ✅ Wait for rate limit window to reset (15 minutes)
+    - ✅ Implement exponential backoff retry logic
+    - ✅ Use batch operations instead of individual calls
+    - ✅ Upgrade to higher tier for increased limits
+    
+    **Rate Limits:**
+    - `/mcp` (OAuth): 200 requests per 15 minutes per user
+    - `/mcp/inspector` (API Key): 50 requests per 15 minutes per key
+  </Accordion>
+  
+  <Accordion title="Tool Execution Timeout" icon="clock">
+    **Issue:** Request times out after 20 seconds
+    
+    **Solutions:**
+    - ✅ Use summary tools instead of fetching all transactions
+    - ✅ Add date filters to limit data scope
+    - ✅ Use pagination for large datasets
+    - ✅ Check network connectivity
+    
+    **Best Practices:**
+    - Use `get_category_spending_summary` instead of `get_transactions` for summaries
+    - Use `get_tax_deductible_summary` instead of filtering all transactions
+    - Add `limit` parameter to queries
+  </Accordion>
+  
+  <Accordion title="Data Not Found" icon="search">
+    **Issue:** "No transactions found" or empty results
+    
+    **Solutions:**
+    - ✅ Check date range filters (transactions may be outside range)
+    - ✅ Verify user has data in the system
+    - ✅ Check category/merchant filters aren't too restrictive
+    - ✅ Ensure user authentication is correct (data is user-isolated)
+    
+    **Debugging:**
+    - Start with broad queries (no filters)
+    - Gradually add filters to narrow results
+    - Use `get_transactions` with minimal filters first
+  </Accordion>
+  
+  <Accordion title="Write Operation Requires Confirmation" icon="lock">
+    **Issue:** Write operations return "needsConfirmation: true"
+    
+    **Solutions:**
+    - ✅ This is expected behavior for write/destructive operations
+    - ✅ First call returns `confirmToken`
+    - ✅ Second call with `confirmToken` executes the operation
+    - ✅ This prevents accidental data modifications
+    
+    **Example:**
+    ```json
+    // First call
+    {"needsConfirmation": true, "confirmToken": "confirm_abc123..."}
+    
+    // Second call with token
+    {"confirmToken": "confirm_abc123...", ...other params}
+    ```
+  </Accordion>
+</AccordionGroup>
+
+## SEO Keywords & Search Intent
+
+**Primary Keywords:**
+- Finance MCP
+- Financial MCP Server
+- MCP Finance
+- Financial Data MCP
+- Expense Tracking MCP
+- Tax Deduction MCP
+- Financial Management API
+- MCP Financial Tools
+- AI Finance MCP
+- ChatGPT Finance Integration
+
+**User Intent Keywords:**
+- "How to track expenses with MCP"
+- "Tax deduction MCP server"
+- "Financial data API for AI"
+- "Connect ChatGPT to financial data"
+- "MCP server for expense tracking"
+- "Financial management MCP tools"
+- "AI financial assistant integration"
+
+**Long-Tail Keywords:**
+- "Model Context Protocol for financial data"
+- "MCP server expense tracking tax deductions"
+- "Financial MCP API ChatGPT integration"
+- "AI-powered financial management MCP"
+- "Secure financial data access via MCP"
+
 ## Next Steps
 
 <CardGroup cols={2}>
   <Card title="Quickstart Guide" icon="rocket" href="/mcp/quickstart">
-    Get started in 5 minutes
+    Get started in 5 minutes with real examples
   </Card>
   
   <Card title="Authentication" icon="key" href="/mcp/authentication">
-    Learn how to authenticate
+    OAuth and API key setup guide
   </Card>
   
   <Card title="Tools Reference" icon="wrench" href="/mcp/tools-overview">
-    Explore all available tools
+    Explore all 65+ financial tools
   </Card>
   
   <Card title="Code Examples" icon="code" href="/mcp/examples">
-    Ready-to-use integration code
+    Production-ready integration code
+  </Card>
+  
+  <Card title="Use Cases" icon="lightbulb" href="/mcp/examples">
+    Real-world financial automation examples
+  </Card>
+  
+  <Card title="API Reference" icon="server" href="/api-reference/introduction">
+    Complete API documentation
   </Card>
 </CardGroup>

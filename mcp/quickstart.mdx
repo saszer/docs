@@ -1,19 +1,35 @@
 ---
-title: 'MCP Quickstart'
-description: 'Get started with AI2Fin MCP Server in 5 minutes'
+title: 'Finance MCP Quickstart | MCP Server Setup | Financial Data MCP'
+description: 'Get started with AI2Fin Finance MCP Server in 5 minutes. Connect ChatGPT, Claude, or custom AI agents to your financial data. Learn expense tracking MCP, tax deduction MCP, and financial management API integration.'
 ---
 
-# MCP Quickstart
+# Finance MCP Quickstart
 
-Get your AI assistant connected to AI2Fin data in minutes.
+Connect your AI assistant to AI2Fin financial data in minutes. This guide covers both **OAuth (JWT)** and **API Key** authentication methods for finance MCP integration.
 
 ## Prerequisites
 
 - AI2Fin account (Free or Premium)
-- Valid JWT authentication token
-- Basic understanding of REST APIs
+- Authentication method: JWT token (OAuth) or API Key
+- Basic understanding of REST APIs and JSON-RPC 2.0
 
-## Step 1: Authenticate
+## Authentication Methods
+
+<Tabs>
+  <Tab title="OAuth (JWT Token)">
+    For ChatGPT Apps SDK and user-facing integrations
+  </Tab>
+  
+  <Tab title="API Key">
+    For MCP Inspector, automation, and server-to-server communication
+  </Tab>
+</Tabs>
+
+---
+
+## Method 1: OAuth (JWT Token) - ChatGPT Apps SDK
+
+### Step 1: Authenticate
 
 Get your JWT token by logging in:
 
@@ -42,14 +58,173 @@ Response:
 
 **Save the token** - you'll need it for all MCP calls!
 
-## Step 2: Send Your First Message
+### Step 2: Initialize MCP Connection
 
 ```bash
-curl -X POST https://app.ai2fin.com/api/chat/message \
+curl -X POST https://api.ai2fin.com/mcp \
   -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIs..." \
   -H "Content-Type: application/json" \
   -d '{
-    "message": "Show me my transactions"
+    "jsonrpc": "2.0",
+    "id": 1,
+    "method": "initialize",
+    "params": {}
+  }'
+```
+
+**Response:**
+```json
+{
+  "jsonrpc": "2.0",
+  "id": 1,
+  "result": {
+    "protocolVersion": "2024-11-05",
+    "capabilities": {
+      "tools": { "listChanged": false },
+      "prompts": { "listChanged": false },
+      "resources": { "subscribe": false, "listChanged": false }
+    },
+    "serverInfo": {
+      "name": "ai2fin-mcp",
+      "version": "1.0.0"
+    },
+    "systemPrompt": "You are AI2Fin Assistant..."
+  }
+}
+```
+
+### Step 3: List Available Financial Tools
+
+```bash
+curl -X POST https://api.ai2fin.com/mcp \
+  -H "Authorization: Bearer YOUR_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "jsonrpc": "2.0",
+    "id": 2,
+    "method": "tools/list",
+    "params": {}
+  }'
+```
+
+**Response:** Returns list of 65+ financial tools (transactions, bills, tax, analytics, etc.)
+
+### Step 4: Call a Financial Tool
+
+**Example: Get Tax Deductible Expenses**
+
+```bash
+curl -X POST https://api.ai2fin.com/mcp \
+  -H "Authorization: Bearer YOUR_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "jsonrpc": "2.0",
+    "id": 3,
+    "method": "tools/call",
+    "params": {
+      "name": "get_tax_deductible_summary",
+      "arguments": {
+        "startDate": "2024-01-01",
+        "endDate": "2024-12-31"
+      }
+    }
+  }'
+```
+
+**Response:**
+```json
+{
+  "jsonrpc": "2.0",
+  "id": 3,
+  "result": {
+    "content": [{
+      "type": "json",
+      "json": {
+        "success": true,
+        "data": {
+          "totalCount": 23,
+          "totalAmount": 4532.67,
+          "byCategory": [
+            {"category": "Office Supplies", "total": 1234.56, "count": 12},
+            {"category": "Travel", "total": 987.43, "count": 8}
+          ]
+        }
+      }
+    }]
+  }
+}
+```
+
+---
+
+## Method 2: API Key - MCP Inspector & Automation
+
+### Step 1: Generate API Key
+
+**Prerequisites:** Admin access (or use your user account to generate keys)
+
+```bash
+curl -X POST https://api.ai2fin.com/api/admin/api-keys \
+  -H "Authorization: Bearer <ADMIN_JWT_TOKEN>" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "MCP Inspector - Production",
+    "scopes": ["mcp:read", "mcp:tools:list", "mcp:tools:call"],
+    "expiresInDays": 90
+  }'
+```
+
+**Response:**
+```json
+{
+  "success": true,
+  "data": {
+    "id": "key_abc123",
+    "name": "MCP Inspector - Production",
+    "key": "mcp_a1b2c3d4e5f6789012345678901234567890abcdef1234567890abcdef123456",
+    "scopes": ["mcp:read", "mcp:tools:list", "mcp:tools:call"],
+    "expiresAt": "2024-04-01T00:00:00Z"
+  }
+}
+```
+
+<Warning>
+**Save the `key` value immediately** - it's only shown once during creation!
+</Warning>
+
+### Step 2: Use API Key with MCP Inspector Endpoint
+
+```bash
+curl -X POST https://api.ai2fin.com/mcp/inspector \
+  -H "X-API-Key: mcp_a1b2c3d4e5f6..." \
+  -H "Content-Type: application/json" \
+  -d '{
+    "jsonrpc": "2.0",
+    "id": 1,
+    "method": "initialize",
+    "params": {}
+  }'
+```
+
+### Step 3: Query Financial Data
+
+**Example: Get Spending by Category**
+
+```bash
+curl -X POST https://api.ai2fin.com/mcp/inspector \
+  -H "X-API-Key: YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "jsonrpc": "2.0",
+    "id": 2,
+    "method": "tools/call",
+    "params": {
+      "name": "get_category_spending_summary",
+      "arguments": {
+        "startDate": "2024-01-01",
+        "endDate": "2024-12-31"
+      }
+    }
   }'
 ```
 
@@ -77,96 +252,264 @@ Response:
 **Success!** The AI assistant accessed your data securely and responded with your transaction count.
 </Success>
 
-## Step 3: Explore Available Tools
+## Real-World Financial Queries
 
-The AI can call 9 different tools to help you. Try these queries:
+Try these common financial queries using MCP tools:
 
 <CodeGroup>
-```bash Tax Deductions
-curl -X POST https://app.ai2fin.com/api/chat/message \
+```bash Tax Deductible Expenses
+# Get all tax deductible expenses for financial year
+curl -X POST https://api.ai2fin.com/mcp \
   -H "Authorization: Bearer YOUR_TOKEN" \
   -H "Content-Type: application/json" \
   -d '{
-    "message": "Show my tax deductible transactions"
+    "jsonrpc": "2.0",
+    "id": 1,
+    "method": "tools/call",
+    "params": {
+      "name": "get_tax_deductible_summary",
+      "arguments": {
+        "startDate": "2024-07-01",
+        "endDate": "2025-06-30"
+      }
+    }
   }'
 ```
 
-```bash Bills
-curl -X POST https://app.ai2fin.com/api/chat/message \
+```bash Spending by Category
+# Analyze spending breakdown by category
+curl -X POST https://api.ai2fin.com/mcp \
   -H "Authorization: Bearer YOUR_TOKEN" \
   -H "Content-Type: application/json" \
   -d '{
-    "message": "What bills do I have this month?"
+    "jsonrpc": "2.0",
+    "id": 2,
+    "method": "tools/call",
+    "params": {
+      "name": "get_category_spending_summary",
+      "arguments": {
+        "startDate": "2024-01-01",
+        "endDate": "2024-12-31"
+      }
+    }
   }'
 ```
 
-```bash Subscription
-curl -X POST https://app.ai2fin.com/api/chat/message \
+```bash Upcoming Bills
+# Get bills due in the next 30 days
+curl -X POST https://api.ai2fin.com/mcp \
   -H "Authorization: Bearer YOUR_TOKEN" \
   -H "Content-Type: application/json" \
   -d '{
-    "message": "What features do I have access to?"
+    "jsonrpc": "2.0",
+    "id": 3,
+    "method": "tools/call",
+    "params": {
+      "name": "get_upcoming_bills",
+      "arguments": {
+        "daysAhead": 30
+      }
+    }
   }'
 ```
 
-```bash Create Transaction
-curl -X POST https://app.ai2fin.com/api/chat/message \
+```bash Top Merchants
+# Find where you spend the most
+curl -X POST https://api.ai2fin.com/mcp \
   -H "Authorization: Bearer YOUR_TOKEN" \
   -H "Content-Type: application/json" \
   -d '{
-    "message": "Create a transaction for coffee $5 today"
+    "jsonrpc": "2.0",
+    "id": 4,
+    "method": "tools/call",
+    "params": {
+      "name": "get_top_merchants",
+      "arguments": {
+        "startDate": "2024-01-01",
+        "endDate": "2024-12-31",
+        "limit": 10
+      }
+    }
   }'
 ```
 </CodeGroup>
 
-## Step 4: View Conversation History
+## Common Financial Use Cases
 
-Get your chat history:
+### Use Case 1: Tax Deduction Analysis
+**User Intent:** "I need to know what expenses are tax deductible"
 
 ```bash
-curl -X GET https://app.ai2fin.com/api/chat/conversations \
-  -H "Authorization: Bearer YOUR_TOKEN"
-```
-
-Response:
-```json
-{
-  "success": true,
-  "data": [
-    {
-      "id": "conv-xyz-789",
-      "userId": "user-abc-123",
-      "title": "AI2Fin Assistant",
-      "messageCount": 8,
-      "createdAt": "2024-10-30T10:00:00Z",
-      "updatedAt": "2024-10-30T19:04:00Z"
-    }
-  ]
-}
-```
-
-## Understanding the Response
-
-Every MCP response includes:
-
-```json
-{
-  "success": true,              // Operation status
-  "data": {
-    "conversationId": "...",    // Conversation ID (for history)
-    "message": {
-      "id": "...",              // Message ID
-      "role": "assistant",      // Who sent it
-      "content": "...",         // The actual response
-      "metadata": {
-        "tokens": 450,          // Tokens consumed
-        "duration": 1200        // Response time (ms)
+# Get comprehensive tax deductible summary
+curl -X POST https://api.ai2fin.com/mcp \
+  -H "Authorization: Bearer YOUR_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "jsonrpc": "2.0",
+    "id": 1,
+    "method": "tools/call",
+    "params": {
+      "name": "get_tax_deductible_summary",
+      "arguments": {
+        "startDate": "2024-07-01",
+        "endDate": "2025-06-30"
       }
-    },
-    "toolsUsed": ["get_transactions"]  // Tools AI called
+    }
+  }'
+```
+
+### Use Case 2: Spending Analysis
+**User Intent:** "Where does my money go?"
+
+```bash
+# Get spending breakdown by category
+curl -X POST https://api.ai2fin.com/mcp \
+  -H "Authorization: Bearer YOUR_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "jsonrpc": "2.0",
+    "id": 2,
+    "method": "tools/call",
+    "params": {
+      "name": "get_category_spending_summary",
+      "arguments": {
+        "startDate": "2024-01-01",
+        "endDate": "2024-12-31"
+      }
+    }
+  }'
+```
+
+### Use Case 3: Bill Management
+**User Intent:** "What bills are due soon?"
+
+```bash
+# Get upcoming and overdue bills
+curl -X POST https://api.ai2fin.com/mcp \
+  -H "Authorization: Bearer YOUR_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "jsonrpc": "2.0",
+    "id": 3,
+    "method": "tools/call",
+    "params": {
+      "name": "get_overdue_bills",
+      "arguments": {}
+    }
+  }'
+```
+
+### Use Case 4: Receipt Processing
+**User Intent:** "I need to process this receipt"
+
+```bash
+# Step 1: Analyze receipt image
+curl -X POST https://api.ai2fin.com/mcp \
+  -H "Authorization: Bearer YOUR_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "jsonrpc": "2.0",
+    "id": 4,
+    "method": "tools/call",
+    "params": {
+      "name": "analyze_receipt",
+      "arguments": {
+        "receiptUrl": "https://example.com/receipt.jpg"
+      }
+    }
+  }'
+
+# Step 2: Create expense from receipt
+curl -X POST https://api.ai2fin.com/mcp \
+  -H "Authorization: Bearer YOUR_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "jsonrpc": "2.0",
+    "id": 5,
+    "method": "tools/call",
+    "params": {
+      "name": "commit_receipt",
+      "arguments": {
+        "receiptUrl": "https://example.com/receipt.jpg",
+        "action": {
+          "type": "create_expense",
+          "merchant": "Office Supplies Co",
+          "amount": -45.67,
+          "date": "2024-01-15"
+        }
+      }
+    }
+  }'
+```
+
+## Understanding MCP Responses
+
+### Successful Tool Call Response
+
+```json
+{
+  "jsonrpc": "2.0",
+  "id": 1,
+  "result": {
+    "content": [{
+      "type": "json",
+      "json": {
+        "success": true,
+        "data": {
+          "totalCount": 23,
+          "totalAmount": 4532.67,
+          "byCategory": [...]
+        }
+      }
+    }]
   }
 }
 ```
+
+### Error Response
+
+```json
+{
+  "jsonrpc": "2.0",
+  "id": 1,
+  "error": {
+    "code": 401,
+    "message": "Unauthorized",
+    "data": {
+      "errorType": "INVALID_TOKEN",
+      "message": "Invalid or expired authentication token"
+    }
+  }
+}
+```
+
+### Write Operation (Requires Confirmation)
+
+For write operations (create, update, delete), you'll receive a confirmation token:
+
+```json
+{
+  "jsonrpc": "2.0",
+  "id": 2,
+  "result": {
+    "content": [{
+      "type": "json",
+      "json": {
+        "ok": false,
+        "needsConfirmation": true,
+        "confirmToken": "confirm_abc123...",
+        "expiresAtMs": 1705320000000,
+        "preview": {
+          "tool": "create_transaction",
+          "arguments": {...}
+        }
+      }
+    }]
+  }
+}
+```
+
+Then call again with the `confirmToken` to execute.
 
 ## Key Features
 
@@ -188,66 +531,194 @@ Every MCP response includes:
   </Card>
 </CardGroup>
 
-## Common Use Cases
+## High-Value Financial Queries
 
 <AccordionGroup>
-  <Accordion title="Financial Query & Analysis">
-    ```
-    "Show my tax deductible transactions from last month"
-    "How much do I spend on bills monthly?"
-    "What's my biggest expense category?"
-    ```
+  <Accordion title="Tax & Deduction Queries" icon="file-invoice-dollar">
+    **User Intent:** Maximize tax deductions and prepare for tax season
+    
+    **MCP Tools:**
+    - `get_tax_deductible_summary` - Complete tax deduction report
+    - `analyze_transaction_tax_deductibility` - AI analysis of specific transactions
+    - `suggest_tax_deductions` - Find deduction opportunities
+    - `get_bill_pattern_financial_summary` - FY summaries for tax reporting
+    
+    **Example Queries:**
+    - "Show all tax deductible expenses this financial year"
+    - "What percentage of my expenses are tax deductible?"
+    - "Which categories have the most tax deductions?"
+    - "Am I missing any potential tax deductions?"
   </Accordion>
   
-  <Accordion title="Data Management">
-    ```
-    "Create a transaction for lunch $25 today"
-    "Categorize my uncategorized transactions"
-    "Link this transaction to my Netflix bill"
-    ```
+  <Accordion title="Spending Analysis" icon="chart-line">
+    **User Intent:** Understand spending patterns and optimize budget
+    
+    **MCP Tools:**
+    - `get_category_spending_summary` - Spending by category
+    - `get_top_merchants` - Top vendors by spending
+    - `compare_spending_periods` - Month-over-month comparison
+    - `get_spending_analytics` - Comprehensive insights
+    
+    **Example Queries:**
+    - "What's my biggest expense category this month?"
+    - "How much did I spend on groceries vs dining out?"
+    - "Did I spend more this month than last month?"
+    - "Where do I spend the most money?"
   </Accordion>
   
-  <Accordion title="Navigation & Help">
-    ```
-    "How do I export to ATO?"
-    "What features are available on my plan?"
-    "How does smart categorization work?"
-    ```
+  <Accordion title="Bill Management" icon="calendar-check">
+    **User Intent:** Track and pay recurring bills on time
+    
+    **MCP Tools:**
+    - `get_upcoming_bills` - Bills due soon
+    - `get_overdue_bills` - Past due bills
+    - `mark_bill_as_paid` - Record payments
+    - `get_bill_pattern_financial_summary` - Annual totals
+    
+    **Example Queries:**
+    - "What bills are due this week?"
+    - "Do I have any overdue bills?"
+    - "How much do I spend on bills monthly?"
+    - "Mark Netflix as paid for this month"
   </Accordion>
   
-  <Accordion title="Insights & Summaries">
-    ```
-    "Summarize my spending this quarter"
-    "What bills are due this month?"
-    "Am I eligible for any tax deductions?"
-    ```
+  <Accordion title="Transaction Organization" icon="tags">
+    **User Intent:** Organize and categorize transactions efficiently
+    
+    **MCP Tools:**
+    - `trigger_smart_categorization` - AI-powered categorization
+    - `bulk_categorize_transactions` - Batch operations
+    - `analyze_transaction_categorization` - Get AI suggestions
+    - `find_duplicate_transactions` - Detect duplicates
+    
+    **Example Queries:**
+    - "Categorize all my uncategorized transactions"
+    - "Categorize all Uber rides as Transport"
+    - "Find duplicate transactions"
+    - "What category should this transaction be?"
   </Accordion>
 </AccordionGroup>
 
 ## Rate Limits
 
-**Free Plan**:
-- 10 messages per minute
-- 100 tool calls per hour
+### OAuth Endpoint (`/mcp`)
+- **Per-user:** 200 requests per 15 minutes
+- **Burst:** 30 requests
+- **Per-tool limits:** Some tools have additional limits (bulk operations, AI analysis)
 
-**Premium Plan**:
-- 20 messages per minute
-- 500 tool calls per hour
+### API Key Endpoint (`/mcp/inspector`)
+- **Per-key:** 50 requests per 15 minutes
+- **Burst:** 10 requests
+- **Read-only by default** (write access requires `mcp:full` scope)
 
-**Enterprise Plan**:
-- Custom limits
-- Dedicated resources
+### Rate Limit Headers
 
-## Error Handling
+All responses include rate limit information:
 
-Common errors and solutions:
+```
+X-RateLimit-Limit: 200
+X-RateLimit-Remaining: 187
+X-RateLimit-Reset: 1705320000
+```
 
-| Error | Cause | Solution |
-|-------|-------|----------|
-| `401 Unauthorized` | Missing/invalid token | Re-authenticate and get new token |
-| `429 Too Many Requests` | Rate limit exceeded | Wait 60 seconds and retry |
-| `400 Bad Request` | Invalid message format | Check request body structure |
-| `500 Server Error` | Internal error | Retry or contact support |
+### Handling Rate Limits
+
+```typescript
+// Exponential backoff retry
+async function callWithRetry(fn: () => Promise<any>, retries = 3) {
+  for (let i = 0; i < retries; i++) {
+    try {
+      return await fn();
+    } catch (error) {
+      if (error.status === 429 && i < retries - 1) {
+        const waitTime = Math.pow(2, i) * 1000; // 1s, 2s, 4s
+        await new Promise(resolve => setTimeout(resolve, waitTime));
+        continue;
+      }
+      throw error;
+    }
+  }
+}
+```
+
+## Common Issues & Solutions
+
+<AccordionGroup>
+  <Accordion title="Authentication Errors" icon="key">
+    **Error:** `401 Unauthorized` or `Invalid token`
+    
+    **Causes:**
+    - Missing or expired JWT token
+    - Invalid API key
+    - Token/key has been revoked
+    
+    **Solutions:**
+    - ✅ Re-authenticate and get new token
+    - ✅ Check token expiration time
+    - ✅ Verify API key hasn't been revoked
+    - ✅ Ensure token/key is in correct header (`Authorization: Bearer` or `X-API-Key`)
+  </Accordion>
+  
+  <Accordion title="Rate Limit Exceeded" icon="gauge">
+    **Error:** `429 Too Many Requests`
+    
+    **Causes:**
+    - Too many requests in 15-minute window
+    - Per-tool rate limit exceeded
+    
+    **Solutions:**
+    - ✅ Wait for rate limit window to reset (15 minutes)
+    - ✅ Implement exponential backoff retry logic
+    - ✅ Use batch operations instead of individual calls
+    - ✅ Check `X-RateLimit-Reset` header for reset time
+  </Accordion>
+  
+  <Accordion title="Invalid Request Format" icon="code">
+    **Error:** `400 Bad Request` or `-32600 Invalid Request`
+    
+    **Causes:**
+    - Missing required JSON-RPC fields (`jsonrpc`, `id`, `method`)
+    - Invalid tool parameters
+    - Missing required tool arguments
+    
+    **Solutions:**
+    - ✅ Ensure request follows JSON-RPC 2.0 format
+    - ✅ Check tool parameter requirements
+    - ✅ Validate all required fields are present
+    - ✅ Review tool documentation for correct parameter types
+  </Accordion>
+  
+  <Accordion title="Tool Not Found" icon="search">
+    **Error:** `-32601 Method not found` or tool execution fails
+    
+    **Causes:**
+    - Tool name misspelled
+    - Tool not available for your subscription tier
+    - API key doesn't have required scope
+    
+    **Solutions:**
+    - ✅ Use `tools/list` to see available tools
+    - ✅ Check tool name spelling (case-sensitive)
+    - ✅ Verify subscription tier includes the tool
+    - ✅ Ensure API key has `mcp:tools:call` scope
+  </Accordion>
+  
+  <Accordion title="Timeout Errors" icon="clock">
+    **Error:** Request times out after 20 seconds
+    
+    **Causes:**
+    - Querying too much data at once
+    - Network connectivity issues
+    - Server under heavy load
+    
+    **Solutions:**
+    - ✅ Use summary tools instead of fetching all data
+    - ✅ Add date filters to limit scope
+    - ✅ Use pagination for large datasets
+    - ✅ Check network connectivity
+    - ✅ Retry with exponential backoff
+  </Accordion>
+</AccordionGroup>
 
 ## Next Steps
 

@@ -17,7 +17,21 @@ The AI2Fin API provides enterprise-grade endpoints for financial management, tra
 
 ## Quick Start
 
-### Authentication
+### Authentication Methods
+
+AI2Fin API supports **two authentication methods**:
+
+<Tabs>
+  <Tab title="JWT Token (OAuth)">
+    Standard authentication for web and mobile apps
+  </Tab>
+  
+  <Tab title="API Key">
+    For MCP integrations, automation, and server-to-server communication
+  </Tab>
+</Tabs>
+
+### Method 1: JWT Token (OAuth)
 
 All API endpoints (except registration and login) require authentication via JWT Bearer token or session cookie.
 
@@ -44,14 +58,82 @@ curl -X POST https://api.ai2fin.com/api/auth/login \
 }
 ```
 
-### Using the Token
-
-Include the JWT token in the Authorization header for all subsequent requests:
-
+**Using JWT Token:**
 ```bash
 curl -X GET https://api.ai2fin.com/api/bank/transactions \
   -H "Authorization: Bearer <YOUR_JWT_TOKEN>"
 ```
+
+### Method 2: API Key
+
+API keys are ideal for:
+- MCP server integrations (`/mcp/inspector` endpoint)
+- Server-to-server automation
+- Custom integrations and webhooks
+- Testing and development
+
+**Generate API Key:**
+```bash
+# Admin endpoint (requires admin JWT token)
+curl -X POST https://api.ai2fin.com/api/admin/api-keys \
+  -H "Authorization: Bearer <ADMIN_JWT_TOKEN>" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "Production MCP Integration",
+    "scopes": ["mcp:read", "mcp:tools:call"],
+    "expiresInDays": 90
+  }'
+```
+
+**Response:**
+```json
+{
+  "success": true,
+  "data": {
+    "id": "key_abc123",
+    "name": "Production MCP Integration",
+    "key": "mcp_a1b2c3d4e5f6...",  // ⚠️ Save this - only shown once!
+    "scopes": ["mcp:read", "mcp:tools:call"],
+    "expiresAt": "2024-04-01T00:00:00Z",
+    "createdAt": "2024-01-01T00:00:00Z"
+  }
+}
+```
+
+**Using API Key:**
+```bash
+# MCP Inspector endpoint
+curl -X POST https://api.ai2fin.com/mcp/inspector \
+  -H "X-API-Key: mcp_a1b2c3d4e5f6..." \
+  -H "Content-Type: application/json" \
+  -d '{
+    "jsonrpc": "2.0",
+    "id": 1,
+    "method": "tools/list",
+    "params": {}
+  }'
+
+# Standard API endpoints (if API key has appropriate scopes)
+curl -X GET https://api.ai2fin.com/api/bank/transactions \
+  -H "X-API-Key: mcp_a1b2c3d4e5f6..."
+```
+
+<Warning>
+**API Key Security:**
+- API keys are only shown once during creation - save them immediately
+- Store keys securely (environment variables, secret management)
+- Rotate keys regularly (every 90 days recommended)
+- Revoke keys immediately if compromised
+- Use minimal scopes (grant only necessary permissions)
+</Warning>
+
+**API Key Scopes:**
+- `mcp:read` - Read-only MCP operations
+- `mcp:tools:list` - List available tools
+- `mcp:tools:call` - Execute tools (read-only)
+- `mcp:resources:read` - Read resources
+- `mcp:full` - Full MCP access (read + write)
+- `*` (Admin) - All operations
 
 ## API Features
 

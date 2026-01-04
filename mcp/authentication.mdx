@@ -1,11 +1,22 @@
 ---
-title: 'Authentication'
-description: 'OAuth and API key authentication for MCP server'
+title: 'Finance MCP Authentication | MCP API Key | Financial Data API Token'
+description: 'AI2Fin Finance MCP authentication guide. Learn OAuth (JWT) for ChatGPT Apps SDK and API key authentication for MCP Inspector. Generate API tokens for financial data access, expense tracking MCP, and tax deduction MCP integrations.'
 ---
 
-# MCP Authentication
+# Finance MCP Authentication
 
-AI2Fin MCP Server supports two authentication methods depending on your use case.
+AI2Fin Finance MCP Server supports **two authentication methods** for secure access to your financial data. Choose OAuth (JWT) for ChatGPT Apps SDK integration or API keys for MCP Inspector, automation, and custom integrations.
+
+## Quick Comparison
+
+| Feature | OAuth (JWT) | API Key |
+|---------|-------------|---------|
+| **Endpoint** | `/mcp` | `/mcp/inspector` |
+| **Use Case** | ChatGPT Apps SDK, OAuth integrations | MCP Inspector, automation, testing |
+| **Rate Limit** | 200 req/15min per user | 50 req/15min per key |
+| **Write Access** | Full (with confirmation) | Read-only (default), write with `mcp:full` scope |
+| **Header** | `Authorization: Bearer <token>` | `X-API-Key: <key>` |
+| **Token Format** | JWT (from OAuth provider) | `mcp_<64 hex chars>` |
 
 ## Authentication Methods
 
@@ -223,22 +234,130 @@ Content-Type: application/json
 
 ---
 
+## Common Issues & Solutions
+
+<AccordionGroup>
+  <Accordion title="Invalid Token Error" icon="key">
+    **Error:** `401 Unauthorized - Invalid or expired authentication token`
+    
+    **Causes:**
+    - JWT token has expired
+    - Token was revoked
+    - Token format is incorrect
+    
+    **Solutions:**
+    - ✅ Re-authenticate via OAuth to get new token
+    - ✅ Check token expiration time
+    - ✅ Verify token is in correct format: `Bearer <token>`
+    - ✅ Ensure token hasn't been revoked
+  </Accordion>
+  
+  <Accordion title="API Key Not Found" icon="search">
+    **Error:** `401 Unauthorized - API key not found or has been revoked`
+    
+    **Causes:**
+    - API key was revoked
+    - Key format is incorrect
+    - Key has expired
+    
+    **Solutions:**
+    - ✅ Generate new API key via `/api/admin/api-keys`
+    - ✅ Verify key format: `mcp_<64 hex characters>`
+    - ✅ Check key expiration date
+    - ✅ Ensure key hasn't been revoked
+  </Accordion>
+  
+  <Accordion title="Insufficient Scope" icon="shield">
+    **Error:** `403 Forbidden - API key does not have permission`
+    
+    **Causes:**
+    - API key missing required scope
+    - Attempting write operation with read-only key
+    
+    **Solutions:**
+    - ✅ Check API key scopes: `mcp:read`, `mcp:tools:call`, `mcp:full`
+    - ✅ For write operations, use key with `mcp:full` scope
+    - ✅ Regenerate key with appropriate scopes
+  </Accordion>
+  
+  <Accordion title="Rate Limit Exceeded" icon="gauge">
+    **Error:** `429 Too Many Requests`
+    
+    **Causes:**
+    - Too many requests in 15-minute window
+    - Burst limit exceeded
+    
+    **Solutions:**
+    - ✅ Wait for rate limit window to reset (15 minutes)
+    - ✅ Implement exponential backoff retry logic
+    - ✅ Use batch operations to reduce request count
+    - ✅ Check `X-RateLimit-Reset` header for reset time
+  </Accordion>
+</AccordionGroup>
+
 ## Best Practices
 
 <CardGroup cols={2}>
   <Card title="Store Keys Securely" icon="lock">
-    Never commit API keys to version control. Use environment variables or secret management.
+    Never commit API keys to version control. Use environment variables, secret management (AWS Secrets Manager, HashiCorp Vault), or secure configuration files.
   </Card>
   
   <Card title="Use Minimal Scopes" icon="shield">
-    Grant only the minimum permissions needed. Use `mcp:read` for read-only access.
+    Grant only the minimum permissions needed. Use `mcp:read` for read-only access. Only grant `mcp:full` when write access is required.
   </Card>
   
   <Card title="Rotate Keys Regularly" icon="refresh">
-    Rotate API keys periodically (every 90 days recommended).
+    Rotate API keys periodically (every 90 days recommended). Revoke old keys immediately after generating new ones.
   </Card>
   
   <Card title="Use HTTPS Only" icon="lock">
-    Always use HTTPS for API key transmission. Never send keys over HTTP.
+    Always use HTTPS for API key transmission. Never send keys over HTTP. Validate SSL certificates in production.
+  </Card>
+  
+  <Card title="Monitor Key Usage" icon="chart-line">
+    Track API key usage patterns. Set up alerts for unusual activity. Review access logs regularly.
+  </Card>
+  
+  <Card title="Separate Keys per Environment" icon="server">
+    Use different API keys for development, staging, and production. Never share keys between environments.
+  </Card>
+</CardGroup>
+
+## SEO Keywords & Search Intent
+
+**Primary Keywords:**
+- Finance MCP authentication
+- MCP API key
+- Financial data API token
+- MCP server authentication
+- Expense tracking MCP API key
+- Tax deduction MCP token
+
+**User Intent Keywords:**
+- "How to authenticate with MCP finance server"
+- "Generate API key for financial MCP"
+- "MCP authentication for ChatGPT integration"
+- "API token for expense tracking MCP"
+- "Financial data API authentication"
+
+---
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Quickstart Guide" icon="rocket" href="/mcp/quickstart">
+    Get started with authentication examples
+  </Card>
+  
+  <Card title="Code Examples" icon="code" href="/mcp/examples">
+    See authentication in action
+  </Card>
+  
+  <Card title="API Reference" icon="server" href="/api-reference/introduction">
+    Complete API documentation
+  </Card>
+  
+  <Card title="Tools Overview" icon="wrench" href="/mcp/tools-overview">
+    Explore available financial tools
   </Card>
 </CardGroup>

@@ -1,127 +1,370 @@
 ---
-title: 'MCP Examples'
-description: 'Real-world integration examples for AI2Fin MCP Server'
+title: 'Finance MCP Examples | MCP Integration Code | Financial Data API Examples'
+description: 'Production-ready finance MCP integration examples. Connect ChatGPT, Claude, or custom AI agents to financial data. Real-world code for expense tracking, tax deductions, bill management, and financial analysis via MCP protocol.'
 ---
 
-# MCP Integration Examples
+# Finance MCP Integration Examples
 
-Production-ready code examples for integrating with AI2Fin's MCP Server.
+Production-ready code examples for integrating with AI2Fin's **Finance MCP Server**. Learn how to connect ChatGPT, Claude, or custom AI agents to your financial data for expense tracking, tax deduction analysis, bill management, and financial reporting.
 
-## Example 1: Basic Chat Integration
+## Quick Navigation
 
-### Python
+<CardGroup cols={3}>
+  <Card title="Tax & Deductions" icon="file-invoice-dollar" href="#tax-deduction-examples">
+    Tax deduction analysis examples
+  </Card>
+  
+  <Card title="Expense Tracking" icon="chart-line" href="#expense-tracking-examples">
+    Spending analysis and tracking
+  </Card>
+  
+  <Card title="Bill Management" icon="calendar-check" href="#bill-management-examples">
+    Recurring bill automation
+  </Card>
+  
+  <Card title="Receipt Processing" icon="receipt" href="#receipt-processing-examples">
+    Automated receipt handling
+  </Card>
+  
+  <Card title="ChatGPT Integration" icon="robot" href="#chatgpt-integration">
+    Connect ChatGPT to finances
+  </Card>
+  
+  <Card title="Custom AI Agents" icon="sparkles" href="#custom-ai-agents">
+    Build financial AI assistants
+  </Card>
+</CardGroup>
+
+## Example 1: Tax Deduction Analysis <a id="tax-deduction-examples"></a>
+
+**Use Case:** Get comprehensive tax deduction report for financial year
+
+**User Intent:** "I need to know what expenses are tax deductible for my business tax return"
+
+### Python - Using MCP Protocol
 
 ```python
 import requests
 
-# Your AI2Fin JWT token
-TOKEN = "eyJhbGciOiJIUzI1NiIs..."
-BASE_URL = "https://app.ai2fin.com"
+# Your AI2Fin JWT token or API key
+TOKEN = "eyJhbGciOiJIUzI1NiIs..."  # JWT token
+# OR
+API_KEY = "mcp_a1b2c3d4e5f6..."  # API key for /mcp/inspector
 
-def send_message(message: str, conversation_id: str = None):
-    """Send message to AI2Fin MCP chat"""
+BASE_URL = "https://api.ai2fin.com"
+
+def get_tax_deductible_summary(start_date: str, end_date: str, use_api_key: bool = False):
+    """Get tax deductible expenses summary using MCP"""
+    endpoint = "/mcp/inspector" if use_api_key else "/mcp"
+    auth_header = "X-API-Key" if use_api_key else "Authorization"
+    auth_value = API_KEY if use_api_key else f"Bearer {TOKEN}"
+    
     response = requests.post(
-        f"{BASE_URL}/api/chat/message",
+        f"{BASE_URL}{endpoint}",
+        headers={
+            auth_header: auth_value,
+            "Content-Type": "application/json"
+        },
+        json={
+            "jsonrpc": "2.0",
+            "id": 1,
+            "method": "tools/call",
+            "params": {
+                "name": "get_tax_deductible_summary",
+                "arguments": {
+                    "startDate": start_date,
+                    "endDate": end_date
+                }
+            }
+        }
+    )
+    
+    result = response.json()
+    if "result" in result and "content" in result["result"]:
+        return result["result"]["content"][0]["json"]["data"]
+    return result
+
+# Usage - Get FY tax deductions (Australian financial year: Jul-Jun)
+tax_summary = get_tax_deductible_summary("2024-07-01", "2025-06-30")
+print(f"Total tax deductible: ${tax_summary['totalAmount']:,.2f}")
+print(f"Categories: {len(tax_summary['byCategory'])}")
+# Output: Total tax deductible: $12,450.67
+#         Categories: 8
+```
+
+### TypeScript - Using MCP Protocol
+
+```typescript
+const TOKEN = 'eyJhbGciOiJIUzI1NiIs...';  // JWT token
+// OR
+const API_KEY = 'mcp_a1b2c3d4e5f6...';  // API key
+
+const BASE_URL = 'https://api.ai2fin.com';
+
+interface TaxDeductionSummary {
+  totalCount: number;
+  totalAmount: number;
+  byCategory: Array<{
+    category: string;
+    count: number;
+    total: number;
+    totalGST: number;
+  }>;
+}
+
+async function getTaxDeductibleSummary(
+  startDate: string,
+  endDate: string,
+  useApiKey: boolean = false
+): Promise<TaxDeductionSummary> {
+  const endpoint = useApiKey ? '/mcp/inspector' : '/mcp';
+  const authHeader = useApiKey ? 'X-API-Key' : 'Authorization';
+  const authValue = useApiKey ? API_KEY : `Bearer ${TOKEN}`;
+  
+  const response = await fetch(`${BASE_URL}${endpoint}`, {
+    method: 'POST',
+    headers: {
+      [authHeader]: authValue,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      jsonrpc: '2.0',
+      id: 1,
+      method: 'tools/call',
+      params: {
+        name: 'get_tax_deductible_summary',
+        arguments: {
+          startDate,
+          endDate
+        }
+      }
+    })
+  });
+  
+  const result = await response.json();
+  if (result.result?.content?.[0]?.json?.data) {
+    return result.result.content[0].json.data;
+  }
+  throw new Error(result.error?.message || 'Failed to get tax summary');
+}
+
+// Usage - Get tax deductions for current financial year
+const taxSummary = await getTaxDeductibleSummary('2024-07-01', '2025-06-30');
+console.log(`Total tax deductible: $${taxSummary.totalAmount.toLocaleString()}`);
+console.log(`Categories: ${taxSummary.byCategory.length}`);
+```
+
+---
+
+## Example 2: Expense Tracking & Spending Analysis <a id="expense-tracking-examples"></a>
+
+**Use Case:** Analyze spending patterns and identify top expense categories
+
+**User Intent:** "Where does my money go? What are my biggest expense categories?"
+
+### Python - Spending Analysis
+
+```python
+import requests
+from datetime import datetime, timedelta
+
+TOKEN = "eyJhbGciOiJIUzI1NiIs..."
+BASE_URL = "https://api.ai2fin.com"
+
+def get_spending_analysis(month: str):
+    """Get comprehensive spending analysis for a month"""
+    # Calculate date range
+    year, month_num = map(int, month.split('-'))
+    start_date = f"{year}-{month_num:02d}-01"
+    
+    # Get last day of month
+    if month_num == 12:
+        end_date = f"{year + 1}-01-01"
+    else:
+        end_date = f"{year}-{month_num + 1:02d}-01"
+    
+    # Get category spending summary
+    response = requests.post(
+        f"{BASE_URL}/mcp",
         headers={
             "Authorization": f"Bearer {TOKEN}",
             "Content-Type": "application/json"
         },
         json={
-            "message": message,
-            "conversationId": conversation_id
+            "jsonrpc": "2.0",
+            "id": 1,
+            "method": "tools/call",
+            "params": {
+                "name": "get_category_spending_summary",
+                "arguments": {
+                    "startDate": start_date,
+                    "endDate": end_date
+                }
+            }
         }
     )
     
-    return response.json()
+    result = response.json()
+    return result["result"]["content"][0]["json"]["data"]
 
 # Usage
-result = send_message("Show my tax deductible transactions")
-print(result['data']['message']['content'])
-# Output: "You have 23 tax deductible transactions totaling $4,532..."
+spending = get_spending_analysis("2024-10")
+print(f"Total spending: ${spending['totalSpending']:,.2f}")
+print(f"Top category: {spending['topCategory']['name']} - ${spending['topCategory']['total']:,.2f}")
+# Output: Total spending: $3,876.43
+#         Top category: Groceries - $1,245.67
 ```
 
-### JavaScript/TypeScript
+### TypeScript - Top Merchants Analysis
 
 ```typescript
-const TOKEN = 'eyJhbGciOiJIUzI1NiIs...';
-const BASE_URL = 'https://app.ai2fin.com';
-
-async function sendMessage(message: string, conversationId?: string) {
-  const response = await fetch(`${BASE_URL}/api/chat/message`, {
+async function getTopMerchants(startDate: string, endDate: string, limit: number = 10) {
+  const response = await fetch('https://api.ai2fin.com/mcp', {
     method: 'POST',
     headers: {
       'Authorization': `Bearer ${TOKEN}`,
       'Content-Type': 'application/json'
     },
     body: JSON.stringify({
-      message,
-      conversationId
+      jsonrpc: '2.0',
+      id: 1,
+      method: 'tools/call',
+      params: {
+        name: 'get_top_merchants',
+        arguments: {
+          startDate,
+          endDate,
+          limit
+        }
+      }
     })
   });
   
-  return await response.json();
+  const result = await response.json();
+  return result.result.content[0].json.data;
 }
 
-// Usage
-const result = await sendMessage('What bills do I have this month?');
-console.log(result.data.message.content);
+// Usage - Find where you spend the most
+const topMerchants = await getTopMerchants('2024-01-01', '2024-12-31', 10);
+console.log('Top 10 Merchants:');
+topMerchants.merchants.forEach((m: any, i: number) => {
+  console.log(`${i + 1}. ${m.merchant}: $${m.total.toLocaleString()}`);
+});
 ```
 
 ---
 
-## Example 2: Custom AI Agent
+## Example 3: Bill Management Automation <a id="bill-management-examples"></a>
 
-Build a custom financial AI agent that uses AI2Fin data.
+**Use Case:** Automate bill tracking and payment reminders
+
+**User Intent:** "I need to track my recurring bills and get reminders when they're due"
+
+### Python - Bill Payment Automation
 
 ```python
-import openai
-from ai2fin_mcp import AI2FinMCP
-
-class FinancialAgent:
-    def __init__(self, ai2fin_token: str, openai_key: str):
-        self.mcp = AI2FinMCP(token=ai2fin_token)
-        self.openai = openai.Client(api_key=openai_key)
-        
-    def analyze_spending(self, question: str):
-        """Analyze spending using AI2Fin data + custom AI"""
-        
-        # 1. Get data from AI2Fin
-        transactions = self.mcp.get_transactions(limit=100)
-        bills = self.mcp.get_bills()
-        
-        # 2. Build context
-        context = f"""
-        User has {len(transactions)} transactions.
-        Monthly bills total: ${bills['monthlyTotal']}
-        
-        Transactions:
-        {self.format_transactions(transactions)}
-        """
-        
-        # 3. Call your custom AI
-        response = self.openai.chat.completions.create(
-            model="enterprise-vision",
-            messages=[
-                {"role": "system", "content": "Financial advisor AI"},
-                {"role": "user", "content": f"{question}\n\nContext: {context}"}
-            ]
-        )
-        
-        return response.choices[0].message.content
+def check_overdue_bills():
+    """Check for overdue bills and send reminders"""
+    response = requests.post(
+        f"{BASE_URL}/mcp",
+        headers={
+            "Authorization": f"Bearer {TOKEN}",
+            "Content-Type": "application/json"
+        },
+        json={
+            "jsonrpc": "2.0",
+            "id": 1,
+            "method": "tools/call",
+            "params": {
+                "name": "get_overdue_bills",
+                "arguments": {}
+            }
+        }
+    )
+    
+    result = response.json()
+    overdue_bills = result["result"]["content"][0]["json"]["data"]["bills"]
+    
+    if overdue_bills:
+        total = sum(bill["amount"] for bill in overdue_bills)
+        print(f"⚠️ You have {len(overdue_bills)} overdue bills totaling ${total:,.2f}")
+        for bill in overdue_bills:
+            print(f"  - {bill['name']}: ${bill['amount']:.2f} (Due: {bill['dueDate']})")
+    else:
+        print("✅ No overdue bills!")
+    
+    return overdue_bills
 
 # Usage
-agent = FinancialAgent(
-    ai2fin_token="YOUR_AI2FIN_TOKEN",
-    openai_key="YOUR_OPENAI_KEY"
-)
+overdue = check_overdue_bills()
+```
 
-advice = agent.analyze_spending("How can I reduce my monthly expenses?")
-print(advice)
+### TypeScript - Bill Payment Workflow
+
+```typescript
+async function markBillAsPaid(billPatternId: string, occurrenceId: string) {
+  // First call - get confirmation token
+  const preview = await fetch('https://api.ai2fin.com/mcp', {
+    method: 'POST',
+    headers: {
+      'Authorization': `Bearer ${TOKEN}`,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      jsonrpc: '2.0',
+      id: 1,
+      method: 'tools/call',
+      params: {
+        name: 'mark_bill_as_paid',
+        arguments: {
+          billPatternId,
+          occurrenceId
+        }
+      }
+    })
+  });
+  
+  const previewResult = await preview.json();
+  
+  if (previewResult.result.content[0].json.needsConfirmation) {
+    const confirmToken = previewResult.result.content[0].json.confirmToken;
+    
+    // Second call - confirm and execute
+    const confirm = await fetch('https://api.ai2fin.com/mcp', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${TOKEN}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        jsonrpc: '2.0',
+        id: 2,
+        method: 'tools/call',
+        params: {
+          name: 'mark_bill_as_paid',
+          arguments: {
+            billPatternId,
+            occurrenceId,
+            confirmToken
+          }
+        }
+      })
+    });
+    
+    return await confirm.json();
+  }
+  
+  return previewResult;
+}
 ```
 
 ---
 
-## Example 3: Conversational Interface
+## Example 4: Receipt Processing Automation <a id="receipt-processing-examples"></a>
+
+**Use Case:** Automatically process receipts from email or uploads
+
+**User Intent:** "I need to automatically extract data from receipts and create expenses"
 
 Maintain conversation history across multiple requests.
 
@@ -186,9 +429,49 @@ const history = await chat.getHistory();
 console.log(history);  // All messages retained
 ```
 
+### Python - Smart Receipt Processor
+
+```python
+def process_receipt(receipt_url: str):
+    """One-call receipt processing workflow"""
+    response = requests.post(
+        f"{BASE_URL}/mcp",
+        headers={
+            "Authorization": f"Bearer {TOKEN}",
+            "Content-Type": "application/json"
+        },
+        json={
+            "jsonrpc": "2.0",
+            "id": 1,
+            "method": "tools/call",
+            "params": {
+                "name": "smart_receipt_processor",
+                "arguments": {
+                    "receiptUrl": receipt_url,
+                    "autoCreateTransaction": True,
+                    "autoLinkToBill": True
+                }
+            }
+        }
+    )
+    
+    result = response.json()
+    return result["result"]["content"][0]["json"]["data"]
+
+# Usage
+receipt_data = process_receipt("https://example.com/receipt.jpg")
+print(f"✅ Created transaction: ${receipt_data['transaction']['amount']:.2f}")
+print(f"   Merchant: {receipt_data['merchant']}")
+print(f"   GST: ${receipt_data['gstAmount']:.2f}")
+```
+
 ---
 
-## Example 4: CLI Tool
+## Example 5: ChatGPT Integration <a id="chatgpt-integration"></a>
+
+**Use Case:** Connect ChatGPT to your financial data via OAuth
+
+**User Intent:** "I want ChatGPT to answer questions about my finances"
 
 Build a command-line interface for AI2Fin.
 
@@ -234,9 +517,35 @@ AI: You have 3 bills due this week:
 You: exit
 ```
 
+### ChatGPT Apps SDK Configuration
+
+```json
+{
+  "name": "AI2Fin Finance Assistant",
+  "description": "Connect ChatGPT to your AI2Fin financial data",
+  "authentication": {
+    "type": "oauth",
+    "authorization_url": "https://api.ai2fin.com/api/auth/oauth/authorize",
+    "token_url": "https://api.ai2fin.com/api/auth/oauth/token",
+    "scopes": ["read:financial_data", "write:transactions"]
+  },
+  "mcp_endpoint": "https://api.ai2fin.com/mcp"
+}
+```
+
+**User Experience:**
+1. User connects ChatGPT to AI2Fin via OAuth
+2. ChatGPT can now answer: "What are my tax deductible expenses?"
+3. ChatGPT calls `get_tax_deductible_summary` via MCP
+4. Returns formatted financial insights
+
 ---
 
-## Example 5: Slack Bot Integration
+## Example 6: Custom Financial AI Agent <a id="custom-ai-agents"></a>
+
+**Use Case:** Build a custom financial AI assistant
+
+**User Intent:** "I want a custom AI agent that understands my business finances"
 
 ```javascript
 const { App } = require('@slack/bolt');
@@ -271,9 +580,72 @@ app.start(3000);
 
 **Result**: Ask AI2Fin questions directly in Slack! ✅
 
+### Python - Custom Financial Agent
+
+```python
+import requests
+from typing import Dict, Any
+
+class FinancialAIAgent:
+    def __init__(self, api_key: str):
+        self.api_key = api_key
+        self.base_url = "https://api.ai2fin.com"
+    
+    def call_mcp_tool(self, tool_name: str, arguments: Dict[str, Any]):
+        """Call any MCP financial tool"""
+        response = requests.post(
+            f"{self.base_url}/mcp/inspector",
+            headers={
+                "X-API-Key": self.api_key,
+                "Content-Type": "application/json"
+            },
+            json={
+                "jsonrpc": "2.0",
+                "id": 1,
+                "method": "tools/call",
+                "params": {
+                    "name": tool_name,
+                    "arguments": arguments
+                }
+            }
+        )
+        return response.json()
+    
+    def get_financial_summary(self, period: str = "this_month"):
+        """Get comprehensive financial summary"""
+        # Get spending by category
+        spending = self.call_mcp_tool("get_category_spending_summary", {
+            "startDate": "2024-01-01",
+            "endDate": "2024-12-31"
+        })
+        
+        # Get tax deductions
+        tax = self.call_mcp_tool("get_tax_deductible_summary", {
+            "startDate": "2024-07-01",
+            "endDate": "2025-06-30"
+        })
+        
+        # Get upcoming bills
+        bills = self.call_mcp_tool("get_upcoming_bills", {
+            "daysAhead": 30
+        })
+        
+        return {
+            "spending": spending["result"]["content"][0]["json"]["data"],
+            "tax_deductions": tax["result"]["content"][0]["json"]["data"],
+            "upcoming_bills": bills["result"]["content"][0]["json"]["data"]
+        }
+
+# Usage
+agent = FinancialAIAgent("mcp_a1b2c3d4e5f6...")
+summary = agent.get_financial_summary()
+print(f"Total spending: ${summary['spending']['totalSpending']:,.2f}")
+print(f"Tax deductible: ${summary['tax_deductions']['totalAmount']:,.2f}")
+```
+
 ---
 
-## Example 6: Error Handling
+## Example 7: Error Handling & Retry Logic
 
 ```typescript
 async function safeMCPCall(message: string, token: string) {
@@ -308,9 +680,72 @@ async function safeMCPCall(message: string, token: string) {
 }
 ```
 
+### TypeScript - Robust Error Handling
+
+```typescript
+async function callMCPWithRetry(
+  toolName: string,
+  arguments: any,
+  maxRetries: number = 3
+): Promise<any> {
+  for (let attempt = 0; attempt < maxRetries; attempt++) {
+    try {
+      const response = await fetch('https://api.ai2fin.com/mcp', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${TOKEN}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          jsonrpc: '2.0',
+          id: Date.now(),
+          method: 'tools/call',
+          params: {
+            name: toolName,
+            arguments
+          }
+        })
+      });
+      
+      const result = await response.json();
+      
+      // Handle rate limiting
+      if (response.status === 429) {
+        const retryAfter = response.headers.get('X-RateLimit-Reset');
+        const waitTime = retryAfter 
+          ? parseInt(retryAfter) * 1000 - Date.now()
+          : Math.pow(2, attempt) * 1000;
+        
+        if (attempt < maxRetries - 1) {
+          await new Promise(resolve => setTimeout(resolve, waitTime));
+          continue;
+        }
+      }
+      
+      // Handle errors
+      if (result.error) {
+        throw new Error(result.error.message || 'MCP error');
+      }
+      
+      return result.result.content[0].json.data;
+      
+    } catch (error: any) {
+      if (attempt === maxRetries - 1) {
+        throw error;
+      }
+      
+      // Exponential backoff
+      await new Promise(resolve => 
+        setTimeout(resolve, Math.pow(2, attempt) * 1000)
+      );
+    }
+  }
+}
+```
+
 ---
 
-## Example 7: Multi-User Application
+## Example 8: Multi-User Enterprise Application
 
 ```typescript
 // Enterprise app with multiple AI2Fin users
@@ -350,9 +785,83 @@ class EnterpriseAI2FinService {
 // Each user gets isolated access ✅
 ```
 
+### TypeScript - Enterprise Multi-User Service
+
+```typescript
+class EnterpriseFinancialService {
+  private userSessions = new Map<string, { 
+    token: string; 
+    apiKey?: string;
+    conversationId?: string;
+  }>();
+  
+  async handleUserQuery(
+    userId: string, 
+    query: string,
+    useApiKey: boolean = false
+  ): Promise<string> {
+    const session = this.userSessions.get(userId);
+    
+    if (!session) {
+      throw new Error('User not authenticated with AI2Fin');
+    }
+    
+    const endpoint = useApiKey ? '/mcp/inspector' : '/mcp';
+    const authHeader = useApiKey ? 'X-API-Key' : 'Authorization';
+    const authValue = useApiKey 
+      ? session.apiKey! 
+      : `Bearer ${session.token}`;
+    
+    const response = await fetch(`https://api.ai2fin.com${endpoint}`, {
+      method: 'POST',
+      headers: {
+        [authHeader]: authValue,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        jsonrpc: '2.0',
+        id: Date.now(),
+        method: 'tools/call',
+        params: {
+          name: this.determineTool(query),
+          arguments: this.extractArguments(query)
+        }
+      })
+    });
+    
+    const result = await response.json();
+    return result.result.content[0].json.data;
+  }
+  
+  private determineTool(query: string): string {
+    // Simple intent detection
+    if (query.includes('tax') || query.includes('deductible')) {
+      return 'get_tax_deductible_summary';
+    }
+    if (query.includes('spending') || query.includes('category')) {
+      return 'get_category_spending_summary';
+    }
+    if (query.includes('bill')) {
+      return 'get_upcoming_bills';
+    }
+    return 'get_transactions';
+  }
+  
+  private extractArguments(query: string): any {
+    // Extract date ranges, filters, etc. from query
+    return {
+      startDate: '2024-01-01',
+      endDate: '2024-12-31'
+    };
+  }
+}
+
+// Each user gets isolated access ✅
+```
+
 ---
 
-## Example 8: Voice Assistant Integration
+## Example 9: Automated Financial Reporting
 
 ```python
 import speech_recognition as sr
@@ -390,9 +899,53 @@ while True:
     voice_assistant()
 ```
 
+### Python - Weekly Financial Report Automation
+
+```python
+from datetime import datetime, timedelta
+import smtplib
+from email.mime.text import MIMEText
+
+def generate_weekly_report():
+    """Generate and email weekly financial report"""
+    # Get date range for last week
+    end_date = datetime.now()
+    start_date = end_date - timedelta(days=7)
+    
+    # Get spending summary
+    spending = call_mcp_tool("get_category_spending_summary", {
+        "startDate": start_date.strftime("%Y-%m-%d"),
+        "endDate": end_date.strftime("%Y-%m-%d")
+    })
+    
+    # Get top merchants
+    merchants = call_mcp_tool("get_top_merchants", {
+        "startDate": start_date.strftime("%Y-%m-%d"),
+        "endDate": end_date.strftime("%Y-%m-%d"),
+        "limit": 5
+    })
+    
+    # Generate report
+    report = f"""
+    Weekly Financial Report ({start_date.strftime('%Y-%m-%d')} to {end_date.strftime('%Y-%m-%d')})
+    
+    Total Spending: ${spending['totalSpending']:,.2f}
+    
+    Top Categories:
+    {chr(10).join([f"  • {cat['name']}: ${cat['total']:,.2f}" for cat in spending['categories'][:5]])}
+    
+    Top Merchants:
+    {chr(10).join([f"  • {m['merchant']}: ${m['total']:,.2f}" for m in merchants['merchants']])}
+    """
+    
+    # Send email (implement email sending logic)
+    send_email_report(report)
+    return report
+```
+
 ---
 
-## Example 9: Analytics Dashboard
+## Example 10: Receipt Email Automation
 
 <Note>NEW - Using Analytics Tools</Note>
 
@@ -451,9 +1004,51 @@ Biggest increase: Dining Out (+36.5%)"
 */
 ```
 
+### Python - Process Receipts from Email
+
+```python
+import imaplib
+import email
+from email.header import decode_header
+
+def process_receipt_emails():
+    """Monitor email for receipts and process automatically"""
+    # Connect to email (example with Gmail)
+    mail = imaplib.IMAP4_SSL("imap.gmail.com")
+    mail.login("your@email.com", "app_password")
+    mail.select("inbox")
+    
+    # Search for receipt emails
+    _, messages = mail.search(None, 'SUBJECT "receipt" OR SUBJECT "invoice"')
+    
+    for msg_num in messages[0].split():
+        _, msg_data = mail.fetch(msg_num, "(RFC822)")
+        email_body = msg_data[0][1]
+        email_message = email.message_from_bytes(email_body)
+        
+        # Extract attachments
+        for part in email_message.walk():
+            if part.get_content_type() == "image/jpeg" or part.get_content_type() == "application/pdf":
+                filename = part.get_filename()
+                if filename:
+                    # Download attachment
+                    attachment_path = download_attachment(part, filename)
+                    
+                    # Upload to AI2Fin
+                    upload_url = upload_to_ai2fin(attachment_path)
+                    
+                    # Process receipt via MCP
+                    receipt_data = call_mcp_tool("smart_receipt_processor", {
+                        "receiptUrl": upload_url,
+                        "autoCreateTransaction": True
+                    })
+                    
+                    print(f"✅ Processed receipt: {receipt_data['merchant']} - ${receipt_data['total']:.2f}")
+```
+
 ---
 
-## Example 10: Bulk Operations
+## Example 11: Tax Season Preparation
 
 <Note>NEW - Batch Processing</Note>
 
@@ -489,9 +1084,58 @@ await bulkCategorizeByMerchant(
 // Output: "✅ Updated 15 transaction(s) to category "Transport""
 ```
 
+### Python - Comprehensive Tax Report
+
+```python
+def generate_tax_report(financial_year: str = "2024-2025"):
+    """Generate comprehensive tax report for financial year"""
+    # Determine FY dates based on country (AU: Jul-Jun, US: Oct-Sep, etc.)
+    fy_start, fy_end = get_fy_dates(financial_year, country_code="AU")
+    
+    # Get tax deductible summary
+    tax_summary = call_mcp_tool("get_tax_deductible_summary", {
+        "startDate": fy_start,
+        "endDate": fy_end
+    })
+    
+    # Get bill financial summaries
+    bills = call_mcp_tool("get_bills", {})
+    bill_summaries = []
+    for bill in bills["bills"]:
+        bill_fy = call_mcp_tool("get_bill_pattern_financial_summary", {
+            "billPatternId": bill["id"],
+            "period": "this_fy"
+        })
+        bill_summaries.append(bill_fy)
+    
+    # Get travel deductions
+    travel = call_mcp_tool("get_travel_deduction_summary", {
+        "startDate": fy_start,
+        "endDate": fy_end
+    })
+    
+    # Compile report
+    report = {
+        "financial_year": financial_year,
+        "tax_deductible_expenses": tax_summary,
+        "recurring_bills": bill_summaries,
+        "travel_deductions": travel,
+        "total_deductions": (
+            tax_summary["totalAmount"] + 
+            travel["totalDeduction"]
+        )
+    }
+    
+    return report
+
+# Usage
+tax_report = generate_tax_report("2024-2025")
+print(f"Total tax deductions: ${tax_report['total_deductions']:,.2f}")
+```
+
 ---
 
-## Example 11: Duplicate Detection
+## Example 12: Duplicate Transaction Detection
 
 <Note>NEW - Find Double Charges</Note>
 
@@ -531,9 +1175,54 @@ print(result)
 # Potential savings if duplicates: $103.44"
 ```
 
+### TypeScript - Find Duplicate Payments
+
+```typescript
+async function findDuplicateTransactions(
+  startDate: string,
+  endDate: string
+) {
+  const response = await fetch('https://api.ai2fin.com/mcp', {
+    method: 'POST',
+    headers: {
+      'Authorization': `Bearer ${TOKEN}`,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      jsonrpc: '2.0',
+      id: 1,
+      method: 'tools/call',
+      params: {
+        name: 'find_duplicate_transactions',
+        arguments: {
+          startDate,
+          endDate,
+          similarityThreshold: 0.95  // 95% similarity
+        }
+      }
+    })
+  });
+  
+  const result = await response.json();
+  const duplicates = result.result.content[0].json.data.duplicates;
+  
+  if (duplicates.length > 0) {
+    console.log(`⚠️ Found ${duplicates.length} potential duplicate groups`);
+    duplicates.forEach((group: any) => {
+      console.log(`  ${group.merchant} - $${group.amount}: ${group.count} transactions`);
+    });
+  }
+  
+  return duplicates;
+}
+
+// Usage
+const duplicates = await findDuplicateTransactions('2024-01-01', '2024-12-31');
+```
+
 ---
 
-## Example 12: Financial Year Analysis
+## Example 13: Financial Year Analysis
 
 <Note>NEW - Country-Aware FY Queries</Note>
 
@@ -581,6 +1270,103 @@ Output:
 
 ---
 
+## Common Integration Patterns
+
+### Pattern 1: Tax Deduction Workflow
+
+**User Intent:** "I need to maximize my tax deductions"
+
+```python
+# 1. Get tax deductible summary
+tax_summary = call_mcp_tool("get_tax_deductible_summary", {...})
+
+# 2. Find opportunities
+opportunities = call_mcp_tool("suggest_tax_deductions", {...})
+
+# 3. Analyze specific transactions
+for transaction_id in opportunities["transactionIds"]:
+    analysis = call_mcp_tool("analyze_transaction_tax_deductibility", {
+        "transactionId": transaction_id
+    })
+    
+# 4. Apply recommendations
+if user_confirms:
+    call_mcp_tool("apply_analysis_to_transaction", {...})
+```
+
+### Pattern 2: Spending Optimization
+
+**User Intent:** "How can I reduce my expenses?"
+
+```python
+# 1. Get spending breakdown
+spending = call_mcp_tool("get_category_spending_summary", {...})
+
+# 2. Compare periods
+comparison = call_mcp_tool("compare_spending_periods", {
+    "period1Start": "2024-01-01",
+    "period1End": "2024-03-31",
+    "period2Start": "2024-04-01",
+    "period2End": "2024-06-30"
+})
+
+# 3. Get top merchants
+merchants = call_mcp_tool("get_top_merchants", {...})
+
+# 4. Generate recommendations
+recommendations = call_mcp_tool("suggest_budgets", {...})
+```
+
+### Pattern 3: Bill Payment Automation
+
+**User Intent:** "I want to automate bill payments"
+
+```python
+# 1. Get overdue bills
+overdue = call_mcp_tool("get_overdue_bills", {})
+
+# 2. Get upcoming bills
+upcoming = call_mcp_tool("get_upcoming_bills", {"daysAhead": 7})
+
+# 3. Mark bills as paid (with confirmation)
+for bill in overdue["bills"]:
+    # First call - get confirmation
+    preview = call_mcp_tool("mark_bill_as_paid", {
+        "billPatternId": bill["id"],
+        "occurrenceId": bill["occurrenceId"]
+    })
+    
+    if preview["needsConfirmation"]:
+        # Second call - confirm
+        result = call_mcp_tool("mark_bill_as_paid", {
+            "billPatternId": bill["id"],
+            "occurrenceId": bill["occurrenceId"],
+            "confirmToken": preview["confirmToken"]
+        })
+```
+
+---
+
+## SEO Keywords & Search Intent
+
+**Primary Keywords:**
+- Finance MCP examples
+- Financial MCP integration code
+- Expense tracking MCP examples
+- Tax deduction MCP code
+- MCP financial data integration
+- ChatGPT finance integration
+- Financial API examples
+
+**User Intent Keywords:**
+- "How to integrate MCP with financial data"
+- "MCP server expense tracking example"
+- "Tax deduction MCP integration"
+- "Connect ChatGPT to financial data"
+- "Financial MCP API code examples"
+
+---
+
 ## SDK Libraries
 
 ### Official SDKs (Coming Soon)
@@ -605,12 +1391,20 @@ Check our [GitHub](https://github.com/ai2fin) for community-contributed SDKs.
 ## Next Steps
 
 <CardGroup cols={2}>
-  <Card title="RAG System" icon="database" href="/mcp/rag-system">
-    Learn how docs knowledge works
+  <Card title="Quickstart Guide" icon="rocket" href="/mcp/quickstart">
+    Get started in 5 minutes
   </Card>
   
-  <Card title="Best Practices" icon="check-circle" href="/mcp/best-practices">
-    Production deployment guidelines
+  <Card title="Tools Reference" icon="wrench" href="/mcp/tools-overview">
+    Explore all 65+ financial tools
+  </Card>
+  
+  <Card title="Authentication" icon="key" href="/mcp/authentication">
+    OAuth and API key setup
+  </Card>
+  
+  <Card title="API Reference" icon="server" href="/api-reference/introduction">
+    Complete API documentation
   </Card>
 </CardGroup>
 
