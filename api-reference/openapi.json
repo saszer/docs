@@ -27,6 +27,9 @@
       "bearerAuth": []
     },
     {
+      "apiTokenAuth": []
+    },
+    {
       "cookieAuth": []
     },
     {
@@ -3836,7 +3839,13 @@
         "type": "apiKey",
         "in": "header",
         "name": "X-API-Key",
-        "description": "API key for MCP integrations, automation, and server-to-server communication. Generate via /api/admin/api-keys endpoint. Format: mcp_<64 hex characters>. Ideal for /mcp/inspector endpoint and custom integrations."
+        "description": "API key/token for MCP integrations, automation, and server-to-server communication. Generate via /api/admin/api-keys endpoint. Format: mcp_<64 hex characters>. Can be used in X-API-Key header or Authorization: Bearer header. Ideal for /mcp/inspector endpoint and custom integrations."
+      },
+      "apiTokenAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "API_TOKEN",
+        "description": "API token (from /api/admin/api-keys) used in Authorization header. Alternative to X-API-Key header. Format: mcp_<64 hex characters>. Can be used for all API endpoints that support API key authentication."
       }
     }
   },

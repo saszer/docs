@@ -64,6 +64,13 @@ curl -X GET https://api.ai2fin.com/api/bank/transactions \
   -H "Authorization: Bearer <YOUR_JWT_TOKEN>"
 ```
 
+**Using API Token (Alternative):**
+```bash
+# API tokens can also be used in Authorization header
+curl -X GET https://api.ai2fin.com/api/bank/transactions \
+  -H "Authorization: Bearer <YOUR_API_TOKEN>"
+```
+
 ### Method 2: API Key
 
 API keys are ideal for:
@@ -100,7 +107,11 @@ curl -X POST https://api.ai2fin.com/api/admin/api-keys \
 }
 ```
 
-**Using API Key:**
+**Using API Key/Token:**
+
+You can use API keys/tokens in two ways:
+
+**Method 1: X-API-Key Header (Recommended for MCP)**
 ```bash
 # MCP Inspector endpoint
 curl -X POST https://api.ai2fin.com/mcp/inspector \
@@ -117,6 +128,28 @@ curl -X POST https://api.ai2fin.com/mcp/inspector \
 curl -X GET https://api.ai2fin.com/api/bank/transactions \
   -H "X-API-Key: mcp_a1b2c3d4e5f6..."
 ```
+
+**Method 2: Authorization Header (Alternative)**
+```bash
+# API tokens can also be used in Authorization header
+curl -X GET https://api.ai2fin.com/api/bank/transactions \
+  -H "Authorization: Bearer mcp_a1b2c3d4e5f6..."
+
+# MCP endpoint with Authorization header
+curl -X POST https://api.ai2fin.com/mcp/inspector \
+  -H "Authorization: Bearer mcp_a1b2c3d4e5f6..." \
+  -H "Content-Type: application/json" \
+  -d '{
+    "jsonrpc": "2.0",
+    "id": 1,
+    "method": "tools/list",
+    "params": {}
+  }'
+```
+
+<Note>
+**Both methods are supported:** Use `X-API-Key` header for MCP Inspector endpoints, or `Authorization: Bearer` header for standard API endpoints. API tokens work with both header formats.
+</Note>
 
 <Warning>
 **API Key Security:**
@@ -175,8 +208,18 @@ Use the chat endpoints to power the in-app assistant, automate financial workflo
 | `GET` | `/api/chat/files/:userId/:fileName` | Retrieve stored attachments with access control |
 
 ```bash
+# Using JWT token
 curl -X POST https://api.ai2fin.com/api/chat/message \
-  -H "Authorization: Bearer ${AI2FIN_TOKEN}" \
+  -H "Authorization: Bearer ${AI2FIN_JWT_TOKEN}" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "conversationId": "conv_123",
+    "message": "Show expenses missing receipts for September"
+  }'
+
+# Or using API token
+curl -X POST https://api.ai2fin.com/api/chat/message \
+  -H "Authorization: Bearer ${AI2FIN_API_TOKEN}" \
   -H "Content-Type: application/json" \
   -d '{
     "conversationId": "conv_123",
@@ -199,6 +242,7 @@ The tax service exposes endpoints for localized GST/VAT rate discovery and preci
 | `POST` | `/api/tax/calculate` | Calculate GST/VAT amounts for tax-inclusive or tax-exclusive scenarios |
 
 ```bash
+# Using JWT token or API token
 curl -X POST https://api.ai2fin.com/api/tax/calculate \
   -H "Authorization: Bearer ${AI2FIN_TOKEN}" \
   -H "Content-Type: application/json" \
@@ -209,6 +253,10 @@ curl -X POST https://api.ai2fin.com/api/tax/calculate \
     "taxType": "GST"
   }'
 ```
+
+<Note>
+**Token Types:** Both JWT tokens (from OAuth login) and API tokens (from `/api/admin/api-keys`) can be used in the `Authorization: Bearer` header. Use whichever authentication method fits your use case.
+</Note>
 
 ```json
 {
@@ -329,12 +377,18 @@ Built-in support for tax-inclusive and tax-exclusive amounts:
 ### Access Control
 
 Enterprise-grade security with:
-- JWT-based authentication with optional JTI validation
+- **JWT Token Authentication** - OAuth-based JWT tokens for user sessions
+- **API Token Authentication** - API keys/tokens for server-to-server and automation
 - Cookie-based session management
 - CSRF protection for web clients
 - Row-level security (RLS)
 - NoSQL injection guards
 - Audit logging for compliance
+
+**Authentication Headers:**
+- `Authorization: Bearer <JWT_TOKEN>` - For JWT tokens from OAuth login
+- `Authorization: Bearer <API_TOKEN>` - For API tokens (alternative format)
+- `X-API-Key: <API_TOKEN>` - For API tokens (recommended for MCP endpoints)
 
 ## Webhooks
 
@@ -378,8 +432,17 @@ transactions = client.transactions.list(page=1, limit=50)
 ```
 
 ```bash cURL
+# Using JWT token
 curl https://api.ai2fin.com/api/bank/transactions?page=1&limit=50 \
-  -H "Authorization: Bearer ${AI2FIN_API_KEY}"
+  -H "Authorization: Bearer ${AI2FIN_JWT_TOKEN}"
+
+# Or using API token
+curl https://api.ai2fin.com/api/bank/transactions?page=1&limit=50 \
+  -H "Authorization: Bearer ${AI2FIN_API_TOKEN}"
+
+# Or using X-API-Key header
+curl https://api.ai2fin.com/api/bank/transactions?page=1&limit=50 \
+  -H "X-API-Key: ${AI2FIN_API_TOKEN}"
 ```
 
 </CodeGroup>
