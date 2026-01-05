@@ -46,6 +46,37 @@ You can also use AI2Fin's finance MCP server with:
 - **Custom AI Agents** - Build your own financial assistant
 - **Automation Tools** - Automate financial workflows and reporting
 
+Want to connect AI assistants (like ChatGPT, Claude, or Cursor) to search and reference AI2Fin's documentation? Use the following MCP URL to enable AI-powered documentation search:
+
+**MCP Documentation URL:**
+```
+https://docs.ai2fin.com/mcp
+```
+
+### How to Connect
+
+1. **In your AI application** (ChatGPT, Claude, Cursor, etc.), add a new MCP server connection
+2. **Use the URL:** `https://docs.ai2fin.com/mcp`
+3. **Authenticate** using your API key (same as for the financial data MCP server)
+4. **Start searching** - Your AI assistant can now search across all AI2Fin documentation
+
+### Available Documentation Tools
+
+Once connected, your AI assistant will have access to:
+
+- **SearchAi2FinDocumentation** - Search across the AI2Fin Documentation knowledge base to find relevant information, code examples, API references, and guides. Use this tool when you need to answer questions about AI2Fin Documentation, find specific documentation, understand how features work, or locate implementation details. The search returns contextual content with titles and direct links to the documentation pages.
+
+### Use Cases
+
+- **Find API examples** - "Show me how to authenticate with the MCP server"
+- **Understand features** - "How does smart categorization work?"
+- **Get code samples** - "Give me an example of creating a transaction via API"
+- **Troubleshoot issues** - "What are common authentication errors?"
+
+<Tip>
+The documentation MCP server is separate from the financial data MCP server. Use `https://docs.ai2fin.com/mcp` for documentation search, and `https://api.ai2fin.com/mcp` for accessing your financial data.
+</Tip>
+
 ## Key Features
 
 <CardGroup cols={2}>
