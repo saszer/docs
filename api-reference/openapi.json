@@ -2,7 +2,7 @@
   "openapi": "3.1.0",
   "info": {
     "title": "AI2Fin Financial Management API",
-    "description": "Enterprise-grade financial management platform with AI-powered categorization, tax optimization, and bill management. Built for scalability with 100K+ concurrent users.",
+    "description": "Financial management platform with AI-powered categorization, tax optimization, and bill management.",
     "version": "1.0.0",
     "contact": {
       "name": "AI2Fin Support",
