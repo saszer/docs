@@ -1570,6 +1570,115 @@
         }
       }
     },
+    "/api/api-keys": {
+      "post": {
+        "tags": ["Authentication"],
+        "summary": "Create API Key (User)",
+        "description": "Create a new API key for the authenticated user. Users can create keys for themselves with safe default scopes. Defaults to mcp:full scope if not specified. API key is only shown once - save it immediately.",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["name"],
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "example": "My MCP Integration"
+                  },
+                  "scopes": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "enum": ["mcp:read", "mcp:tools:list", "mcp:tools:call", "mcp:resources:read", "mcp:full"]
+                    },
+                    "default": ["mcp:full"],
+                    "description": "Scopes for the API key. Defaults to mcp:full. Admin scope (*) is not allowed for user-created keys."
+                  },
+                  "expiresInDays": {
+                    "type": "integer",
+                    "default": 90,
+                    "minimum": 1,
+                    "maximum": 365,
+                    "example": 90
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "API key created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {"type": "string"},
+                    "key": {"type": "string", "description": "API key - only shown once! Save immediately."},
+                    "name": {"type": "string"},
+                    "scopes": {"type": "array", "items": {"type": "string"}},
+                    "expiresAt": {"type": "string"},
+                    "createdAt": {"type": "string"},
+                    "warning": {"type": "string", "example": "Save this key now - it will not be shown again!"}
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Authentication required"
+          },
+          "403": {
+            "description": "Forbidden - Admin scope not allowed for user-created keys"
+          }
+        }
+      },
+      "get": {
+        "tags": ["Authentication"],
+        "summary": "List User API Keys",
+        "description": "List all API keys for the authenticated user",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of user's API keys",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {"type": "string"},
+                      "name": {"type": "string"},
+                      "scopes": {"type": "array", "items": {"type": "string"}},
+                      "isActive": {"type": "boolean"},
+                      "expiresAt": {"type": "string"},
+                      "lastUsedAt": {"type": "string"},
+                      "createdAt": {"type": "string"}
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Authentication required"
+          }
+        }
+      }
+    },
     "/api/admin/api-keys": {
       "post": {
         "tags": ["Authentication"],
@@ -3839,13 +3948,13 @@
         "type": "apiKey",
         "in": "header",
         "name": "X-API-Key",
-        "description": "API key/token for MCP integrations, automation, and server-to-server communication. Generate via /api/admin/api-keys endpoint. Format: mcp_<64 hex characters>. Can be used in X-API-Key header or Authorization: Bearer header. Ideal for /mcp/inspector endpoint and custom integrations."
+        "description": "API key/token for MCP integrations, automation, and server-to-server communication. Generate via /api/api-keys (user endpoint) or /api/admin/api-keys (admin endpoint). Format: mcp_<64 hex characters>. Can be used in X-API-Key header or Authorization: Bearer header. Ideal for /mcp/inspector endpoint and custom integrations."
       },
       "apiTokenAuth": {
         "type": "http",
         "scheme": "bearer",
         "bearerFormat": "API_TOKEN",
-        "description": "API token (from /api/admin/api-keys) used in Authorization header. Alternative to X-API-Key header. Format: mcp_<64 hex characters>. Can be used for all API endpoints that support API key authentication."
+        "description": "API token (from /api/api-keys or /api/admin/api-keys) used in Authorization header. Alternative to X-API-Key header. Format: mcp_<64 hex characters>. Can be used for all API endpoints that support API key authentication."
       }
     }
   },

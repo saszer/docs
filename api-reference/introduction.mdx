@@ -89,14 +89,17 @@ API keys are ideal for:
 </Card>
 
 **Generate API Key:**
+
+Create your own API key using your JWT token:
+
 ```bash
-# Admin endpoint (requires admin JWT token)
-curl -X POST https://api.ai2fin.com/api/admin/api-keys \
-  -H "Authorization: Bearer <ADMIN_JWT_TOKEN>" \
+# Create API key (requires authenticated JWT token)
+curl -X POST https://api.ai2fin.com/api/api-keys \
+  -H "Authorization: Bearer <YOUR_JWT_TOKEN>" \
   -H "Content-Type: application/json" \
   -d '{
-    "name": "Production MCP Integration",
-    "scopes": ["mcp:read", "mcp:tools:call"],
+    "name": "My MCP Integration",
+    "scopes": ["mcp:full"],
     "expiresInDays": 90
   }'
 ```
@@ -104,17 +107,19 @@ curl -X POST https://api.ai2fin.com/api/admin/api-keys \
 **Response:**
 ```json
 {
-  "success": true,
-  "data": {
-    "id": "key_abc123",
-    "name": "Production MCP Integration",
-    "key": "mcp_a1b2c3d4e5f6...",  // ⚠️ Save this - only shown once!
-    "scopes": ["mcp:read", "mcp:tools:call"],
-    "expiresAt": "2024-04-01T00:00:00Z",
-    "createdAt": "2024-01-01T00:00:00Z"
-  }
+  "id": "key_abc123",
+  "key": "mcp_a1b2c3d4e5f6...",  // ⚠️ Save this - only shown once!
+  "name": "My MCP Integration",
+  "scopes": ["mcp:full"],
+  "expiresAt": "2024-04-01T00:00:00Z",
+  "createdAt": "2024-01-01T00:00:00Z",
+  "warning": "Save this key now - it will not be shown again!"
 }
 ```
+
+<Note>
+**Default Scope:** If you don't specify `scopes`, it defaults to `["mcp:full"]` for full MCP Inspector capability.
+</Note>
 
 **Using API Key/Token:**
 
@@ -185,7 +190,6 @@ curl -X POST https://api.ai2fin.com/mcp/inspector \
 - `mcp:tools:call` - Execute tools (read-only)
 - `mcp:resources:read` - Read resources
 - `mcp:full` - Full MCP access (read + write)
-- `*` (Admin) - All operations
 
 ## API Features
 
@@ -274,7 +278,7 @@ curl -X POST https://api.ai2fin.com/api/tax/calculate \
 ```
 
 <Note>
-**Token Types:** Both JWT tokens (from OAuth login) and API tokens (from `/api/admin/api-keys`) can be used in the `Authorization: Bearer` header. Use whichever authentication method fits your use case.
+**Token Types:** Both JWT tokens (from OAuth login) and API tokens (from `/api/api-keys`) can be used in the `Authorization: Bearer` header. Use whichever authentication method fits your use case.
 </Note>
 
 ```json

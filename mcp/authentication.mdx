@@ -88,7 +88,7 @@ Used by the **`/mcp/inspector`** endpoint for MCP Inspector and custom integrati
 
 ### How It Works
 
-1. Admin generates API key via `/api/admin/api-keys` endpoint
+1. User generates API key via `/api/api-keys` endpoint
 2. API key stored as SHA-256 hash (never plaintext)
 3. API key included in `X-API-Key: <key>` header
 4. Server validates key hash and extracts `userId` from key record
@@ -140,14 +140,16 @@ Content-Type: application/json
 
 ### Generating API Keys
 
+Create your own API key using your JWT token:
+
 ```bash
-POST /api/admin/api-keys
-Authorization: Bearer <admin_token>
+POST /api/api-keys
+Authorization: Bearer <your_jwt_token>
 Content-Type: application/json
 
 {
   "name": "MCP Inspector - Production",
-  "scopes": ["mcp:read", "mcp:tools:list"],
+  "scopes": ["mcp:full"],
   "expiresInDays": 90
 }
 ```
@@ -155,17 +157,19 @@ Content-Type: application/json
 **Response:**
 ```json
 {
-  "success": true,
-  "data": {
-    "id": "key_123",
-    "name": "MCP Inspector - Production",
-    "key": "mcp_a1b2c3d4...",  // ⚠️ Only shown once!
-    "scopes": ["mcp:read", "mcp:tools:list"],
-    "expiresAt": "2024-04-01T00:00:00Z",
-    "createdAt": "2024-01-01T00:00:00Z"
-  }
+  "id": "key_123",
+  "key": "mcp_a1b2c3d4...",  // ⚠️ Only shown once!
+  "name": "MCP Inspector - Production",
+  "scopes": ["mcp:full"],
+  "expiresAt": "2024-04-01T00:00:00Z",
+  "createdAt": "2024-01-01T00:00:00Z",
+  "warning": "Save this key now - it will not be shown again!"
 }
 ```
+
+<Note>
+**Default Scope:** If you don't specify `scopes`, it defaults to `["mcp:full"]` for full MCP Inspector capability.
+</Note>
 
 <Warning>
 **Save the `key` value immediately** - it's only shown once during creation. If lost, you must revoke and create a new key.
@@ -178,7 +182,6 @@ Content-Type: application/json
 - **`mcp:tools:call`** - Execute tools (read-only)
 - **`mcp:resources:read`** - Read resources
 - **`mcp:full`** - Full access (read + write)
-- **`*` (Admin)** - Admin access (all operations)
 
 ### Rate Limiting
 
@@ -293,7 +296,7 @@ Content-Type: application/json
     - Key has expired
     
     **Solutions:**
-    - ✅ Generate new API key via `/api/admin/api-keys`
+    - ✅ Generate new API key via `/api/api-keys`
     - ✅ Verify key format: `mcp_<64 hex characters>`
     - ✅ Check key expiration date
     - ✅ Ensure key hasn't been revoked

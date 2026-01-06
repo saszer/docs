@@ -161,18 +161,23 @@ curl -X POST https://api.ai2fin.com/mcp \
 
 ### Step 1: Generate API Key
 
-**Prerequisites:** Admin access (or use your user account to generate keys)
+**Prerequisites:** Authenticated user account (use your JWT token from login)
 
 ```bash
-curl -X POST https://api.ai2fin.com/api/admin/api-keys \
-  -H "Authorization: Bearer <ADMIN_JWT_TOKEN>" \
+# User endpoint (recommended - creates key for your account)
+curl -X POST https://api.ai2fin.com/api/api-keys \
+  -H "Authorization: Bearer <YOUR_JWT_TOKEN>" \
   -H "Content-Type: application/json" \
   -d '{
     "name": "MCP Inspector - Production",
-    "scopes": ["mcp:read", "mcp:tools:list", "mcp:tools:call"],
+    "scopes": ["mcp:full"],
     "expiresInDays": 90
   }'
 ```
+
+<Tip>
+**Default Scope:** If you don't specify `scopes`, it defaults to `["mcp:full"]` for full MCP Inspector capability. You can also use specific scopes like `["mcp:read", "mcp:tools:list", "mcp:tools:call"]`.
+</Tip>
 
 **Response:**
 ```json
