@@ -79,6 +79,15 @@ API keys are ideal for:
 - Custom integrations and webhooks
 - Testing and development
 
+<Card
+  title="Create API Key"
+  icon="key"
+  href="https://app.ai2fin.com/#/api"
+  target="_blank"
+>
+  Generate a new API key in the AI2Fin dashboard. Opens in a new window.
+</Card>
+
 **Generate API Key:**
 ```bash
 # Admin endpoint (requires admin JWT token)
@@ -112,6 +121,11 @@ curl -X POST https://api.ai2fin.com/api/admin/api-keys \
 You can use API keys/tokens in two ways:
 
 **Method 1: X-API-Key Header (Recommended for MCP)**
+
+**Header Name:** `X-API-Key`
+
+Include your API key in the `X-API-Key` header with all requests:
+
 ```bash
 # MCP Inspector endpoint
 curl -X POST https://api.ai2fin.com/mcp/inspector \
@@ -130,6 +144,11 @@ curl -X GET https://api.ai2fin.com/api/bank/transactions \
 ```
 
 **Method 2: Authorization Header (Alternative)**
+
+**Header Name:** `Authorization`
+
+You can also use the `Authorization: Bearer` header format:
+
 ```bash
 # API tokens can also be used in Authorization header
 curl -X GET https://api.ai2fin.com/api/bank/transactions \
