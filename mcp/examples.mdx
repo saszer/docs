@@ -517,12 +517,12 @@ AI: You have 3 bills due this week:
 You: exit
 ```
 
-### ChatGPT Apps SDK Configuration
+### OAuth Configuration
 
 ```json
 {
   "name": "AI2Fin Finance Assistant",
-  "description": "Connect ChatGPT to your AI2Fin financial data",
+  "description": "Connect your AI assistant to your AI2Fin financial data",
   "authentication": {
     "type": "oauth",
     "authorization_url": "https://api.ai2fin.com/api/auth/oauth/authorize",
@@ -534,9 +534,9 @@ You: exit
 ```
 
 **User Experience:**
-1. User connects ChatGPT to AI2Fin via OAuth
-2. ChatGPT can now answer: "What are my tax deductible expenses?"
-3. ChatGPT calls `get_tax_deductible_summary` via MCP
+1. User connects AI assistant to AI2Fin via OAuth
+2. AI assistant can now answer: "What are my tax deductible expenses?"
+3. AI assistant calls `get_tax_deductible_summary` via MCP
 4. Returns formatted financial insights
 
 ---

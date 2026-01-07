@@ -1390,8 +1390,8 @@
     "/mcp": {
       "post": {
         "tags": ["MCP Server"],
-        "summary": "MCP Server - ChatGPT Apps SDK",
-        "description": "Model Context Protocol endpoint for ChatGPT Apps SDK integration. Supports OAuth (JWT) authentication. Provides 65+ financial tools for expense tracking, tax deductions, bill management, and financial analysis.",
+        "summary": "MCP Server - OAuth Integration",
+        "description": "Model Context Protocol endpoint for OAuth-based integrations. Supports OAuth (JWT) authentication. Provides 65+ financial tools for expense tracking, tax deductions, bill management, and financial analysis.",
         "security": [
           {
             "bearerAuth": []

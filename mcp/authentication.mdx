@@ -1,18 +1,18 @@
 ---
 title: 'Finance MCP Authentication | MCP API Key | Financial Data API Token'
-description: 'AI2Fin Finance MCP authentication guide. Learn OAuth (JWT) for ChatGPT Apps SDK and API key authentication for MCP Inspector. Generate API tokens for financial data access, expense tracking MCP, and tax deduction MCP integrations.'
+description: 'AI2Fin Finance MCP authentication guide. Learn OAuth (JWT) and API key authentication for MCP Inspector. Generate API tokens for financial data access, expense tracking MCP, and tax deduction MCP integrations.'
 ---
 
 # Finance MCP Authentication
 
-AI2Fin Finance MCP Server supports **two authentication methods** for secure access to your financial data. Choose OAuth (JWT) for ChatGPT Apps SDK integration or API keys for MCP Inspector, automation, and custom integrations.
+AI2Fin Finance MCP Server supports **two authentication methods** for secure access to your financial data. Choose OAuth (JWT) for OAuth-based integrations or API keys for MCP Inspector, automation, and custom integrations.
 
 ## Quick Comparison
 
 | Feature | OAuth (JWT) | API Key |
 |---------|-------------|---------|
 | **Endpoint** | `/mcp` | `/mcp/inspector` |
-| **Use Case** | ChatGPT Apps SDK, OAuth integrations | MCP Inspector, automation, testing |
+| **Use Case** | OAuth integrations | MCP Inspector, automation, testing |
 | **Rate Limit** | 200 req/15min per user | 50 req/15min per key |
 | **Write Access** | Full (with confirmation) | Read-only (default), write with `mcp:full` scope |
 | **Header** | `Authorization: Bearer <token>` | `X-API-Key: <key>` |
@@ -31,7 +31,7 @@ AI2Fin Finance MCP Server supports **two authentication methods** for secure acc
 
 <Tabs>
   <Tab title="OAuth (JWT)">
-    For ChatGPT Apps SDK and OAuth-based integrations
+    For OAuth-based integrations
   </Tab>
   
   <Tab title="API Key">
@@ -43,7 +43,7 @@ AI2Fin Finance MCP Server supports **two authentication methods** for secure acc
 
 ## OAuth Authentication
 
-Used by the **`/mcp`** endpoint for ChatGPT Apps SDK integration.
+Used by the **`/mcp`** endpoint for OAuth-based integrations.
 
 ### How It Works
 
@@ -76,8 +76,8 @@ Content-Type: application/json
 
 ### Use Cases
 
-- ChatGPT Apps SDK integration
-- OAuth-based custom integrations
+- OAuth-based integrations
+- Custom integrations with OAuth
 - Full write access (with confirmation for destructive operations)
 
 ---
@@ -358,7 +358,7 @@ Content-Type: application/json
   </Card>
 </CardGroup>
 
-## SEO Keywords & Search Intent
+## Keywords & Search Intent
 
 **Primary Keywords:**
 - Finance MCP authentication
