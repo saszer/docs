@@ -1,0 +1,377 @@
+---
+title: 'Connect AI2Fin MCP in Cursor | Cursor IDE Integration | Financial Data MCP'
+description: 'Connect AI2Fin Finance MCP Server to Cursor IDE. Get your MCP configuration JSON, copy with one click, and authenticate to access your financial data directly in Cursor. Step-by-step setup guide.'
+---
+
+# Connect AI2Fin MCP in Cursor
+
+Connect AI2Fin's Finance MCP Server to Cursor IDE to access your financial data directly in your code editor. Ask questions about expenses, tax deductions, bills, and more—all from within Cursor.
+
+<Warning>
+**Before you start:** You'll need an API key from AI2Fin. Get one at [app.ai2fin.com/#/api](https://app.ai2fin.com/#/api) (it's free!).
+</Warning>
+
+## Quick Setup (3 Steps)
+
+1. **Get API Key** → [Generate at app.ai2fin.com/#/api](https://app.ai2fin.com/#/api)
+2. **Copy Configuration** → Use the copy buttons below
+3. **Paste in Cursor** → Add to Cursor's MCP settings and restart
+
+<CardGroup cols={3}>
+  <Card title="Step 1: Get API Key" icon="key" href="https://app.ai2fin.com/#/api" target="_blank">
+    Generate your API key in the AI2Fin dashboard (free account required)
+  </Card>
+  
+  <Card title="Step 2: Copy Config" icon="copy" href="#quick-copy-configuration">
+    Copy the MCP JSON configuration below
+  </Card>
+
+  <Card title="Step 3: Add to Cursor" icon="settings" href="#step-2-configure-mcp-in-cursor">
+    Paste into Cursor's MCP settings file
+  </Card>
+</CardGroup>
+
+---
+
+## Step 1: Get Your API Key
+
+Before connecting, you need an API key from AI2Fin:
+
+1. **Log in** to [app.ai2fin.com](https://app.ai2fin.com)
+2. Navigate to **Settings** → **API Keys** (or go to `/#/api`)
+3. Click **"Create New API Key"**
+4. Name it: `Cursor MCP Integration`
+5. Select scopes: `mcp:full` (or `mcp:read`, `mcp:tools:list`, `mcp:tools:call`)
+6. **Copy the API key immediately** (shown only once!)
+
+<Warning>
+**Save your API key securely** - it's only displayed once during creation. If lost, you'll need to create a new key.
+</Warning>
+
+---
+
+## Step 2: Configure MCP in Cursor <a id="step-2-configure-mcp-in-cursor"></a>
+
+### Option A: Using Cursor Settings UI
+
+1. **Open Cursor Settings:**
+   - Click the gear icon (⚙️) in the top right
+   - Or go to `File` → `Settings` → `Features` → `MCP`
+
+2. **Add MCP Server:**
+   - Click **"Add MCP Server"** or **"Configure MCP"**
+   - Enter the configuration (see below)
+
+### Option B: Edit Configuration File Directly
+
+1. **Open Cursor's MCP config file:**
+   - **Windows:** `%APPDATA%\Cursor\User\globalStorage\saoudrizwan.claude-dev\settings\cline_mcp_settings.json`
+   - **macOS:** `~/Library/Application Support/Cursor/User/globalStorage/saoudrizwan.claude-dev/settings/cline_mcp_settings.json`
+   - **Linux:** `~/.config/Cursor/User/globalStorage/saoudrizwan.claude-dev/settings/cline_mcp_settings.json`
+
+2. **Add the AI2Fin MCP configuration** (see JSON below)
+
+3. **Save and restart Cursor**
+
+---
+
+## MCP Configuration JSON
+
+Copy this configuration and replace `YOUR_API_KEY_HERE` with your actual API key:
+
+<CodeGroup>
+```json MCP Configuration (API Key)
+{
+  "mcpServers": {
+    "ai2fin": {
+      "url": "https://api.ai2fin.com/mcp/inspector",
+      "headers": {
+        "X-API-Key": "YOUR_API_KEY_HERE"
+      }
+    }
+  }
+}
+```
+
+```json Alternative: OAuth (JWT Token)
+{
+  "mcpServers": {
+    "ai2fin": {
+      "url": "https://api.ai2fin.com/mcp",
+      "headers": {
+        "Authorization": "Bearer YOUR_JWT_TOKEN_HERE"
+      }
+    }
+  }
+}
+```
+</CodeGroup>
+
+<Info>
+**Which to use?**
+- **API Key** (recommended): Use `/mcp/inspector` endpoint with `X-API-Key` header. Best for automation and long-term use.
+- **OAuth (JWT)**: Use `/mcp` endpoint with `Authorization: Bearer` header. Best for user-specific integrations. Tokens expire periodically.
+</Info>
+
+---
+
+## Step 3: Verify Connection
+
+After adding the configuration:
+
+1. **Restart Cursor completely** (quit and reopen)
+2. **Open Cursor Chat** (Cmd/Ctrl + L)
+3. **Test the connection** by asking:
+   - "What financial tools are available from AI2Fin?"
+   - "Show me my tax deductible expenses"
+   - "What bills are due this week?"
+
+If connected successfully, Cursor will use AI2Fin's MCP tools to answer your questions!
+
+---
+
+## Quick Copy Configuration <a id="quick-copy-configuration"></a>
+
+### API Key Configuration (Recommended)
+
+Copy this configuration and replace `YOUR_API_KEY_HERE` with your API key from [app.ai2fin.com/#/api](https://app.ai2fin.com/#/api):
+
+<CopyBlock>
+{`{
+  "mcpServers": {
+    "ai2fin": {
+      "url": "https://api.ai2fin.com/mcp/inspector",
+      "headers": {
+        "X-API-Key": "YOUR_API_KEY_HERE"
+      }
+    }
+  }
+}`}
+</CopyBlock>
+
+### OAuth Configuration (JWT Token)
+
+For OAuth-based authentication, use this configuration with your JWT token:
+
+<CopyBlock>
+{`{
+  "mcpServers": {
+    "ai2fin": {
+      "url": "https://api.ai2fin.com/mcp",
+      "headers": {
+        "Authorization": "Bearer YOUR_JWT_TOKEN_HERE"
+      }
+    }
+  }
+}`}
+</CopyBlock>
+
+<Tip>
+**Quick Setup:**
+1. Click the copy button above (📋) to copy the JSON
+2. Open Cursor's MCP settings
+3. Paste the configuration
+4. Replace `YOUR_API_KEY_HERE` with your actual API key
+5. Save and restart Cursor
+</Tip>
+
+---
+
+## Authentication Methods
+
+<Tabs>
+  <Tab title="API Key (Recommended)">
+    **Best for:** Long-term use, automation, MCP Inspector
+
+    **Steps:**
+    1. Generate API key at [app.ai2fin.com/#/api](https://app.ai2fin.com/#/api)
+    2. Use endpoint: `https://api.ai2fin.com/mcp/inspector`
+    3. Header: `X-API-Key: your_key_here`
+    4. Scopes: `mcp:full` or `["mcp:read", "mcp:tools:list", "mcp:tools:call"]`
+
+    **Advantages:**
+    - ✅ Doesn't expire (unless you set expiration)
+    - ✅ Better for automation
+    - ✅ Can be scoped to specific permissions
+    - ✅ Rate limit: 50 requests per 15 minutes per key
+  </Tab>
+
+  <Tab title="OAuth (JWT Token)">
+    **Best for:** User-specific integrations, temporary access
+
+    **Steps:**
+    1. Log in to [app.ai2fin.com](https://app.ai2fin.com)
+    2. Get JWT token from login response
+    3. Use endpoint: `https://api.ai2fin.com/mcp`
+    4. Header: `Authorization: Bearer your_token_here`
+
+    **Advantages:**
+    - ✅ User-specific access
+    - ✅ Full write permissions (with confirmation)
+    - ✅ Rate limit: 200 requests per 15 minutes per user
+
+    **Disadvantages:**
+    - ⚠️ Tokens expire periodically
+    - ⚠️ Need to re-authenticate when expired
+  </Tab>
+</Tabs>
+
+---
+
+## What Can You Do in Cursor?
+
+Once connected, you can ask Cursor questions about your finances:
+
+### Tax & Deductions
+- "What are my tax deductible expenses this year?"
+- "Show me deductions by category"
+- "What percentage of expenses are tax deductible?"
+
+### Spending Analysis
+- "Where do I spend the most money?"
+- "Show me spending by category this month"
+- "Compare my spending this month vs last month"
+
+### Bill Management
+- "What bills are due this week?"
+- "Do I have any overdue bills?"
+- "How much do I spend on bills monthly?"
+
+### Transaction Organization
+- "Categorize all my uncategorized transactions"
+- "Find duplicate transactions"
+- "Show me transactions from Uber"
+
+### Receipt Processing
+- "Process this receipt image"
+- "Extract data from this receipt"
+
+---
+
+## Troubleshooting
+
+<AccordionGroup>
+  <Accordion title="Connection Not Working" icon="wifi">
+    **Symptoms:** Cursor doesn't respond to financial queries
+
+    **Solutions:**
+    1. ✅ Verify API key is correct (no extra spaces)
+    2. ✅ Check API key hasn't been revoked
+    3. ✅ Ensure you restarted Cursor after adding config
+    4. ✅ Verify endpoint URL is correct: `https://api.ai2fin.com/mcp/inspector`
+    5. ✅ Check Cursor's MCP logs for errors
+  </Accordion>
+
+  <Accordion title="Authentication Errors" icon="key">
+    **Error:** `401 Unauthorized` or `Invalid API key`
+
+    **Solutions:**
+    1. ✅ Regenerate API key at [app.ai2fin.com/#/api](https://app.ai2fin.com/#/api)
+    2. ✅ Verify key format: `mcp_` prefix + 64 hex characters
+    3. ✅ Check key hasn't expired
+    4. ✅ Ensure key has required scopes: `mcp:tools:call`
+  </Accordion>
+
+  <Accordion title="Rate Limit Errors" icon="gauge">
+    **Error:** `429 Too Many Requests`
+
+    **Solutions:**
+    1. ✅ Wait 15 minutes for rate limit to reset
+    2. ✅ API Key limit: 50 requests per 15 minutes
+    3. ✅ OAuth limit: 200 requests per 15 minutes
+    4. ✅ Use batch operations when possible
+  </Accordion>
+
+  <Accordion title="Config File Not Found" icon="file">
+    **Can't find Cursor's MCP config file?**
+
+    **Solutions:**
+    1. ✅ Check Cursor version (MCP support in v0.40+)
+    2. ✅ Look in Cursor settings: `Settings` → `Features` → `MCP`
+    3. ✅ Try creating the file manually if it doesn't exist
+    4. ✅ Ensure Cursor has write permissions to the directory
+  </Accordion>
+</AccordionGroup>
+
+---
+
+## Security Best Practices
+
+<CardGroup cols={2}>
+  <Card title="Store Keys Securely" icon="lock">
+    Never commit API keys to version control. Use environment variables or secure storage.
+  </Card>
+
+  <Card title="Use Minimal Scopes" icon="shield">
+    Only grant necessary permissions. Use `mcp:read` for read-only access when possible.
+  </Card>
+
+  <Card title="Rotate Keys Regularly" icon="refresh">
+    Rotate API keys every 90 days. Revoke old keys immediately after generating new ones.
+  </Card>
+
+  <Card title="Monitor Usage" icon="chart-line">
+    Review API key usage in the AI2Fin dashboard. Set up alerts for unusual activity.
+  </Card>
+</CardGroup>
+
+---
+
+## Example Queries in Cursor
+
+Once connected, try these queries in Cursor Chat:
+
+```
+What are my tax deductible expenses for this financial year?
+```
+
+```
+Show me my top 10 merchants by spending this month
+```
+
+```
+What bills are due in the next 7 days?
+```
+
+```
+Categorize all transactions from "Uber" as "Transport"
+```
+
+```
+Find duplicate transactions in the last 30 days
+```
+
+---
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Quickstart Guide" icon="rocket" href="/mcp/quickstart">
+    Learn MCP basics and get started
+  </Card>
+
+  <Card title="Tools Reference" icon="wrench" href="/mcp/tools-overview">
+    Explore all 65+ financial tools
+  </Card>
+
+  <Card title="Authentication Guide" icon="key" href="/mcp/authentication">
+    Detailed authentication documentation
+  </Card>
+
+  <Card title="Code Examples" icon="code" href="/mcp/examples">
+    Integration examples and patterns
+  </Card>
+</CardGroup>
+
+---
+
+## Need Help?
+
+- **Documentation:** [docs.ai2fin.com](https://docs.ai2fin.com)
+- **Support:** [support@ai2fin.com](mailto:support@ai2fin.com)
+- **API Keys:** [app.ai2fin.com/#/api](https://app.ai2fin.com/#/api)
+
+---
+
+*Last updated: 2025-01-04*  
+*embracingearth.space - Enterprise-grade MCP integration*

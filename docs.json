@@ -124,6 +124,7 @@
           {
             "group": "Integration",
             "pages": [
+              "mcp/cursor-integration",
               "mcp/examples"
             ]
           }
